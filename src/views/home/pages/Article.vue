@@ -1,6 +1,6 @@
 <template>
-  <div class="container px-4 pt-2 flex items-center h-full">
-    <div class="flex items-center justify-around w-full">
+  <div class="container px-4 h-full">
+    <div class="flex items-center pt-4 justify-around w-full">
       <div class="sort item_box px-2">
         <div class="font-bold text-left">点击排行</div>
         <div class="item duration-500 flex items-center py-2" v-for="item in 10" :key="item">
@@ -42,9 +42,16 @@
           <span class="content text-gray-600">uni-app蓝牙对接热敏打印机阿斯顿发送到发</span>
           <span class="click text-gray-500 pl-2 flex items-center">
             <i class="iconfont icon-riqi1 pr-1" style="fontsize: 14px"></i>
-            <span style="font-size: 14px">2020-12-12</span>
+            <span style="font-size: 14px">20-12-12</span>
           </span>
         </div>
+      </div>
+    </div>
+    <div class="flex items-center justify-center py-3">
+      <div class="btn text-gray-600 rounded flex items-center justify-center">
+        <router-link to="/blog/index">
+          <span>进入博客模块</span>
+        </router-link>
       </div>
     </div>
   </div>
@@ -108,5 +115,19 @@ export default defineComponent({
 }
 .icon-riqi1 {
   font-size: 15px !important;
+}
+.btn {
+  height: 40px;
+  width: 150px;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(13.5px);
+  -webkit-backdrop-filter: blur(16.5px);
+  position: relative;
+  transition: 0.5s;
+}
+.btn:hover {
+  cursor: pointer;
+  background: var(--primary);
+  color: white;
 }
 </style>

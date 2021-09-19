@@ -136,18 +136,19 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 10px;
+  height: 10px;
 }
 
 /* 滚动槽 */
 ::-webkit-scrollbar-track {
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 /* 滚动条滑块 */
 ::-webkit-scrollbar-thumb {
   border-radius: inherit;
-  background-color: rgba(144, 147, 153, 0.3);
+  background-color: rgba(144, 147, 153, 0.5);
   -webkit-transition: 0.3s background-color;
   transition: 0.3s background-color;
 }

@@ -6,10 +6,9 @@
       :key="index"
       @mouseenter="showFlag(index)"
       @mouseleave="hiddenFlag(index)"
+      @click="goPage(item)"
     >
-      <a :href="item.url" target="_blank">
-        <span :class="item.icon" :style="{ fontSize: item.size + 'px' }"></span>
-      </a>
+      <span :class="item.icon" :style="{ fontSize: item.size + 'px' }"></span>
       <transition name="left">
         <div
           class="hover_box absolute top-0 flex items-center justify-center"
@@ -22,16 +21,18 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
-
+import { useRoute, useRouter } from 'vue-router'
 export default defineComponent({
   name: 'TabList',
   setup() {
+    const router = useRouter()
     let tagsList = reactive([
       {
         icon: 'iconfont icon-mayun1',
         size: 25,
         title: '码云',
         url: 'https://gitee.com/ymshen',
+        type: 'web',
         isHover: false
       },
       {
@@ -39,12 +40,14 @@ export default defineComponent({
         size: 23,
         title: '后台管理',
         // url: 'https://gitee.com/ymshen'
+        type: 'localhost',
         isHover: false
       },
       {
         icon: 'iconfont icon-qq1',
         size: 25,
         title: '2896583081',
+        type: 'copy',
         isHover: false
       },
       {
@@ -52,12 +55,22 @@ export default defineComponent({
         size: 26,
         title: 'github',
         url: 'https://github.com/lijinshen-ym',
+        type: 'web',
         isHover: false
       },
       {
         icon: 'iconfont icon-youxiang1',
         size: 24,
         title: '18824454802@163.com',
+        type: 'copy',
+        isHover: false
+      },
+      {
+        icon: 'iconfont icon-blog1',
+        size: 26,
+        title: '博客',
+        url: '/blog/index',
+        type: 'localhost',
         isHover: false
       }
     ])
@@ -75,10 +88,23 @@ export default defineComponent({
         tagsList = list
       }
     }
+    function goPage(item) {
+      console.log(item)
+      switch (item.type) {
+        case 'copy':
+          break
+        case 'localhost':
+          router.push(item.url)
+          break
+        default:
+          window.open(item.url)
+      }
+    }
     return {
       tagsList,
       showFlag,
-      hiddenFlag
+      hiddenFlag,
+      goPage
     }
   }
 })

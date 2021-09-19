@@ -1,5 +1,5 @@
 <template>
-  <div class="container flex justify-center items-center">
+  <div class="container flex justify-center items-center relative">
     <div class="input_box rounded">
       <input
         type="text"
@@ -8,6 +8,11 @@
         v-model="keyword"
       />
     </div>
+    <!-- <div class="absolute flex justify-center items-center right-2">
+      <router-link to="/blog/index">
+        <span class="iconfont icon-boke1 text-primary" style="font-size:26px"></span>
+      </router-link>
+    </div>-->
     <transition name="search">
       <div class="absolute result_box rounded p-3 z-50" v-show="show">
         <div class="item p-2 w-full flex justify-start" v-for="item in 10" :key="item">

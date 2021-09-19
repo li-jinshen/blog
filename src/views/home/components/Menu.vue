@@ -24,17 +24,23 @@
 
 <script>
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
-import { defineComponent, reactive, ref, Ref } from 'vue'
+import { reactive, ref } from 'vue'
 
-export default defineComponent({
+export default {
   name: 'App',
   setup() {
     let menu = reactive([
       {
-        title: '技术文章',
+        title: '博客动态',
         icon: 'iconfont icon-blog',
         size: 18,
         href: '/blog/home/article'
+      },
+      {
+        title: '实用工具',
+        icon: 'iconfont icon-gongjuxiang',
+        size: 18,
+        href: '/blog/home/tool'
       },
       {
         title: '影音娱乐',
@@ -54,12 +60,7 @@ export default defineComponent({
         size: 16,
         href: '/blog/home/browser'
       },
-      {
-        title: '实用工具',
-        icon: 'iconfont icon-gongjuxiang',
-        size: 18,
-        href: '/blog/home/tool'
-      },
+
       {
         title: '图片素材',
         icon: 'iconfont icon-sucai3',
@@ -77,13 +78,13 @@ export default defineComponent({
         icon: 'iconfont icon-sousuo',
         size: 16,
         href: '/blog/home/search'
-      },
-      {
-        title: '友情链接',
-        icon: 'iconfont icon-youqinglianjie',
-        size: 18,
-        href: '/blog/home/link'
       }
+      // {
+      //   title: '友情链接',
+      //   icon: 'iconfont icon-youqinglianjie',
+      //   size: 18,
+      //   href: '/blog/home/link'
+      // }
     ])
     const route = useRoute()
     const router = useRouter()
@@ -97,7 +98,7 @@ export default defineComponent({
     }
     return { menu, goPage, activePath }
   }
-})
+}
 </script>
 
 <style lang="scss" scoped>

@@ -38,9 +38,7 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 .home {
-  background: url('https://pic.rmb.bdstatic.com/bjh/f30968641a6433f315533c027f345baa.jpeg')
-    no-repeat;
-  background-size: cover;
+  overflow-y: hidden;
   .box {
     min-height: 600px;
     max-height: 650px;

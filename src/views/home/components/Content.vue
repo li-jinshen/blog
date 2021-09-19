@@ -76,7 +76,7 @@ export default defineComponent({
 .content_box {
   height: calc(100% - 40px);
   overflow-y: hidden;
-  padding-left: 10px;
+  padding: 0px 10px;
 }
 .router_view_box {
   height: calc(100% - 60px);
