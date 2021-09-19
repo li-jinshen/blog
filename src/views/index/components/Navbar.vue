@@ -20,10 +20,14 @@
       </div>
       <div class="navbar_right flex items-center">
         <div style="width:40px" class="flex justify-center items-center h-full">
-          <span class="iconfont icon-xingtaiduICON_sousuo--" style="font-size:21px"></span>
+          <span
+            class="iconfont icon-xingtaiduICON_sousuo-- cursor-pointer"
+            style="font-size:21px"
+            @click="openSearch"
+          ></span>
         </div>
         <div style="width:40px" class="flex justify-center items-center h-full">
-          <span class="iconfont icon-yonghu" style="font-size:24px"></span>
+          <span class="iconfont icon-yonghu cursor-pointer" style="font-size:24px"></span>
         </div>
       </div>
     </div>
@@ -33,6 +37,7 @@
 <script>
 import { reactive } from '@vue/reactivity'
 import { useRouter } from 'vue-router'
+import mitt from '../../../common/EventBus'
 export default {
   name: 'App',
   setup() {
@@ -53,13 +58,20 @@ export default {
       { name: '归档', path: '', icon: 'iconfont icon-guidang1', size: 20 },
       { name: '留言', path: 'index', icon: 'iconfont icon-liuyan1', size: 20 }
     ])
+
     let goPage = function (path) {
-      console.log('我被点击了', router, path)
       router.push({ path })
     }
+
+    let openSearch = function () {
+      console.log('点击了搜索', mitt)
+      mitt.emit('openSearch')
+    }
+
     return {
       menu,
-      goPage
+      goPage,
+      openSearch
     }
   }
 }

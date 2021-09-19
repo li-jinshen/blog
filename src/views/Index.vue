@@ -17,12 +17,19 @@
 
 <script>
 import NavBar from './index/components/Navbar.vue'
+import { onMounted } from 'vue'
+import mitt from '../common/EventBus'
 export default {
   name: 'Index',
   components: {
     NavBar
   },
   setup() {
+    mitt.on('openSearch', () => {
+      console.log('打开搜索框')
+    })
+    // onMounted(() => {})
+
     return
   }
 }
