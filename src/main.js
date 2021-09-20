@@ -13,6 +13,10 @@ import '@kangc/v-md-editor/lib/style/base-editor.css';
 import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
 import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
 import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
+import createEmojiPlugin from '@kangc/v-md-editor/lib/plugins/emoji/index';
+import '@kangc/v-md-editor/lib/plugins/emoji/emoji.css';
+
+
 
 import Prism from 'prismjs';
 
@@ -25,6 +29,7 @@ VueMarkdownEditor.use(vuepressTheme, {
     },
 });
 VueMarkdownEditor.use(createLineNumbertPlugin());
+VueMarkdownEditor.use(createEmojiPlugin());
 
 
 createApp(App)
