@@ -7,16 +7,20 @@
       >
         <span class="iconfont icon-boke" style="font-size:50px;" @click="goPage('/blog/home')"></span>
       </div>
-      <div class="navbar_center flex items-center px-16">
+      <div class="navbar_center flex items-center mx-16">
         <div
           v-for="(item,index) in menu"
           :key="index"
           style="width:100px"
-          class="flex items-center"
+          class="flex items-center justify-center cursor-pointer"
+          @click="changeTab(index)"
         >
-          <span :class="item.icon" :style="{'font-size':item.size +'px'}"></span>
-          <span class="pl-1">{{item.name}}</span>
+          <div>
+            <span :class="item.icon" :style="{'font-size':item.size +'px'}"></span>
+            <span class="pl-1">{{item.name}}</span>
+          </div>
         </div>
+        <div class="bottom_border rounded" :style="{left:left+'px'}"></div>
       </div>
       <div class="navbar_right flex items-center">
         <div style="width:40px" class="flex justify-center items-center h-full">
@@ -35,13 +39,15 @@
 </template>
 
 <script>
-import { reactive } from '@vue/reactivity'
+import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import mitt from '../../../common/EventBus'
 export default {
   name: 'App',
   setup() {
     const router = useRouter()
+    let left = ref(10)
+    let tabIndex = ref(0)
     let menu = reactive([
       {
         name: '首页',
@@ -67,11 +73,17 @@ export default {
       //   console.log('点击了搜索', mitt)
       mitt.emit('openSearch')
     }
+    let changeTab = function (index) {
+      tabIndex.value = index
+      left.value = index * 100 + 10
+    }
 
     return {
+      left,
       menu,
       goPage,
-      openSearch
+      openSearch,
+      changeTab
     }
   }
 }
@@ -94,6 +106,16 @@ export default {
     }
     .navbar_center {
       flex: 1;
+      position: relative;
+      .bottom_border {
+        width: 80px;
+        padding: 0px 10px;
+        height: 0.25rem;
+        background: var(--primary);
+        position: absolute;
+        bottom: 0;
+        transition: 0.5s;
+      }
     }
     .navbar_right {
       width: 5rem;

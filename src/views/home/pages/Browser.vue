@@ -62,7 +62,7 @@
 </template>
 
 <script>
-// import createMessage from '@/components/Message/index'
+import createMessage from '@/components/message/message.js'
 import { defineComponent, reactive } from 'vue'
 export default defineComponent({
   name: 'Browser',
@@ -111,13 +111,13 @@ export default defineComponent({
           ? '成功复制到剪贴板'
           : '该浏览器不支持点击复制到剪贴板'
         // alert(msg)
-        // createMessage({ type: 'default', message: msg })
+        createMessage({ type: 'success', message: msg })
       } catch (err) {
         // alert('该浏览器不支持点击复制到剪贴板')
-        // createMessage({
-        //   type: 'error',
-        //   message: '该浏览器不支持点击复制到剪贴板'
-        // })
+        createMessage({
+          type: 'error',
+          message: '该浏览器不支持点击复制到剪贴板'
+        })
       }
       textArea.remove()
     }

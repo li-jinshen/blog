@@ -8,7 +8,6 @@
       <div class="flex justify-between items-center w-full h-full">
         <div class="left h-full" style="width:30%"></div>
         <div class="right h-full" style="width:70%">
-          {{searchFlag}}
           <router-view></router-view>
         </div>
       </div>
@@ -73,14 +72,11 @@ export default {
   //   -webkit-backdrop-filter: blur(16.5px);
   //   border-bottom: 1px solid rgba(255, 255, 255, 0.18);
   // }
-  .right {
-    overflow-y: scroll;
-  }
 
   .bottom {
     width: 100%;
-    margin-top: 10px;
-    height: calc(100% - 70px);
+    height: calc(100% - 60px);
+    overflow-y: scroll;
     & > div {
       width: 100%;
       // max-width: 1200px;

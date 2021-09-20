@@ -6,7 +6,7 @@
   >
     <div class="mask duration-500" :class="conetentFlag ? 'show_mask':''" @click="closePopup"></div>
     <div
-      class="popup_content duration-500 relative"
+      class="popup_content duration-500 relative rounded"
       :class="conetentFlag ? 'show_conent':'hidden_content'"
     ></div>
   </div>
