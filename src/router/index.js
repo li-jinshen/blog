@@ -133,6 +133,10 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/blog/markdown",
+    component: () => import("../views/admin/Markdown.vue"),
+  }
 ];
 
 const router = createRouter({

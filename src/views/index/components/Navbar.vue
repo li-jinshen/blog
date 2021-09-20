@@ -12,10 +12,10 @@
           v-for="(item,index) in menu"
           :key="index"
           style="width:100px"
-          class="flex items-center justify-center cursor-pointer"
+          class="flex items-center justify-center cursor-pointer h-full"
           @click="changeTab(index)"
         >
-          <div>
+          <div :class="tabIndex == index?'text-primary':''" class="duration-500">
             <span :class="item.icon" :style="{'font-size':item.size +'px'}"></span>
             <span class="pl-1">{{item.name}}</span>
           </div>
@@ -81,6 +81,7 @@ export default {
     return {
       left,
       menu,
+      tabIndex,
       goPage,
       openSearch,
       changeTab
