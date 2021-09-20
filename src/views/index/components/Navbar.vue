@@ -64,7 +64,7 @@ export default {
     }
 
     let openSearch = function () {
-      console.log('点击了搜索', mitt)
+      //   console.log('点击了搜索', mitt)
       mitt.emit('openSearch')
     }
 
