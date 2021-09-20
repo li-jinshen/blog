@@ -134,6 +134,18 @@ const routes = [
     ],
   },
   {
+    path: "/blog/admin",
+    redirect: "/blog/admin/management",
+    component: () => import("../views/Admin.vue"),
+    children: [
+      {
+        path: "management",
+        name: "Management",
+        component: () => import("../views/admin/Management.vue"),
+      }
+    ]
+  },
+  {
     path: "/blog/markdown",
     component: () => import("../views/admin/Markdown.vue"),
   }

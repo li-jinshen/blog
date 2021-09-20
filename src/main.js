@@ -7,6 +7,10 @@ import "@/styles/index.scss";
 import ImageItem from "@/components/ImageItem/ImageItem.vue";
 import Loading from "@/components/Loading/Loading.vue";
 
+// elemnt-plus样式
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+
 // v-md-editor 相关
 import VueMarkdownEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
@@ -38,4 +42,5 @@ createApp(App)
     .use(store)
     .use(router)
     .use(VueMarkdownEditor)
+    .use(ElementPlus)
     .mount("#app");

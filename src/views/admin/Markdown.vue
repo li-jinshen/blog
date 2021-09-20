@@ -1,8 +1,9 @@
 <template>
   <div class>
+    <div style="height:60px" class="w-full bg-white"></div>
     <v-md-editor
       v-model="text"
-      height="100vh"
+      height="calc(100vh - 60px)"
       align="left"
       :left-toolbar="toolbar"
       :include-level="[1,2,3,4]"

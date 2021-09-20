@@ -39,7 +39,7 @@ export default defineComponent({
         icon: 'iconfont icon-houtai1',
         size: 23,
         title: '后台管理',
-        // url: 'https://gitee.com/ymshen'
+        url: '/blog/admin',
         type: 'localhost',
         isHover: false
       },
