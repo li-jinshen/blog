@@ -1,11 +1,29 @@
 
 <template>
-  <el-container style="height: 100vh; border: 1px solid #eee">
-    <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-      <el-menu :default-openeds="['1', '3']">
+  <el-container style="height: 100vh;">
+    <el-aside style="background-color: #545c64;width:auto !important;">
+      <div class="cursor-pointer flex justify-center items-center" style="height:60px">
+        <i
+          class="el-icon-s-unfold text-white text-2xl"
+          v-if="isCollapse"
+          @click="changeCollapse(false)"
+        ></i>
+        <i class="el-icon-s-fold text-white text-2xl" v-else @click="changeCollapse(true)"></i>
+      </div>
+      <el-menu
+        default-active="1-4-1"
+        class="el-menu-vertical-demo"
+        @open="handleOpen"
+        @close="handleClose"
+        :collapse="isCollapse"
+        background-color="#545c64"
+        text-color="#fff"
+        active-text-color="#ffd04b"
+      >
         <el-sub-menu index="1">
           <template #title>
-            <i class="el-icon-message"></i>导航一
+            <i class="el-icon-location"></i>
+            <span>导航一</span>
           </template>
           <el-menu-item-group>
             <template #title>分组一</template>
@@ -17,59 +35,30 @@
           </el-menu-item-group>
           <el-sub-menu index="1-4">
             <template #title>选项4</template>
-            <el-menu-item index="1-4-1">选项4-1</el-menu-item>
+            <el-menu-item index="1-4-1">选项1</el-menu-item>
           </el-sub-menu>
         </el-sub-menu>
-        <el-sub-menu index="2">
-          <template #title>
-            <i class="el-icon-menu"></i>导航二
-          </template>
-          <el-menu-item-group>
-            <template #title>分组一</template>
-            <el-menu-item index="2-1">选项1</el-menu-item>
-            <el-menu-item index="2-2">选项2</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="分组2">
-            <el-menu-item index="2-3">选项3</el-menu-item>
-          </el-menu-item-group>
-          <el-sub-menu index="2-4">
-            <template #title>选项4</template>
-            <el-menu-item index="2-4-1">选项4-1</el-menu-item>
-          </el-sub-menu>
-        </el-sub-menu>
-        <el-sub-menu index="3">
-          <template #title>
-            <i class="el-icon-setting"></i>导航三
-          </template>
-          <el-menu-item-group>
-            <template #title>分组一</template>
-            <el-menu-item index="3-1">选项1</el-menu-item>
-            <el-menu-item index="3-2">选项2</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="分组2">
-            <el-menu-item index="3-3">选项3</el-menu-item>
-          </el-menu-item-group>
-          <el-sub-menu index="3-4">
-            <template #title>选项4</template>
-            <el-menu-item index="3-4-1">选项4-1</el-menu-item>
-          </el-sub-menu>
-        </el-sub-menu>
+        <el-menu-item index="2">
+          <i class="el-icon-menu"></i>
+          <template #title>导航二</template>
+        </el-menu-item>
+        <el-menu-item index="3" disabled>
+          <i class="el-icon-document"></i>
+          <template #title>导航三</template>
+        </el-menu-item>
+        <el-menu-item index="4">
+          <i class="el-icon-setting"></i>
+          <template #title>导航四</template>
+        </el-menu-item>
       </el-menu>
     </el-aside>
 
     <el-container>
-      <el-header style="text-align: right; font-size: 12px">
-        <el-dropdown>
-          <i class="el-icon-setting" style="margin-right: 15px"></i>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>查看</el-dropdown-item>
-              <el-dropdown-item>新增</el-dropdown-item>
-              <el-dropdown-item>删除</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-        <span>王小虎</span>
+      <el-header class="flex items-center justify-end">
+        <div>
+          <el-button type="primary" icon="el-icon-edit" circle @click="goPage('/blog/markdown')"></el-button>
+          <el-button type="danger" icon="el-icon-switch-button" circle @click="goPage('/')"></el-button>
+        </div>
       </el-header>
 
       <el-main>
@@ -84,21 +73,51 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
 export default {
-  data() {
+  setup() {
+    const router = useRouter()
+
     const item = {
       date: '2016-05-02',
-      name: '王小虎',
+      name: '王小',
       address: '上海市普陀区金沙江路 1518 弄'
     }
+
+    const tableData = ref(Array(20).fill(item))
+
+    const isCollapse = ref(true)
+    const handleOpen = (key, keyPath) => {
+      console.log(key, keyPath)
+    }
+    const handleClose = (key, keyPath) => {
+      console.log(key, keyPath)
+    }
+    const changeCollapse = (flag) => {
+      console.log(flag)
+      isCollapse.value = flag
+      console.log(isCollapse.value)
+    }
+
+    const goPage = (path) => {
+      router.push({ path })
+    }
+
     return {
-      tableData: Array(20).fill(item)
+      tableData,
+      isCollapse,
+      handleOpen,
+      handleClose,
+      changeCollapse,
+      goPage
     }
   }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .el-header {
   background-color: #b3c0d1;
   color: var(--el-text-color-primary);
@@ -107,5 +126,9 @@ export default {
 
 .el-aside {
   color: var(--el-text-color-primary);
+}
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
 }
 </style>

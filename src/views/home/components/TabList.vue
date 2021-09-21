@@ -21,7 +21,8 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
+import createMessage from '../../../components/message/message'
 export default defineComponent({
   name: 'TabList',
   setup() {
@@ -92,6 +93,7 @@ export default defineComponent({
       console.log(item)
       switch (item.type) {
         case 'copy':
+          copyToClipboard(item.title)
           break
         case 'localhost':
           router.push(item.url)
@@ -99,6 +101,46 @@ export default defineComponent({
         default:
           window.open(item.url)
       }
+    }
+    // 复制文字到粘贴板
+    function copyToClipboard(text) {
+      if (text.indexOf('-') !== -1) {
+        let arr = text.split('-')
+        text = arr[0] + arr[1]
+      }
+      var textArea = document.createElement('textarea')
+      textArea.style.position = 'fixed'
+      textArea.style.top = '0'
+      textArea.style.left = '0'
+      textArea.style.width = '2em'
+      textArea.style.height = '2em'
+      textArea.style.padding = '0'
+      textArea.style.border = 'none'
+      textArea.style.outline = 'none'
+      textArea.style.boxShadow = 'none'
+      textArea.style.background = 'transparent'
+      textArea.style.opacity = '0'
+      textArea.value = text
+      document.body.appendChild(textArea)
+      textArea.select()
+      try {
+        var successful = document.execCommand('copy')
+        var msg = successful
+          ? '成功复制到剪贴板'
+          : '该浏览器不支持点击复制到剪贴板'
+        // alert(msg)
+        createMessage({
+          type: successful ? 'success' : 'default',
+          message: msg
+        })
+      } catch (err) {
+        // alert('该浏览器不支持点击复制到剪贴板')
+        createMessage({
+          type: 'error',
+          message: '该浏览器不支持点击复制到剪贴板'
+        })
+      }
+      textArea.remove()
     }
     return {
       tagsList,

@@ -1,14 +1,17 @@
 <template>
-  <div class="container">
-    <div class="fade-in full-width bg-primary" />
-    <div class="fade-in full-width bg-primary" />
-    <div class="half-width fade-in bg-primary" />
-    <div class="half-width fade-in bg-primary" />
+  <div class="container h-full w-full px-2" id="cotainer">
+    <div class="w-full">
+      <div class="fade-in full-width bg-primary" />
+      <div class="fade-in full-width bg-primary" />
+      <div class="half-width fade-in bg-primary" />
+      <div class="half-width fade-in bg-primary" />
+    </div>
   </div>
 </template>
     
 <script>
 import { onMounted, onUnmounted } from 'vue'
+import mitt from '../../../common/EventBus'
 export default {
   name: 'Article',
   setup() {
@@ -16,12 +19,19 @@ export default {
 
     onMounted(() => {
       fadeInElements = Array.from(document.getElementsByClassName('fade-in'))
-      document.addEventListener('scroll', handleScroll)
+      // document
+      //   .getElementById('cotainer')
+      //   .addEventListener('scroll', handleScroll)
+      handleScroll()
+    })
+    mitt.on('onScroll', () => {
       handleScroll()
     })
 
     onUnmounted(() => {
-      document.removeEventListener('scroll', handleScroll)
+      document
+        .getElementById('cotainer')
+        .removeEventListener('scroll', handleScroll)
     })
 
     const handleScroll = (evt) => {
@@ -49,8 +59,8 @@ export default {
     
 <style lang="scss" scoped>
 .container {
-  width: 80%;
-  min-width: 450px;
+  width: 100%;
+  // min-width: 450px;
   margin: 0 auto;
 }
 

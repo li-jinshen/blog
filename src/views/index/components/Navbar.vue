@@ -15,7 +15,7 @@
           class="flex items-center justify-center cursor-pointer h-full"
           @click="changeTab(index)"
         >
-          <div :class="tabIndex == index?'text-primary':''" class="duration-500">
+          <div :class="tabIndex == index?'text-primary':''" class="duration-500 hover:text-primary">
             <span :class="item.icon" :style="{'font-size':item.size +'px'}"></span>
             <span class="pl-1">{{item.name}}</span>
           </div>
@@ -46,8 +46,8 @@ export default {
   name: 'App',
   setup() {
     const router = useRouter()
-    let left = ref(10)
-    let tabIndex = ref(0)
+    let left = ref(110)
+    let tabIndex = ref(1)
     let menu = reactive([
       {
         name: '首页',
@@ -61,8 +61,18 @@ export default {
         icon: 'iconfont icon-blog',
         size: 20
       },
-      { name: '归档', path: '', icon: 'iconfont icon-guidang1', size: 20 },
-      { name: '留言', path: 'index', icon: 'iconfont icon-liuyan1', size: 20 }
+      {
+        name: '归档',
+        path: '/blog/index/archive',
+        icon: 'iconfont icon-guidang1',
+        size: 20
+      },
+      {
+        name: '留言',
+        path: '/blog/index/comment',
+        icon: 'iconfont icon-liuyan1',
+        size: 20
+      }
     ])
 
     let goPage = function (path) {
@@ -76,6 +86,7 @@ export default {
     let changeTab = function (index) {
       tabIndex.value = index
       left.value = index * 100 + 10
+      // goPage(menu[index].path)
     }
 
     return {
@@ -101,7 +112,8 @@ export default {
   border-bottom: 0.0625rem solid rgba(255, 255, 255, 0.18);
 
   .navbar_inner {
-    max-width: 75rem;
+    max-width: 81.25rem;
+    width: 100%;
     .navbar_left {
       width: 5rem;
     }
