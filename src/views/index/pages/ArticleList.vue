@@ -10,7 +10,7 @@
 </template>
     
 <script>
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onBeforeUnmount } from 'vue'
 import mitt from '../../../common/EventBus'
 export default {
   name: 'Article',
@@ -28,7 +28,7 @@ export default {
       handleScroll()
     })
 
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
       document
         .getElementById('cotainer')
         .removeEventListener('scroll', handleScroll)

@@ -27,7 +27,7 @@
 <script>
 import NavBar from './index/components/Navbar.vue'
 import Popup from '../components/popup/Popup.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import mitt from '../common/EventBus'
 export default {
   name: 'Index',
@@ -49,11 +49,14 @@ export default {
       document
         .getElementById('bottom')
         .addEventListener('scroll', debounce(emitFunc, 15))
+
+      window.addEventListener('resize', changeSize)
     })
 
-    window.onresize = () => {
-      changeSize()
-    }
+    onBeforeUnmount(() => {
+      window.removeEventListener('resize', changeSize)
+    })
+
     let debounce = (fn, wait) => {
       var timer = null
       return function () {
