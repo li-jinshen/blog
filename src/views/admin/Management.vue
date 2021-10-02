@@ -11,44 +11,19 @@
         <i class="el-icon-s-fold text-white text-2xl" v-else @click="changeCollapse(true)"></i>
       </div>
       <el-menu
-        default-active="1-4-1"
+        :default-active="defaultActive"
         class="el-menu-vertical-demo"
-        @open="handleOpen"
-        @close="handleClose"
+        @select="changeMenu"
         :collapse="isCollapse"
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b"
       >
-        <el-sub-menu index="1">
+        <el-menu-item :index="index+''" v-for="(item,index) in menu" :key="index">
+          <i :class="item.icon" class="mr-2 text-xl"></i>
           <template #title>
-            <i class="el-icon-location"></i>
-            <span>导航一</span>
+            <span style="display:inline-block;margin-top:2px">{{item.name}}</span>
           </template>
-          <el-menu-item-group>
-            <template #title>分组一</template>
-            <el-menu-item index="1-1">选项1</el-menu-item>
-            <el-menu-item index="1-2">选项2</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="分组2">
-            <el-menu-item index="1-3">选项3</el-menu-item>
-          </el-menu-item-group>
-          <el-sub-menu index="1-4">
-            <template #title>选项4</template>
-            <el-menu-item index="1-4-1">选项1</el-menu-item>
-          </el-sub-menu>
-        </el-sub-menu>
-        <el-menu-item index="2">
-          <i class="el-icon-menu"></i>
-          <template #title>导航二</template>
-        </el-menu-item>
-        <el-menu-item index="3" disabled>
-          <i class="el-icon-document"></i>
-          <template #title>导航三</template>
-        </el-menu-item>
-        <el-menu-item index="4">
-          <i class="el-icon-setting"></i>
-          <template #title>导航四</template>
         </el-menu-item>
       </el-menu>
     </el-aside>
@@ -62,23 +37,78 @@
       </el-header>
 
       <el-main>
-        <el-table :data="tableData">
+        <!-- <el-table :data="tableData">
           <el-table-column prop="date" label="日期" width="140"></el-table-column>
           <el-table-column prop="name" label="姓名" width="120"></el-table-column>
           <el-table-column prop="address" label="地址"></el-table-column>
-        </el-table>
+        </el-table>-->
+        <div class="w-full h-full" style="overflow-y:scroll">
+          <div class="bg-white w-full conent_box p-6 rounded">
+            <router-view></router-view>
+          </div>
+        </div>
       </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
 export default {
   setup() {
     const router = useRouter()
+    const route = useRoute()
+
+    // 菜单
+    const menu = [
+      {
+        icon: 'iconfont icon-yonghu',
+        name: '信息管理',
+        path: '/blog/admin/management/archives'
+      },
+      {
+        icon: 'iconfont icon-gongjukuguanli',
+        name: '模块管理',
+        path: '/blog/admin/management/module'
+      },
+      {
+        icon: 'iconfont icon-liuyan',
+        name: '文章管理',
+        path: '/blog/admin/management/article'
+      },
+      {
+        icon: 'iconfont icon-gonggao2',
+        name: '公告管理',
+        path: '/blog/admin/management/announcement'
+      },
+      {
+        icon: 'iconfont icon-liuyan2',
+        name: '留言管理',
+        path: '/blog/admin/management/message'
+      },
+      {
+        icon: 'iconfont icon-liuyan3',
+        name: '评论管理',
+        path: '/blog/admin/management/comment'
+      },
+      {
+        icon: 'iconfont icon-fangwenliang',
+        name: '浏览管理',
+        path: '/blog/admin/management/browse'
+      }
+    ]
+
+    // 菜单默认值
+    let defaultActive = ref('1')
+
+    onMounted(() => {
+      let index = menu.findIndex((item) => {
+        return item.path === route.fullPath
+      })
+      defaultActive.value = index + ''
+    })
 
     const item = {
       date: '2016-05-02',
@@ -96,13 +126,15 @@ export default {
       console.log(key, keyPath)
     }
     const changeCollapse = (flag) => {
-      console.log(flag)
       isCollapse.value = flag
-      console.log(isCollapse.value)
     }
 
     const goPage = (path) => {
       router.push({ path })
+    }
+
+    const changeMenu = (index) => {
+      goPage(menu[index].path)
     }
 
     return {
@@ -111,7 +143,10 @@ export default {
       handleOpen,
       handleClose,
       changeCollapse,
-      goPage
+      goPage,
+      menu,
+      changeMenu,
+      defaultActive
     }
   }
 }
@@ -130,5 +165,8 @@ export default {
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
+}
+.conent_box {
+  min-height: 100%;
 }
 </style>

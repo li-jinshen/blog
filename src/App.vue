@@ -27,14 +27,10 @@ export default defineComponent({
     
 
 <style lang="scss">
-@import url('https://at.alicdn.com/t/font_2715113_4c105zda4tf.css');
+@import url('https://at.alicdn.com/t/font_2715113_vnxhhyi4bg9.css');
 input {
   background: none;
   outline: none;
-  border: none;
-}
-
-input:focus {
   border: none;
 }
 

@@ -142,6 +142,41 @@ const routes = [
         path: "management",
         name: "Management",
         component: () => import("../views/admin/Management.vue"),
+        redirect: "/blog/admin/management/archives",
+        children: [
+          {
+            path: "archives",
+            name: "Archives",
+            component: () => import("../views/admin/pages/Archives.vue"),
+          },
+          {
+            path: "module",
+            name: "Module",
+            component: () => import("../views/admin/pages/Module.vue"),
+          },
+          {
+            path: "article",
+            name: "ManaArticle",
+            component: () => import("../views/admin/pages/Article.vue"),
+          },
+          {
+            path: "announcement",
+            name: "Announcement",
+            component: () => import("../views/admin/pages/Announcement.vue"),
+          }, {
+            path: "message",
+            name: "Message",
+            component: () => import("../views/admin/pages/Message.vue"),
+          }, {
+            path: "comment",
+            name: "Comment",
+            component: () => import("../views/admin/pages/Comment.vue"),
+          }, {
+            path: "browse",
+            name: "Browse",
+            component: () => import("../views/admin/pages/Browse.vue"),
+          }
+        ]
       }
     ]
   },
