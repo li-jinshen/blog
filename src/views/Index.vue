@@ -1,25 +1,28 @@
 <template>
-  <div class="index w-full h-full">
+  <div class="index w-full h-full" id="indexbox">
     <!-- <Loading></Loading> -->
     <NavBar></NavBar>
     <!-- 占位元素 -->
     <div class="top"></div>
-    <div class="bottom flex justify-center items-center pt-2" id="bottom">
-      <div class="flex justify-between items-center w-full h-full">
-        <div class="left h-full flex justify-end duration-500 px-2 relative" ref="leftBox">
+    <div class="bottom flex justify-center pt-2" id="bottom">
+      <div>
+        <router-view></router-view>
+      </div>
+      <!--<div class="flex justify-between items-center w-full h-full">
+         <div class="left h-full flex justify-end duration-500 px-2 relative" ref="leftBox">
           <div
             class="left_box fixed"
-            :style="{left:offsetLeft +'px',top:'70px',width:boxWidth +'px'}"
+            :style="{left:offsetLeft +'px',top:'69px',width:boxWidth +'px'}"
           >{{boxWidth}}</div>
         </div>
         <div class="right h-full duration-500 pl-2">
           <router-view></router-view>
         </div>
-      </div>
+       
+      </div>-->
     </div>
 
     <!-- 搜索组件 -->
-
     <Popup :isShow="searchFlag" @close="closeSearch"></Popup>
   </div>
 </template>
@@ -41,21 +44,21 @@ export default {
     let offsetLeft = ref(0)
     let boxWidth = ref(0)
 
-    onMounted(() => {
-      console.dir(leftBox.value.offsetLeft)
-      changeSize()
+    // onMounted(() => {
+    //   console.dir(leftBox.value.offsetLeft)
+    //   changeSize()
 
-      // 底部滚动条滚动时，通知articleList页面
-      document
-        .getElementById('bottom')
-        .addEventListener('scroll', debounce(emitFunc, 15))
+    //   // 底部滚动条滚动时，通知articleList页面
+    //   document
+    //     .getElementById('bottom')
+    //     .addEventListener('scroll', debounce(emitFunc, 15))
 
-      window.addEventListener('resize', changeSize)
-    })
+    //   window.addEventListener('resize', changeSize)
+    // })
 
-    onBeforeUnmount(() => {
-      window.removeEventListener('resize', changeSize)
-    })
+    // onBeforeUnmount(() => {
+    //   window.removeEventListener('resize', changeSize)
+    // })
 
     let debounce = (fn, wait) => {
       var timer = null
@@ -111,30 +114,24 @@ export default {
     width: 100%;
   }
   // .left,
-  // .right {
-  //   background: rgba(255, 255, 255, 0.4);
-  //   box-shadow: 0 1px 5px 0 rgba(31, 38, 135, 0.37);
-  //   backdrop-filter: blur(13.5px);
-  //   -webkit-backdrop-filter: blur(16.5px);
-  //   border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-  // }
+
   .left {
     padding-right: 20px;
   }
   .left_box {
-    width: 350px;
+    // width: 300px;
     height: 500px;
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.7);
     box-shadow: 0 1px 5px 0 rgba(31, 38, 135, 0.37);
     backdrop-filter: blur(13.5px);
     -webkit-backdrop-filter: blur(16.5px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.18);
   }
   .left {
-    width: 30%;
+    width: 27%;
   }
   .right {
-    width: 70%;
+    width: 73%;
     height: 100%;
   }
 

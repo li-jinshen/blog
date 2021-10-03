@@ -5,14 +5,14 @@
 </template>
   
   <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 export default defineComponent({
-  name: "App",
+  name: 'App',
 
   setup(props) {
-    return {};
-  },
-});
+    return {}
+  }
+})
 </script>
   
   <style lang="scss" scoped>
@@ -23,16 +23,16 @@ export default defineComponent({
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255,255,255,.4);
+  background: rgba(0, 0, 0, 0.5);
   .boxLoading {
     width: 50px;
     height: 50px;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     &:before {
-      content: "";
+      content: '';
       width: 50px;
       height: 5px;
       background: #000;
@@ -44,10 +44,10 @@ export default defineComponent({
       animation: shadow 0.5s linear infinite;
     }
     &:after {
-      content: "";
+      content: '';
       width: 50px;
       height: 50px;
-      background: rgba(25, 190, 231, 1);
+      background: rgb(45, 191, 228);
       animation: animate 0.5s linear infinite;
       position: absolute;
       top: 0;

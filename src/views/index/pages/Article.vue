@@ -1,25 +1,210 @@
 <template>
-  <div class="article">
-    <v-md-editor v-model="markdown" mode="preview"></v-md-editor>
-    <!-- <v-md-preview :text="markdown"></v-md-preview> -->
-    <!-- <v-md-preview-html :html="markdown" preview-class="vuepress-markdown-body"></v-md-preview-html> -->
+  <div class="article pb-3 w-full" ref="article">
+    <div class="content duration-500 relative rounded">
+      <!-- <Loading></Loading> -->
+      <div class="ar_header" style="margin:0 2.5rem;padding-top:2rem;">
+        <h1 style="font-size: 2em;" class="font-bold ar_title">uni-app 即时聊天</h1>
+        <div style="margin-top:2.5rem;">
+          <div class="category flex items-center mb-6">
+            <div class="category_item rounded text-white">vue</div>
+            <div class="category_item rounded text-white">React</div>
+            <div class="category_item rounded text-white">webpack</div>
+          </div>
+          <div
+            style="user-select: none;"
+            class="info bg-gray-100 rounded w-full py-4 flex px-4 justify-between items-center text-gray-500 text-sm"
+          >
+            <div>浏览量：100</div>
+            <div>点赞数：100</div>
+            <div>发布日期：2012-12-12</div>
+          </div>
+        </div>
+      </div>
+      <v-md-editor v-model="markdown" ref="editor" mode="preview"></v-md-editor>
+    </div>
+    <div
+      class="fixed directory rounded duration-500"
+      :style="{right:offsetRight +'px',top:'69px',width:boxWidth +'px',opacity:opacity}"
+      ref="directory"
+    >
+      <div class="directory_title font-bold text-xl py-2 px-4">目录</div>
+      <div class="py-2 px-4 li_box">
+        <div
+          v-for="anchor in articleTitles"
+          :style="{ padding: `5px 0 5px ${anchor.indent * 20}px` }"
+          @click="handleAnchorClick(anchor)"
+          :key="anchor.lineIndex"
+        >
+          <a
+            style="cursor: pointer"
+            class="hover:text-primary duration-300 text-base"
+          >{{ anchor.title }}</a>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
     
 <script>
-import { ref } from 'vue'
+import { ref, onMounted, reactive, onBeforeUnmount } from 'vue'
 export default {
   name: 'Article',
 
   setup(props) {
     let markdown = ref('')
+    let editor = ref('null')
+    let articleTitles = reactive([])
+
+    let directory = ref(null)
+    let article = ref(null)
+    let offsetRight = ref(0)
+    let boxWidth = ref(0)
+    let opacity = ref(0)
 
     markdown.value = JSON.parse(localStorage.getItem('markdownContent'))
-    return { markdown }
+
+    onMounted(() => {
+      createDirectory()
+
+      changeSize()
+      window.addEventListener('resize', changeSize)
+
+      setTimeout(() => {
+        opacity.value = 1
+      }, 200)
+    })
+    onBeforeUnmount(() => {
+      window.removeEventListener('resize', changeSize)
+    })
+
+    // 生成目录
+    const createDirectory = () => {
+      const anchors = editor.value.$el.querySelectorAll('h1,h2,h3,h4,h5,h6')
+      const titles = Array.from(anchors).filter(
+        (title) => !!title.innerText.trim()
+      )
+      if (!titles.length) {
+        articleTitles = []
+        return
+      }
+
+      const hTags = Array.from(
+        new Set(titles.map((title) => title.tagName))
+      ).sort()
+
+      let list = titles.map((el) => ({
+        title: el.innerText,
+        lineIndex: el.getAttribute('data-v-md-line'),
+        indent: hTags.indexOf(el.tagName)
+      }))
+      articleTitles.push(...list)
+    }
+
+    // 点击目录跳转
+    const handleAnchorClick = (anchor) => {
+      const { lineIndex } = anchor
+      const heading = editor.value.$el.querySelector(
+        `[data-v-md-line="${lineIndex}"]`
+      )
+      const top = heading.offsetTop
+      let box = document.getElementById('bottom')
+      box.scrollTop = top + 225
+    }
+
+    // 页面大小改变时重新计算目录盒子的位置和宽度
+    const changeSize = () => {
+      offsetRight.value = article.value.offsetLeft
+      boxWidth.value = article.value.clientWidth * 0.27
+      if (document.body.clientWidth < 1100) {
+        boxWidth.value = 0
+      }
+    }
+
+    return {
+      markdown,
+      editor,
+      handleAnchorClick,
+      articleTitles,
+      directory,
+      offsetRight,
+      boxWidth,
+      article,
+      opacity
+    }
   }
 }
 </script>
     
 <style lang="scss" scoped>
+div,
+p,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-align: left;
+}
+
+.content {
+  width: 73%;
+  min-height: calc(100vh - 5rem);
+  background: rgba(255, 255, 255, 1) !important;
+  box-shadow: 0 1px 5px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(13.5px);
+  -webkit-backdrop-filter: blur(16.5px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  .ar_header {
+    .ar_title {
+      border-bottom: 0.0625rem solid var(--borderLightColor);
+    }
+  }
+}
+.directory {
+  width: 27%;
+  background: rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 1px 5px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(13.5px);
+  -webkit-backdrop-filter: blur(16.5px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+
+  .directory_title {
+    background: rgba(255, 255, 255, 0.8) !important;
+  }
+  .li_box {
+    max-height: calc(100vh - 7.8125rem);
+    overflow-y: scroll;
+  }
+}
+@media screen and (max-width: 1100px) {
+  .article {
+    display: flex;
+    justify-content: center;
+  }
+  .directory {
+    opacity: 0;
+  }
+  .content {
+    width: 95%;
+  }
+}
+.category {
+  user-select: none;
+  .category_item {
+    padding: 0.125rem 0.375rem;
+    background: olive;
+  }
+  .category_item:not(:last-child) {
+    margin-right: 0.625rem;
+  }
+}
 </style>
-    
+<style lang="scss">
+.v-md-editor {
+  background: none !important;
+}
+.vuepress-markdown-body {
+  background: none !important;
+}
+</style>

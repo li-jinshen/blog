@@ -110,9 +110,10 @@ export default {
 
 <style lang="scss" scoped>
 .navbar_box {
+  user-select: none;
   width: 100%;
   height: 60px;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.7);
   box-shadow: 0 0.0625rem 0.3125rem 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(13.5px);
   -webkit-backdrop-filter: blur(1.0375rem);

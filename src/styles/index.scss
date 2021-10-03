@@ -47,7 +47,7 @@ a {
 div {
   box-sizing: border-box;
   // 防止选取文本
-  user-select: none;
+  // user-select: none;
 }
 
 body {
@@ -148,7 +148,8 @@ body {
 /* 滚动条滑块 */
 ::-webkit-scrollbar-thumb {
   border-radius: inherit;
-  background-color: rgba(144, 147, 153, 0.5);
+  border-radius: 5px;
+  background-color: rgba(144, 147, 153, 0.4);
   -webkit-transition: 0.3s background-color;
   transition: 0.3s background-color;
 }
