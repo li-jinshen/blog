@@ -22,7 +22,6 @@ import createEmojiPlugin from '@kangc/v-md-editor/lib/plugins/emoji/index';
 import '@kangc/v-md-editor/lib/plugins/emoji/emoji.css';
 
 
-
 import Prism from 'prismjs';
 
 

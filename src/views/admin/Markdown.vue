@@ -25,7 +25,7 @@
           </div>
         </div>
         <div>
-          <el-button type="primary">发布</el-button>
+          <el-button type="primary" @click="submit">发布</el-button>
           <el-button @click="close">关闭</el-button>
         </div>
       </div>
@@ -47,7 +47,7 @@ export default {
   name: 'App',
   setup() {
     const router = useRouter()
-
+    let content = ref('')
     let toolbar =
       'undo redo clear | tip | emoji | h bold italic strikethrough quote | ul ol table hr | link image code | save'
 
@@ -82,6 +82,12 @@ export default {
       router.push({ path: '/blog/admin/management/article' })
     }
 
+    // 发布文章
+    const submit = () => {
+      console.log('文章内容', content.value)
+      localStorage.setItem('markdownContent', JSON.stringify(content.value))
+    }
+
     return {
       title: ref(''),
       toolbar,
@@ -93,8 +99,9 @@ export default {
       showInput,
       handleInputConfirm,
       editType: ref('edit'),
-      content: ref(''),
-      close
+      content,
+      close,
+      submit
     }
   }
 }
