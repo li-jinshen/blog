@@ -35,7 +35,7 @@ export default {
     })
 
     const handleScroll = (evt) => {
-      console.log('我执行了')
+      // console.log('我执行了')
       for (var i = 0; i < fadeInElements.length; i++) {
         var elem = fadeInElements[i]
         if (isElemVisible(elem)) {

@@ -10,15 +10,15 @@ export default defineComponent({
   name: 'Article',
   setup() {
     onMounted(() => {
-      console.log(returnCitySN)
-      console.log(
-        'IP地址:' +
-          returnCitySN['cip'] +
-          ', CID:' +
-          returnCitySN['cid'] +
-          ', 地区:' +
-          returnCitySN['cname']
-      )
+      // console.log(returnCitySN)
+      // console.log(
+      //   'IP地址:' +
+      //     returnCitySN['cip'] +
+      //     ', CID:' +
+      //     returnCitySN['cid'] +
+      //     ', 地区:' +
+      //     returnCitySN['cname']
+      // )
     })
     return
   }

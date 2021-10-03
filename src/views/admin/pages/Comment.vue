@@ -1,5 +1,5 @@
 <template>
-  <div class="container">评论</div>
+  <div class>评论</div>
 </template>
 
 <script>

@@ -3,9 +3,9 @@
     <div class="h-full navbar_inner w-full flex">
       <div
         class="navbar_left text-center h-full cursor-pointer"
-        style="overflow:hidden;box-sizing: border-box;"
+        style="overflow:hidden;box-sizing: border-box;margin-left:5px"
       >
-        <span class="iconfont icon-boke" style="font-size:50px;" @click="goPage('/blog/home')"></span>
+        <span class="iconfont icon-boke" style="font-size:50px;" @click="goPage('/')"></span>
       </div>
       <div class="navbar_center flex items-center mx-16">
         <div
@@ -23,7 +23,14 @@
         <div class="bottom_border rounded" :style="{left:left+'px'}"></div>
       </div>
       <div class="navbar_right flex items-center">
-        <div style="width:40px" class="flex justify-center items-center h-full">
+        <div style="width:42px" class="flex justify-center items-center h-full">
+          <span
+            class="iconfont icon-index-active cursor-pointer"
+            style="font-size:21px"
+            @click="goPage('/')"
+          ></span>
+        </div>
+        <div style="width:40px" class="flex justify-center items-center h-full mx-4">
           <span
             class="iconfont icon-xingtaiduICON_sousuo-- cursor-pointer"
             style="font-size:21px"
@@ -46,15 +53,15 @@ export default {
   name: 'App',
   setup() {
     const router = useRouter()
-    let left = ref(110)
-    let tabIndex = ref(1)
+    let left = ref(10)
+    let tabIndex = ref(0)
     let menu = reactive([
-      {
-        name: '首页',
-        path: '/blog/home',
-        icon: 'iconfont icon-index-active',
-        size: 20
-      },
+      // {
+      //   name: '首页',
+      //   path: '/blog/home',
+      //   icon: 'iconfont icon-index-active',
+      //   size: 20
+      // },
       {
         name: '博客',
         path: '/blog/index',
@@ -131,7 +138,7 @@ export default {
       }
     }
     .navbar_right {
-      width: 5rem;
+      width: 6rem;
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">公告</div>
+  <div class>公告</div>
 </template>
 
 <script>

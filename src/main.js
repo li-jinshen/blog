@@ -10,6 +10,7 @@ import Loading from "@/components/Loading/Loading.vue";
 // elemnt-plus样式
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import locale from 'element-plus/lib/locale/lang/zh-cn'
 
 // v-md-editor 相关
 import VueMarkdownEditor from '@kangc/v-md-editor';
@@ -42,5 +43,5 @@ createApp(App)
     .use(store)
     .use(router)
     .use(VueMarkdownEditor)
-    .use(ElementPlus)
+    .use(ElementPlus, { locale })
     .mount("#app");

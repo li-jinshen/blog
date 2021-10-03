@@ -36,13 +36,8 @@
         </div>
       </el-header>
 
-      <el-main>
-        <!-- <el-table :data="tableData">
-          <el-table-column prop="date" label="日期" width="140"></el-table-column>
-          <el-table-column prop="name" label="姓名" width="120"></el-table-column>
-          <el-table-column prop="address" label="地址"></el-table-column>
-        </el-table>-->
-        <div class="w-full h-full" style="overflow-y:scroll">
+      <el-main style="overflow-y:scroll">
+        <div class="w-full">
           <div class="bg-white w-full conent_box p-6 rounded">
             <router-view></router-view>
           </div>
@@ -110,14 +105,6 @@ export default {
       defaultActive.value = index + ''
     })
 
-    const item = {
-      date: '2016-05-02',
-      name: '王小',
-      address: '上海市普陀区金沙江路 1518 弄'
-    }
-
-    const tableData = ref(Array(20).fill(item))
-
     const isCollapse = ref(true)
     const handleOpen = (key, keyPath) => {
       console.log(key, keyPath)
@@ -138,7 +125,6 @@ export default {
     }
 
     return {
-      tableData,
       isCollapse,
       handleOpen,
       handleClose,

@@ -68,7 +68,7 @@ export default {
     }
 
     let emitFunc = () => {
-      console.log('执行')
+      // console.log('执行')
       mitt.emit('onScroll')
     }
 
