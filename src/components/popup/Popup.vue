@@ -6,7 +6,7 @@
   >
     <div class="mask duration-500" :class="conetentFlag ? 'show_mask':''" @click="closePopup"></div>
     <div
-      class="popup_content duration-500 relative rounded"
+      class="popup_content duration-700 relative rounded"
       :class="conetentFlag ? 'show_conent':'hidden_content'"
     ></div>
   </div>
@@ -39,13 +39,11 @@ export default {
       },
       () => {
         if (props.isShow) {
-          console.log('先打开再执行动画')
           showPopup.value = props.isShow
           setTimeout(() => {
             conetentFlag.value = props.isShow
           }, 100)
         } else {
-          console.log('先执行动画再关闭')
           conetentFlag.value = props.isShow
           setTimeout(() => {
             showPopup.value = props.isShow
@@ -98,11 +96,11 @@ export default {
   -webkit-backdrop-filter: blur(16.5px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.18);
   z-index: 10;
-  transform: translateY(3.75rem);
+  transform: translateY(-9.375rem);
   opacity: 0;
 }
 .show_conent {
-  transform: translateY(0);
+  transform: translateY(-3rem);
   opacity: 1;
 }
 </style>

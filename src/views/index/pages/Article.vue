@@ -189,10 +189,15 @@ h6 {
     width: 95%;
   }
 }
+a {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .category {
   user-select: none;
   .category_item {
-    padding: 0.125rem 0.375rem;
+    padding: 0.125rem 0.5rem;
     background: olive;
   }
   .category_item:not(:last-child) {

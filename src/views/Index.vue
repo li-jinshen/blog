@@ -8,18 +8,6 @@
       <div>
         <router-view></router-view>
       </div>
-      <!--<div class="flex justify-between items-center w-full h-full">
-         <div class="left h-full flex justify-end duration-500 px-2 relative" ref="leftBox">
-          <div
-            class="left_box fixed"
-            :style="{left:offsetLeft +'px',top:'69px',width:boxWidth +'px'}"
-          >{{boxWidth}}</div>
-        </div>
-        <div class="right h-full duration-500 pl-2">
-          <router-view></router-view>
-        </div>
-       
-      </div>-->
     </div>
 
     <!-- 搜索组件 -->
@@ -30,8 +18,9 @@
 <script>
 import NavBar from './index/components/Navbar.vue'
 import Popup from '../components/popup/Popup.vue'
-import { ref, onMounted, onBeforeUnmount } from 'vue'
 import mitt from '../common/EventBus'
+import { ref } from 'vue'
+
 export default {
   name: 'Index',
   components: {
@@ -40,49 +29,6 @@ export default {
   },
   setup() {
     let searchFlag = ref(false)
-    let leftBox = ref(null)
-    let offsetLeft = ref(0)
-    let boxWidth = ref(0)
-
-    // onMounted(() => {
-    //   console.dir(leftBox.value.offsetLeft)
-    //   changeSize()
-
-    //   // 底部滚动条滚动时，通知articleList页面
-    //   document
-    //     .getElementById('bottom')
-    //     .addEventListener('scroll', debounce(emitFunc, 15))
-
-    //   window.addEventListener('resize', changeSize)
-    // })
-
-    // onBeforeUnmount(() => {
-    //   window.removeEventListener('resize', changeSize)
-    // })
-
-    let debounce = (fn, wait) => {
-      var timer = null
-      return function () {
-        if (timer !== null) {
-          clearTimeout(timer)
-        }
-        timer = setTimeout(fn, wait)
-      }
-    }
-
-    let emitFunc = () => {
-      // console.log('执行')
-      mitt.emit('onScroll')
-    }
-
-    let changeSize = () => {
-      offsetLeft.value = leftBox.value.offsetLeft
-      boxWidth.value = leftBox.value.clientWidth
-    }
-
-    mitt.on('openSearch', () => {
-      changeSearchFlag()
-    })
 
     let changeSearchFlag = function () {
       searchFlag.value = !searchFlag.value
@@ -93,13 +39,14 @@ export default {
       searchFlag.value = false
     }
 
+    mitt.on('openSearch', () => {
+      changeSearchFlag()
+    })
+
     return {
       searchFlag,
       changeSearchFlag,
-      closeSearch,
-      leftBox,
-      offsetLeft,
-      boxWidth
+      closeSearch
     }
   }
 }
@@ -117,22 +64,6 @@ export default {
 
   .left {
     padding-right: 20px;
-  }
-  .left_box {
-    // width: 300px;
-    height: 500px;
-    background: rgba(255, 255, 255, 0.7);
-    box-shadow: 0 1px 5px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(13.5px);
-    -webkit-backdrop-filter: blur(16.5px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-  }
-  .left {
-    width: 27%;
-  }
-  .right {
-    width: 73%;
-    height: 100%;
   }
 
   .bottom {

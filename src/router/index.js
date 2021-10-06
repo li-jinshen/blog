@@ -94,43 +94,42 @@ const routes = [
     path: "/blog/index",
     name: "Index",
     component: () => import("../views/Index.vue"),
-    redirect: "/blog/index/articlelist",
+    redirect: "/blog/index/common",
     meta: {
       pageIndex: 10,
     },
     children: [
       {
-        path: "articlelist",
-        name: "ArticleList",
-        component: () => import("../views/index/pages/ArticleList.vue"),
-        meta: {
-          pageIndex: 11,
-        },
+        path: "common",
+        name: "Common",
+        component: () => import("../views/index/pages/Common.vue"),
+        redirect: "/blog/index/common/list",
+        children: [
+          {
+            path: "list",
+            name: "List",
+            component: () => import("../views/index/pages/List.vue"),
+          },
+          {
+            path: "comment",
+            name: "Comment",
+            component: () => import("../views/index/pages/Comment.vue"),
+
+          },
+          {
+            path: "archive",
+            name: "Archive",
+            component: () => import("../views/index/pages/Archive.vue"),
+
+          },
+        ]
       },
       {
         path: "article",
         name: "IndexArticle",
         component: () => import("../views/index/pages/Article.vue"),
-        meta: {
-          pageIndex: 12,
-        },
       },
-      {
-        path: "comment",
-        name: "Comment",
-        component: () => import("../views/index/pages/Comment.vue"),
-        meta: {
-          pageIndex: 13,
-        },
-      },
-      {
-        path: "archive",
-        name: "Archive",
-        component: () => import("../views/index/pages/Archive.vue"),
-        meta: {
-          pageIndex: 14,
-        },
-      },
+
     ],
   },
   {
@@ -169,7 +168,7 @@ const routes = [
             component: () => import("../views/admin/pages/Message.vue"),
           }, {
             path: "comment",
-            name: "Comment",
+            name: "AdminComment",
             component: () => import("../views/admin/pages/Comment.vue"),
           }, {
             path: "browse",

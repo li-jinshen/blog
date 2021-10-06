@@ -20,7 +20,7 @@
             <span class="pl-1">{{item.name}}</span>
           </div>
         </div>
-        <div class="bottom_border rounded" :style="{left:left+'px'}"></div>
+        <div class="bottom_border rounded" :style="{left:left+'px'}" v-if="tabIndex!=-1"></div>
       </div>
       <div class="navbar_right flex items-center">
         <div style="width:42px" class="flex justify-center items-center h-full">
@@ -46,41 +46,53 @@
 </template>
 
 <script>
-import { ref, reactive } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, reactive, onMounted } from 'vue'
+import { useRouter, useRoute, onBeforeRouteUpdate } from 'vue-router'
 import mitt from '../../../common/EventBus'
 export default {
   name: 'App',
   setup() {
     const router = useRouter()
+    const route = useRoute()
     let left = ref(10)
     let tabIndex = ref(0)
     let menu = reactive([
-      // {
-      //   name: '首页',
-      //   path: '/blog/home',
-      //   icon: 'iconfont icon-index-active',
-      //   size: 20
-      // },
       {
         name: '博客',
-        path: '/blog/index',
+        path: '/blog/index/common/list',
         icon: 'iconfont icon-blog',
         size: 20
       },
       {
         name: '归档',
-        path: '/blog/index/archive',
+        path: '/blog/index/common/archive',
         icon: 'iconfont icon-guidang1',
         size: 20
       },
       {
         name: '留言',
-        path: '/blog/index/comment',
+        path: '/blog/index/common/comment',
         icon: 'iconfont icon-liuyan1',
         size: 20
       }
     ])
+
+    // 页面刷新时判断路径
+    onMounted(() => {
+      refresh()
+    })
+    onBeforeRouteUpdate((to) => {
+      refresh(to)
+    })
+    const refresh = (to) => {
+      let fullPath = to ? to.fullPath : route.fullPath
+      let index = menu.findIndex((item) => {
+        return fullPath === item.path
+      })
+      tabIndex.value = index
+      console.log('index', tabIndex.value)
+      left.value = index * 100 + 10
+    }
 
     let goPage = function (path) {
       router.push({ path })
@@ -93,7 +105,7 @@ export default {
     let changeTab = function (index) {
       tabIndex.value = index
       left.value = index * 100 + 10
-      // goPage(menu[index].path)
+      goPage(menu[index].path)
     }
 
     return {
