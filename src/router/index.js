@@ -182,6 +182,10 @@ const routes = [
   {
     path: "/blog/markdown",
     component: () => import("../views/admin/Markdown.vue"),
+  },
+  {
+    path: "/blog/login",
+    component: () => import("../views/Login.vue"),
   }
 ];
 
