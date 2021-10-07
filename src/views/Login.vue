@@ -1,5 +1,6 @@
 <template>
   <div class="login">
+    <TabsList></TabsList>
     <div class="box flex items-center rounded">
       <div style="width:400px;height:500px" class="flex items-center justify-center">
         <img src="../assets/images/backend.jpg" style="width:100%;height:auto" alt />
@@ -24,8 +25,12 @@
 </template>
 
 <script>
+import TabsList from './home/components/TabList.vue'
 export default {
   name: 'App',
+  components: {
+    TabsList
+  },
   setup() {
     return
   }
