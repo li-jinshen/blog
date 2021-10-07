@@ -27,7 +27,7 @@ export default defineComponent({
     
 
 <style lang="scss">
-@import url('https://at.alicdn.com/t/font_2715113_vnxhhyi4bg9.css');
+@import url('https://at.alicdn.com/t/font_2715113_ggmwyzt1qyj.css');
 input {
   background: none;
   outline: none;
