@@ -46,11 +46,24 @@
 </template>
     
 <script>
-import { ref, onMounted, reactive, onBeforeUnmount } from 'vue'
+import {
+  ref,
+  onMounted,
+  reactive,
+  onBeforeUnmount,
+  getCurrentInstance,
+  nextTick
+} from 'vue'
+import { useRoute } from 'vue-router'
 export default {
   name: 'Article',
 
   setup(props) {
+    const { proxy } = getCurrentInstance()
+    const route = useRoute()
+
+    console.log(route.query.id)
+
     let markdown = ref('')
     let editor = ref('null')
     let articleTitles = reactive([])
@@ -61,10 +74,10 @@ export default {
     let boxWidth = ref(0)
     let opacity = ref(0)
 
-    markdown.value = JSON.parse(localStorage.getItem('markdownContent'))
+    // markdown.value = JSON.parse(localStorage.getItem('markdownContent'))
 
     onMounted(() => {
-      createDirectory()
+      getArticleDetail()
 
       changeSize()
       window.addEventListener('resize', changeSize)
@@ -77,9 +90,31 @@ export default {
       window.removeEventListener('resize', changeSize)
     })
 
+    // 获取文章详情
+    const getArticleDetail = () => {
+      proxy
+        .$request({
+          method: 'get',
+          url: proxy.$requestPath.getArticleDetail + `?id=${route.query.id}`
+        })
+        .then((res) => {
+          console.log(res)
+          let { data } = res
+          markdown.value = data[0].content
+          nextTick(() => {
+            createDirectory()
+          })
+          // state.result = data
+        })
+        .catch((error) => {
+          console.log('获取文章排行错误', error)
+        })
+    }
+
     // 生成目录
     const createDirectory = () => {
       const anchors = editor.value.$el.querySelectorAll('h1,h2,h3,h4,h5,h6')
+      console.log('anchors', anchors)
       const titles = Array.from(anchors).filter(
         (title) => !!title.innerText.trim()
       )
@@ -106,6 +141,7 @@ export default {
       const heading = editor.value.$el.querySelector(
         `[data-v-md-line="${lineIndex}"]`
       )
+      console.log(heading)
       const top = heading.offsetTop
       let box = document.getElementById('bottom')
       box.scrollTop = top + 225

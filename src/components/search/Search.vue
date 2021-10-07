@@ -15,64 +15,89 @@
     </div>-->
     <transition name="search">
       <div class="absolute result_box rounded p-3 z-50" v-show="show">
-        <div class="item p-2 w-full flex justify-start" v-for="item in 10" :key="item">
-          <div class="sort duration-500 text-left" style="fontSize:17px">{{item}}</div>
-          <div class="item_content">
-            <p
-              class="text-left duration-500 text-gray-600 title"
-              style="fontSize:16px"
-            >开发uni-app即时聊天按时发撒地方啊沙发上大</p>
-            <p class="flex items-center mt-1">
-              <span class="text-gray-400 flex items-center w-1/2">
-                <i class="iconfont icon-riqi1 pr-1" style="fontSize:14px"></i>
-                2020-12-12
-              </span>
-              <span class="text-gray-400 flex items-center w-1/2">
-                <i class="iconfont icon-liulanliang1 pr-1"></i>
-                200
-              </span>
-              <!-- <span class="text-gray-400 flex items-center">
-                <i class="iconfont icon-leixing1 pr-1"></i>
-                uni-app
-              </span>-->
-            </p>
+        <div v-if="state.result.length>0">
+          <div
+            class="item p-2 w-full flex justify-start"
+            v-for="(item,index) in state.result"
+            :key="item._id"
+          >
+            <div class="sort duration-500 text-left" style="fontSize:17px">{{index+1}}</div>
+            <div class="item_content">
+              <p
+                class="text-left duration-500 text-gray-600 title"
+                style="fontSize:16px"
+              >{{item.title}}</p>
+              <p class="flex items-center mt-1">
+                <span class="text-gray-400 flex items-center w-1/2">
+                  <i class="iconfont icon-riqi1 pr-1" style="fontSize:14px"></i>
+                  {{transformDate(item.date)}}
+                </span>
+                <span class="text-gray-400 flex items-center w-1/2">
+                  <i class="iconfont icon-liulanliang1 pr-1"></i>
+                  {{item.views}}
+                </span>
+              </p>
+            </div>
           </div>
         </div>
-        <!-- <div class="flex justify-center items-center h-full">
+        <div class="flex justify-center items-center h-full" v-else>
           <div>
             <img src="../../assets/images/svg/null-food.svg" style="width:150px" alt />
             <p class="text-gray-500 text-sm mt-2">暂无数据</p>
           </div>
-        </div>-->
+        </div>
       </div>
     </transition>
   </div>
 </template>
   
   <script>
-import { defineComponent, Ref, ref, watch } from 'vue'
-export default defineComponent({
+import { getCurrentInstance, reactive, ref, watch } from 'vue'
+export default {
   name: 'Search',
   setup() {
+    const { proxy } = getCurrentInstance()
+    const transformDate = proxy.$transformDate
+
     let show = ref(false)
     let keyword = ref('')
-    function changeShow() {
-      show.value = !show.value
-    }
+    let state = reactive({
+      result: []
+    })
+
     watch(keyword, (newVal) => {
       if (newVal !== '') {
         show.value = true
+        searchKeyword()
       } else {
         show.value = false
       }
     })
+
+    const searchKeyword = () => {
+      proxy
+        .$request({
+          method: 'get',
+          url: proxy.$requestPath.search + `?keyword=${keyword.value}`
+        })
+        .then((res) => {
+          console.log(res)
+          let { data } = res
+          state.result = data
+        })
+        .catch((error) => {
+          console.log('获取文章排行错误', error)
+        })
+    }
+
     return {
       keyword,
       show,
-      changeShow
+      transformDate,
+      state
     }
   }
-})
+}
 </script>
   
   <style lang="scss" scoped>

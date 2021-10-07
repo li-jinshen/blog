@@ -7,6 +7,10 @@ import "@/styles/index.scss";
 import ImageItem from "@/components/ImageItem/ImageItem.vue";
 import Loading from "@/components/Loading/Loading.vue";
 
+import request from "@/api/request.js";
+import requestPath from "@/api/path"
+
+
 // elemnt-plus样式
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
@@ -35,8 +39,28 @@ VueMarkdownEditor.use(vuepressTheme, {
 VueMarkdownEditor.use(createLineNumbertPlugin());
 VueMarkdownEditor.use(createEmojiPlugin());
 
+// 格式化日期
+function transformDate (originVal) {
+    const dt = new Date(originVal)
+    const y = dt.getFullYear()
+    const m = (dt.getMonth() + 1 + '').padStart(2, '0')
+    const d = (dt.getDate() + '').padStart(2, '0')
 
-createApp(App)
+    const hh = (dt.getHours() + '').padStart(2, '0')
+    const mm = (dt.getMinutes() + '').padStart(2, '0')
+    const ss = (dt.getSeconds() + '').padStart(2, '0')
+
+    return `${y}-${m}-${d}`
+}
+
+let app = createApp(App)
+
+app.config.globalProperties.$request = request;//全局挂载 同vue2.x Vue.prototype.
+app.config.globalProperties.$requestPath = requestPath
+
+app.config.globalProperties.$transformDate = transformDate
+
+app
     .component("ImageItem", ImageItem)
     .component("Loading", Loading)
     .use(store)
