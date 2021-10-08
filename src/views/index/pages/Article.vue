@@ -37,7 +37,7 @@
         >
           <a
             style="cursor: pointer"
-            class="hover:text-primary duration-300 text-base"
+            class="hover:text-primary duration-300 text-sm"
           >{{ anchor.title }}</a>
         </div>
       </div>
@@ -242,10 +242,12 @@ a {
 }
 </style>
 <style lang="scss">
-.v-md-editor {
-  background: none !important;
-}
-.vuepress-markdown-body {
-  background: none !important;
+.article {
+  .v-md-editor {
+    background: none !important;
+  }
+  .vuepress-markdown-body {
+    background: none !important;
+  }
 }
 </style>

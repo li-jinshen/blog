@@ -25,10 +25,10 @@
       <el-pagination
         :hide-on-single-page="false"
         v-model:currentPage="currentPage"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="100"
+        :page-sizes="[20, 50, 100]"
+        :page-size="limit"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="1000"
+        :total="total"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       ></el-pagination>
@@ -37,10 +37,12 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, onMounted, getCurrentInstance } from 'vue'
 export default {
   name: 'App',
   setup() {
+    const { proxy } = getCurrentInstance()
+
     const item = {
       sort: 1,
       title: 'vue3',
@@ -51,18 +53,48 @@ export default {
     }
     const tableData = ref(Array(10).fill(item))
 
-    // 分页先关
+    // 分页相关
     let currentPage = ref(1)
+    let total = ref(0)
+    let limit = ref(1)
     function handleSizeChange(pageSize) {
       console.log('数量改变', pageSize)
+      limit.value = pageSize
     }
     function handleCurrentChange(page) {
       console.log('页码改变', page)
+      currentPage.value = page
     }
+
+    onMounted(() => {
+      getSingleArticle()
+    })
+
+    // 获取最近更新
+    const getSingleArticle = () => {
+      proxy
+        .$request({
+          method: 'get',
+          url:
+            proxy.$requestPath.getSingleArticle +
+            `?limit=${limit.value}&page=${currentPage.value}&sort=0`
+        })
+        .then((res) => {
+          console.log('获取的文章', res)
+          // let { data } = res
+          // state.article = data
+        })
+        .catch((error) => {
+          console.log('获取文章排行错误', error)
+        })
+    }
+
     return {
       keyword: ref(''),
       tableData,
       currentPage,
+      limit,
+      total,
       handleSizeChange,
       handleCurrentChange
     }
