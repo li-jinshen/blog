@@ -38,7 +38,7 @@
           v-model="desc"
           placeholder="请输入文章简介"
           clearable
-          class="ml-4"
+          class="ml-6"
           style="width:50%;"
         />
       </div>
@@ -54,13 +54,14 @@
 </template>
 
 <script>
-import { reactive, ref, nextTick } from 'vue'
+import { reactive, ref, nextTick, getCurrentInstance, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 export default {
   name: 'App',
   setup() {
     const router = useRouter()
     const route = useRoute()
+    const { proxy } = getCurrentInstance()
     let content = ref('')
     let toolbar =
       'undo redo clear | tip | emoji | h bold italic strikethrough quote | ul ol table hr | link image code | save'
@@ -100,6 +101,26 @@ export default {
     const submit = () => {
       console.log('文章内容', content.value)
       localStorage.setItem('markdownContent', JSON.stringify(content.value))
+    }
+
+    onMounted(() => {
+      getArticleDetail()
+    })
+    // 获取文章详情
+    const getArticleDetail = () => {
+      proxy
+        .$request({
+          method: 'get',
+          url: proxy.$requestPath.getArticleDetail + `?id=${route.query.id}`
+        })
+        .then((res) => {
+          console.log(res)
+          let { data } = res
+          content.value = data[0].value
+        })
+        .catch((error) => {
+          console.log('获取文章排行错误', error)
+        })
     }
 
     // 标题，背景图，简介

@@ -6,17 +6,17 @@
       <el-button type="primary">搜索</el-button>
     </div>
     <div>
-      <el-table :data="tableData" :border="true">
-        <el-table-column prop="sort" label="排序"></el-table-column>
+      <el-table :data="state.article" :border="true">
+        <el-table-column prop="sort" label="排序" width="80"></el-table-column>
         <el-table-column prop="title" label="标题"></el-table-column>
         <el-table-column prop="category" label="分类"></el-table-column>
-        <el-table-column prop="date" label="发表时间"></el-table-column>
+        <el-table-column prop="time" label="发表时间"></el-table-column>
         <el-table-column prop="views" label="浏览量"></el-table-column>
         <el-table-column prop="praise" label="点赞量"></el-table-column>
         <el-table-column label="操作" width="150">
-          <template #default>
-            <el-button size="mini" type="text" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button size="mini" type="text" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <template #default="scope">
+            <el-button size="mini" type="text" @click="handleEdit( scope.row)">编辑</el-button>
+            <el-button size="mini" type="text" @click="handleDelete(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -25,7 +25,7 @@
       <el-pagination
         :hide-on-single-page="false"
         v-model:currentPage="currentPage"
-        :page-sizes="[20, 50, 100]"
+        :page-sizes="[10,20, 50, 100]"
         :page-size="limit"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
@@ -37,37 +37,36 @@
 </template>
 
 <script>
-import { ref, onMounted, getCurrentInstance } from 'vue'
+import { ref, onMounted, getCurrentInstance, reactive } from 'vue'
+import { useRouter } from 'vue-router'
 export default {
   name: 'App',
   setup() {
     const { proxy } = getCurrentInstance()
-
-    const item = {
-      sort: 1,
-      title: 'vue3',
-      date: '2016-05-02',
-      category: 'vue',
-      views: 200,
-      praise: 123
-    }
-    const tableData = ref(Array(10).fill(item))
+    const router = useRouter()
 
     // 分页相关
     let currentPage = ref(1)
     let total = ref(0)
-    let limit = ref(1)
+    let limit = ref(10)
     function handleSizeChange(pageSize) {
       console.log('数量改变', pageSize)
       limit.value = pageSize
+      getSingleArticle()
     }
     function handleCurrentChange(page) {
       console.log('页码改变', page)
       currentPage.value = page
+      getSingleArticle()
     }
 
     onMounted(() => {
       getSingleArticle()
+    })
+
+    // 获取的文章数据
+    let state = reactive({
+      article: []
     })
 
     // 获取最近更新
@@ -81,22 +80,34 @@ export default {
         })
         .then((res) => {
           console.log('获取的文章', res)
-          // let { data } = res
-          // state.article = data
+          let { count, data } = res
+          data.forEach((item, index) => {
+            item.sort = index + 1
+            item.time = proxy.$transformDate(item.date)
+          })
+          state.article = []
+          state.article = data
+          total.value = count
         })
         .catch((error) => {
           console.log('获取文章排行错误', error)
         })
     }
 
+    // 编辑
+    const handleEdit = (row) => {
+      router.push({ path: '/blog/markdown', query: { id: row._id } })
+    }
+
     return {
       keyword: ref(''),
-      tableData,
       currentPage,
       limit,
       total,
       handleSizeChange,
-      handleCurrentChange
+      handleCurrentChange,
+      state,
+      handleEdit
     }
   }
 }

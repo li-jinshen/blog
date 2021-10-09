@@ -3,20 +3,22 @@
     <div class="content duration-500 relative rounded">
       <!-- <Loading></Loading> -->
       <div class="ar_header" style="margin:0 2.5rem;padding-top:2rem;">
-        <h1 style="font-size: 2em;" class="font-bold ar_title">uni-app 即时聊天</h1>
+        <h1 style="font-size: 2em;" class="font-bold ar_title">{{state.title}}</h1>
         <div style="margin-top:2.5rem;">
           <div class="category flex items-center mb-6">
-            <div class="category_item rounded text-white">vue</div>
-            <div class="category_item rounded text-white">React</div>
-            <div class="category_item rounded text-white">webpack</div>
+            <div
+              class="category_item rounded text-white"
+              v-for="(item,index) in state.category"
+              :key="index"
+            >{{item}}</div>
           </div>
           <div
             style="user-select: none;"
             class="info bg-gray-100 rounded w-full py-4 flex px-4 justify-between items-center text-gray-500 text-sm"
           >
-            <div>浏览量：100</div>
-            <div>点赞数：100</div>
-            <div>发布日期：2012-12-12</div>
+            <div>浏览量：{{state.views}}</div>
+            <div>点赞数：{{state.like}}</div>
+            <div>发布日期：{{state.time}}</div>
           </div>
         </div>
       </div>
@@ -31,13 +33,13 @@
       <div class="py-2 px-4 li_box">
         <div
           v-for="anchor in articleTitles"
-          :style="{ padding: `5px 0 5px ${anchor.indent * 20}px` }"
+          :style="{ padding: `3px 0 3px ${anchor.indent * 20}px` }"
           @click="handleAnchorClick(anchor)"
           :key="anchor.lineIndex"
         >
           <a
             style="cursor: pointer"
-            class="hover:text-primary duration-300 text-sm"
+            class="hover:text-primary duration-300 text-sm directory_item"
           >{{ anchor.title }}</a>
         </div>
       </div>
@@ -67,6 +69,14 @@ export default {
     let markdown = ref('')
     let editor = ref('null')
     let articleTitles = reactive([])
+    let state = reactive({
+      title: '',
+      category: [],
+      views: 0,
+      time: '',
+      id: '',
+      like: 0
+    })
 
     let directory = ref(null)
     let article = ref(null)
@@ -100,7 +110,13 @@ export default {
         .then((res) => {
           console.log(res)
           let { data } = res
-          markdown.value = data[0].content
+          let articleObject = data[0]
+          markdown.value = articleObject.value
+          state.category = articleObject.category
+          state.title = articleObject.title
+          state.views = articleObject.views
+          state.time = proxy.$transformDate(articleObject.date)
+          state.like = articleObject.like
           nextTick(() => {
             createDirectory()
           })
@@ -114,7 +130,6 @@ export default {
     // 生成目录
     const createDirectory = () => {
       const anchors = editor.value.$el.querySelectorAll('h1,h2,h3,h4,h5,h6')
-      console.log('anchors', anchors)
       const titles = Array.from(anchors).filter(
         (title) => !!title.innerText.trim()
       )
@@ -141,7 +156,6 @@ export default {
       const heading = editor.value.$el.querySelector(
         `[data-v-md-line="${lineIndex}"]`
       )
-      console.log(heading)
       const top = heading.offsetTop
       let box = document.getElementById('bottom')
       box.scrollTop = top + 225
@@ -165,7 +179,8 @@ export default {
       offsetRight,
       boxWidth,
       article,
-      opacity
+      opacity,
+      state
     }
   }
 }
@@ -181,7 +196,13 @@ h5,
 h6 {
   text-align: left;
 }
-
+.directory_item {
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .content {
   width: 73%;
   min-height: calc(100vh - 5rem);
