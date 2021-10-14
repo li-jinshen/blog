@@ -1,12 +1,12 @@
 import axios from "axios";
 // import { Message } from "element-ui";
-import createMessage from '@/components/message/message.js'
+import createMessage from "@/components/message/message.js";
 
 // 创建 axios 实例
 const request = axios.create({
   // API 请求的默认前缀
-  baseURL: "http://localhost:81",
-  // baseURL: "http://www.yemengshen.cn",
+  // baseURL: "http://localhost:81",
+  baseURL: "http://www.yemengshen.cn",
   timeout: 6000, // 请求超时时间
 });
 
@@ -19,15 +19,15 @@ const errorHandler = (error) => {
     if (error.response.status === 403) {
       // Message.error(data.message);
       createMessage({
-        type: 'error',
-        message: '服务器错误'
-      })
+        type: "error",
+        message: "服务器错误",
+      });
     }
     if (error.response.status === 401) {
       createMessage({
-        type: 'error',
-        message: '登录凭证失效，请重新登录'
-      })
+        type: "error",
+        message: "登录凭证失效，请重新登录",
+      });
       // Message.error("登录凭证失效，请重新登录");
       // localStorage.clear("LOGIN_INFO");
       // store.commit("updateLoginStatus", false);
