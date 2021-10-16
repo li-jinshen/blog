@@ -5,7 +5,7 @@
         <div class="font-bold text-left">点击排行</div>
         <div
           class="item duration-500 flex items-center py-2"
-          v-for="(item,index) in state.rankList"
+          v-for="(item,index) in getHotRecommended"
           :key="index"
           @click="goPage(item)"
         >
@@ -37,7 +37,7 @@
         <div class="font-bold text-left">最近更新</div>
         <div
           class="item duration-500 flex items-center py-2"
-          v-for="(item,index) in state.article"
+          v-for="(item,index) in getRecentNews"
           :key="item"
           @click="goPage(item)"
         >
@@ -68,48 +68,27 @@
 <script>
 import { getCurrentInstance, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useStore, mapGetters } from 'vuex'
 
 export default {
   name: 'Article',
+  computed: {
+    ...mapGetters(['getHotRecommended', 'getRecentNews'])
+  },
   setup() {
     const { proxy } = getCurrentInstance()
+    const store = useStore()
     const transformDate = proxy.$transformDate
 
     const router = useRouter()
 
-    let state = reactive({
-      rankList: [],
-      article: []
-    })
     // 获取点击排行数据
     const getRank = () => {
-      proxy
-        .$request({
-          method: 'get',
-          url: proxy.$requestPath.getRank + '?limit=10'
-        })
-        .then((res) => {
-          let { data } = res
-          state.rankList = data
-        })
-        .catch((error) => {
-          console.log('获取文章排行错误', error)
-        })
+      store.dispatch('getRank')
     }
     // 获取最近更新
     const getSingleArticle = () => {
-      proxy
-        .$request({
-          method: 'get',
-          url: proxy.$requestPath.getSingleArticle + '?limit=10&page=1&sort=1'
-        })
-        .then((res) => {
-          let { data } = res
-          state.article = data
-        })
-        .catch((error) => {
-          console.log('获取文章排行错误', error)
-        })
+      store.dispatch('getSingleArticle')
     }
 
     onMounted(() => {
@@ -123,7 +102,6 @@ export default {
     }
 
     return {
-      state,
       transformDate,
       goPage
     }

@@ -12,7 +12,7 @@
         <el-table-column prop="category" label="分类"></el-table-column>
         <el-table-column prop="time" label="发表时间"></el-table-column>
         <el-table-column prop="views" label="浏览量"></el-table-column>
-        <el-table-column prop="praise" label="点赞量"></el-table-column>
+        <el-table-column prop="like" label="点赞量"></el-table-column>
         <el-table-column label="操作" width="150">
           <template #default="scope">
             <el-button size="mini" type="text" @click="handleEdit( scope.row)">编辑</el-button>
