@@ -13,4 +13,11 @@ export default {
     categoryArticle: '/article/category',
     // 获取分类
     getCategory: "/category/get",
+
+    // 添加模块
+    addModel: "/model/add",
+    // 获取模块
+    getModel: "/model/get",
+    // 获取模块详情
+    getModelList: "/model/list",
 }

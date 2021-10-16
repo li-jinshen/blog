@@ -55,7 +55,7 @@ import "./assets/tailwind.css"
 
 ## 博客后台管理面板
 
-### UI组件
+### UI 组件
 
 - Element-plus
 
@@ -63,7 +63,7 @@ import "./assets/tailwind.css"
 
 - 文章管理（article）
   - 文章发表、修改、删除
-  - v-md-editor编辑器：文章编写，文章展示
+  - v-md-editor 编辑器：文章编写，文章展示
 - 公告(announcement)
   - 发布、删除、修改
 - 个人信息(archives)
@@ -72,11 +72,10 @@ import "./assets/tailwind.css"
   - 模块添加、删除、编辑
   - 各模块的信息的添加、删除、修改
   - 属性定义：
-    - type：模块类型(实用工具、影音娱乐.....)
     - picture：图片
     - describe：描述
     - link：链接
-    - ItemType：子项类型(属性值：链接[link]、文本[text])
+    - type：类型(属性值：链接[link]、文本[text])
 - 浏览量管理(browse)
   - 查询、统计、筛选
 - 留言管理(message)

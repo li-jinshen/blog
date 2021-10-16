@@ -82,18 +82,9 @@ export default {
 
     const router = useRouter()
 
-    // 获取点击排行数据
-    const getRank = () => {
-      store.dispatch('getRank')
-    }
-    // 获取最近更新
-    const getSingleArticle = () => {
-      store.dispatch('getSingleArticle')
-    }
-
     onMounted(() => {
-      getRank()
-      getSingleArticle()
+      store.dispatch('getRank')
+      store.dispatch('getSingleArticle')
     })
 
     // 跳转到文章详情页面
