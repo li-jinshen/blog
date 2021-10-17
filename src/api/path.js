@@ -23,5 +23,9 @@ export default {
     // 模块操作
     updateModel: "/model/update/model",
     // 模块子项操作
-    updateModelList: "/model/update/list"
+    updateModelList: "/model/update/list",
+
+    // 登录
+    login: "/user/login"
+
 }

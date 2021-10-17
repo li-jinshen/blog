@@ -4,10 +4,18 @@ import requestPath from '../api/path'
 
 export default createStore({
   state: {
+    loginStatus: false, // 登录状态
     hotRecommended: [],//热门推荐
     recentNews: [], // 最新动态
   },
   mutations: {
+    // 更新登录状态
+    updateLoginStatus (state, status) {
+      state.loginStatus = status
+      if (!state.loginStatus) {
+        localStorage.removeItem("userInfo")
+      }
+    },
     // 更新热门推荐的数据
     updateHotRecommended (state, list) {
       state.hotRecommended = []
