@@ -20,4 +20,8 @@ export default {
     getModel: "/model/get",
     // 获取模块详情
     getModelList: "/model/list",
+    // 模块操作
+    updateModel: "/model/update/model",
+    // 模块子项操作
+    updateModelList: "/model/update/list"
 }

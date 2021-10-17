@@ -28,7 +28,7 @@ export default defineComponent({
         icon: 'https://z3.ax1x.com/2021/08/15/fcQ6yQ.png',
         name: 'QtScrcpy',
         href: 'https://gitee.com/Barryda/QtScrcpy#https://gitee.com/Barryda/QtScrcpy/releases',
-        desc: '手机实时投屏软件，摸鱼神器'
+        desc: '手机实时投屏软件'
       },
       {
         icon: 'https://z3.ax1x.com/2021/08/15/fcQBJf.png',
