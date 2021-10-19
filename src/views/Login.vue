@@ -65,12 +65,12 @@ export default {
           console.log('登录', res)
           if (res.status == 1) {
             ElMessage.success(res.msg)
-            let userInfo = {
+            let userToken = {
               token: res.token,
-              info: res.user
+              ...res.user
             }
-            localStorage.setItem('userInfo', JSON.stringify(userInfo))
-            store.commit('updateLoginStatus', true)
+            localStorage.setItem('userToken', JSON.stringify(userToken))
+            store.commit('updateLoginStatus', true) // 更新登录状态
             setTimeout(() => {
               reset()
               router.push({ path: '/blog/admin' })

@@ -26,6 +26,13 @@ export default {
     updateModelList: "/model/update/list",
 
     // 登录
-    login: "/user/login"
+    login: "/user/login",
+    // 更新token
+    refreshToken: "/user/time/refresh",
+    // 获取博主个人信息
+    getBloggerProfile: "/find/file",
+    // 记录访客记录
+    visitorsToRecord: "/access/record",
+    // 
 
 }

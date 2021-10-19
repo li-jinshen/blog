@@ -5,6 +5,7 @@ import requestPath from '../api/path'
 export default createStore({
   state: {
     loginStatus: false, // 登录状态
+    blogger: {}, // 博主个人信息
     hotRecommended: [],//热门推荐
     recentNews: [], // 最新动态
   },
@@ -15,6 +16,10 @@ export default createStore({
       if (!state.loginStatus) {
         localStorage.removeItem("userInfo")
       }
+    },
+    // 更新博主的个人信息
+    updateBloggerProfile (state, profile) {
+      state.blogger = Object.assign({}, state.blogger, profile)
     },
     // 更新热门推荐的数据
     updateHotRecommended (state, list) {
@@ -57,6 +62,10 @@ export default createStore({
     }
   },
   getters: {
+    // 获取登录状态
+    getLoginStatus: state => state.loginStatus,
+    // 获取博主个人信息
+    getBloggerProfile: state => state.blogger,
     // 获取热门推荐
     getHotRecommended: state => state.hotRecommended,
     // 获取最新动态
