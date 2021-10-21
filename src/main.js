@@ -53,12 +53,27 @@ function transformDate (originVal) {
     return `${y}-${m}-${d}`
 }
 
+// 判断非空
+function isNull (str) {
+    if (str == "") return true;
+    var reg = "^[ ]+$";
+    var re = new RegExp(reg);
+    return re.test(str);
+}
+
+// 数组排序
+function sortRule (a, b) {
+    return a.sort - b.sort;
+}
+
 let app = createApp(App)
 
 app.config.globalProperties.$request = request;//全局挂载 同vue2.x Vue.prototype.
 app.config.globalProperties.$requestPath = requestPath
 
 app.config.globalProperties.$transformDate = transformDate
+app.config.globalProperties.$isNull = isNull
+app.config.globalProperties.$sortRule = sortRule
 
 app
     .component("ImageItem", ImageItem)

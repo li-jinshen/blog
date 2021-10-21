@@ -5,11 +5,38 @@
 
 
   <script>
-import { defineComponent, onMounted } from 'vue'
+import { defineComponent, onMounted, getCurrentInstance } from 'vue'
+import { useStore } from 'vuex'
 export default defineComponent({
   name: 'Article',
   setup() {
+    const { proxy } = getCurrentInstance()
+    const store = useStore()
+    const userToken = localStorage.getItem('userToken')
+      ? JSON.parse(localStorage.getItem('userToken'))
+      : ''
     onMounted(() => {
+      if (userToken) {
+        const { LandingTime, token } = userToken
+        let distance =
+          (new Date().getTime() - new Date(LandingTime).getTime()) /
+          1000 /
+          60 /
+          60 /
+          24
+        if (distance > 5 && distance < 7) {
+          refreshToken(token) // 刷新token
+        } else if (distance > 7) {
+          localStorage.removeItem('userToken')
+          store.commit('updateLoginStatus', false) // 更新登录状态
+        } else {
+          store.commit('updateLoginStatus', true) // 更新登录状态
+          getBloggerProfile()
+        }
+      } else {
+        visitorsToRecord()
+      }
+
       // console.log(returnCitySN)
       // console.log(
       //   'IP地址:' +
@@ -20,6 +47,72 @@ export default defineComponent({
       //     returnCitySN['cname']
       // )
     })
+
+    // 刷新token
+    const refreshToken = (token) => {
+      proxy
+        .$request({
+          method: 'post',
+          url: proxy.$requestPath.refreshToken,
+          data: {
+            token
+          }
+        })
+        .then((res) => {
+          console.log('刷新token', res)
+          if (res.status == 1) {
+            let userToken = {
+              token: res.token
+            }
+            localStorage.setItem('userToken', JSON.stringify(userToken))
+            getBloggerProfile()
+            store.commit('updateLoginStatus', true) // 更新登录状态
+            // ElMessage.success(res.msg)
+          } else {
+            ElMessage.error(res.msg)
+          }
+        })
+        .catch((error) => {
+          console.log('登录错误', error)
+        })
+    }
+
+    // 访客记录
+    const visitorsToRecord = () => {
+      proxy
+        .$request({
+          method: 'post',
+          url: proxy.$requestPath.visitorsToRecord,
+          data: {
+            ip: returnCitySN['cip'],
+            cname: returnCitySN['cname']
+          }
+        })
+        .then((res) => {
+          console.log('访客记录', res)
+        })
+        .catch((error) => {
+          // console.log('登录错误', error)
+        })
+    }
+
+    // 获取博主个人信息
+    const getBloggerProfile = () => {
+      proxy
+        .$request({
+          method: 'get',
+          url: proxy.$requestPath.getBloggerProfile,
+          params: { isAdmin: true }
+        })
+        .then((res) => {
+          console.log('获取博主个人信息', res)
+          store.commit('updateBloggerProfile', res)
+        })
+        .catch(() => {
+          // console.log('登录错误', error)
+        })
+    }
+
     return
   }
 })

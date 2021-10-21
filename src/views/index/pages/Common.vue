@@ -11,26 +11,27 @@
           :style="{left:offsetLeft +'px',top:'69px',width:boxWidth +'px'}"
         >
           <div class="recommend text-left">
-            <div class="item_title py-3 px-4 font-bold">推荐</div>
+            <div class="item_title font-bold flex items-center">
+              <div
+                class="w-1/2 flex justify-center items-center py-3 duration-500 cursor-pointer"
+                :class="tab == 'hot'?'bg-primary text-white':''"
+                @click="changeTab('hot')"
+              >热门推荐</div>
+              <div
+                class="w-1/2 flex justify-center items-center py-3 duration-500 cursor-pointer"
+                :class="tab == 'recent'?'bg-primary text-white':''"
+                @click="changeTab('recent')"
+              >最新动态</div>
+            </div>
             <ul class="px-4">
               <li
                 class="li_item cursor-pointer hover:text-primary duration-300"
-                v-for="item in 6"
-                :key="item"
+                v-for="(item,index) in (tab == 'hot'?getHotRecommended :getRecentNews)"
+                :key="item._id"
                 style="padding:7px 0px;"
-              >{{item}}、uni-app即时聊天打发点阿法索多发圣达菲</li>
-            </ul>
-            <div class="item_title py-3 px-4 font-bold">标签</div>
-            <ul class="px-4">
-              <li
-                class="li_item cursor-pointer hover:text-primary duration-300"
-                v-for="item in 6"
-                :key="item"
-                style="padding:7px 0px;"
-              >{{item}}、uni-app即时聊天打发点阿法索多发圣达菲</li>
+              >{{index+1}}、{{item.title}}</li>
             </ul>
           </div>
-          <div class="category"></div>
         </div>
       </div>
       <div class="right h-full duration-500 pl-2">
@@ -42,13 +43,20 @@
 
 <script>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { mapGetters, useStore } from 'vuex'
 import mitt from '../../../common/EventBus'
 export default {
   name: 'App',
+  computed: {
+    ...mapGetters(['getHotRecommended', 'getRecentNews'])
+  },
   setup() {
+    const store = useStore()
+
     let leftBox = ref(null)
     let offsetLeft = ref(0)
     let boxWidth = ref(0)
+    let tab = ref('hot')
 
     onMounted(() => {
       console.dir(leftBox.value.offsetLeft)
@@ -60,6 +68,9 @@ export default {
         .addEventListener('scroll', debounce(emitFunc, 15))
 
       window.addEventListener('resize', changeSize)
+
+      store.dispatch('getRank')
+      store.dispatch('getSingleArticle')
     })
 
     onBeforeUnmount(() => {
@@ -84,10 +95,18 @@ export default {
       // console.log('执行')
       mitt.emit('onScroll')
     }
+
+    // 切换tab
+    const changeTab = (type) => {
+      tab.value = type
+    }
+
     return {
       leftBox,
       offsetLeft,
-      boxWidth
+      boxWidth,
+      changeTab,
+      tab
     }
   }
 }

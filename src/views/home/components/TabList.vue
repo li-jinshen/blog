@@ -23,10 +23,12 @@
 import { defineComponent, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import createMessage from '../../../components/message/message'
+import { useStore } from 'vuex'
 export default defineComponent({
   name: 'TabList',
   setup() {
     const router = useRouter()
+    const store = useStore()
     let tagsList = reactive([
       {
         icon: 'iconfont icon-mayun1',
@@ -40,7 +42,7 @@ export default defineComponent({
         icon: 'iconfont icon-houtai1',
         size: 23,
         title: '后台管理',
-        url: '/blog/admin',
+        url: '/blog/login',
         type: 'localhost',
         isHover: false
       },
@@ -90,13 +92,18 @@ export default defineComponent({
       }
     }
     function goPage(item) {
-      console.log(item)
       switch (item.type) {
         case 'copy':
           copyToClipboard(item.title)
           break
         case 'localhost':
-          router.push(item.url)
+          if (item.url == '/blog/login') {
+            store.state.loginStatus
+              ? router.push({ path: '/blog/admin' })
+              : router.push({ path: item.url })
+          } else {
+            router.push({ path: item.url })
+          }
           break
         default:
           window.open(item.url)

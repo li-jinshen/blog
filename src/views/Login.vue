@@ -9,15 +9,15 @@
         <h2 class="text-xl font-bold">Login</h2>
         <form>
           <div class="inputBox">
-            <input type="text" name required />
+            <input type="text" name required v-model="account" />
             <label>Username</label>
           </div>
           <div class="inputBox">
-            <input type="password" name required />
+            <input type="password" name required v-model="password" />
             <label>password</label>
           </div>
           <!-- <input type="submit" name value="Submit" /> -->
-          <div class="btn text-white py-2 bg-primary rounded cursor-pointer">Submit</div>
+          <div class="btn text-white py-2 bg-primary rounded cursor-pointer" @click="login">Submit</div>
         </form>
       </div>
     </div>
@@ -25,14 +25,72 @@
 </template>
 
 <script>
+import { reactive, getCurrentInstance, toRefs } from 'vue'
+import { ElMessage } from 'element-plus'
 import TabsList from './home/components/TabList.vue'
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 export default {
   name: 'App',
   components: {
     TabsList
   },
   setup() {
-    return
+    const { proxy } = getCurrentInstance()
+    const router = useRouter()
+    const store = useStore()
+    let state = reactive({
+      account: '',
+      password: ''
+    })
+    const login = () => {
+      if (proxy.$isNull(state.account)) {
+        ElMessage.error('用户名不能为空')
+        return
+      }
+      if (proxy.$isNull(state.password)) {
+        ElMessage.error('登录密码不能为为空')
+        return
+      }
+      proxy
+        .$request({
+          method: 'post',
+          url: proxy.$requestPath.login,
+          data: {
+            account: state.account,
+            passWord: state.password
+          }
+        })
+        .then((res) => {
+          console.log('登录', res)
+          if (res.status == 1) {
+            ElMessage.success(res.msg)
+            let userToken = {
+              token: res.token,
+              ...res.user
+            }
+            localStorage.setItem('userToken', JSON.stringify(userToken))
+            store.commit('updateLoginStatus', true) // 更新登录状态
+            setTimeout(() => {
+              reset()
+              router.push({ path: '/blog/admin' })
+            }, 1000)
+          } else {
+            ElMessage.error(res.msg)
+          }
+        })
+        .catch((error) => {
+          console.log('登录错误', error)
+        })
+    }
+    const reset = () => {
+      state.account = ''
+      state.password = ''
+    }
+    return {
+      ...toRefs(state),
+      login
+    }
   }
 }
 </script>
