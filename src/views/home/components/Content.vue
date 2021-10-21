@@ -22,7 +22,7 @@
     <footer class="flex justify-center items-center">
       <div class="flex justify-center items-center">
         <span class="text-sm text-gray-500">版本：v2.0.0</span>
-        <span class="text-sm text-gray-500 ml-8">总访问量：1200</span>
+        <span class="text-sm text-gray-500 ml-8">总访问量：{{ count }}</span>
         <span class="text-sm text-gray-500 ml-8">粤ICP备19141395号</span>
         <a
           class="ml-8 flex items-center"
@@ -38,14 +38,19 @@
 </template>
 
 <script>
-import { defineComponent, ref, watch } from 'vue'
+import { ref, watch, getCurrentInstance, onMounted, reactive, toRefs } from 'vue'
 import Search from '@/components/search/Search.vue'
 import { useStore } from 'vuex'
-export default defineComponent({
+export default {
   name: 'App',
   setup() {
-    let animatoin = ref('')
     const store = useStore()
+    const { proxy } = getCurrentInstance()
+    let state = reactive({
+      count: 0
+    })
+
+    let animatoin = ref('')
     watch(
       () => store.getters.getHomeFlag,
       (newVal) => {
@@ -55,14 +60,50 @@ export default defineComponent({
         console.log('animation', animatoin.value)
       }
     )
+
+    onMounted(() => {
+      getVisitorsRecord()
+    })
+
+    const getVisitorsRecord = () => {
+      proxy
+        .$request({
+          method: 'get',
+          url: proxy.$requestPath.getVisitorsRecord,
+        })
+        .then((res) => {
+          console.log('获取访客记录', res)
+          state.count = res.count
+          // if (res.status == 1) {
+          //   ElMessage.success(res.msg)
+          //   let userToken = {
+          //     token: res.token,
+          //     ...res.user
+          //   }
+          //   localStorage.setItem('userToken', JSON.stringify(userToken))
+          //   store.commit('updateLoginStatus', true) // 更新登录状态
+          //   setTimeout(() => {
+          //     reset()
+          //     router.push({ path: '/blog/admin' })
+          //   }, 1000)
+          // } else {
+          //   ElMessage.error(res.msg)
+          // }
+        })
+        .catch((error) => {
+          console.log('登录错误', error)
+        })
+    }
+
     return {
-      animatoin
+      animatoin,
+      ...toRefs(state)
     }
   },
   components: {
     Search
   }
-})
+}
 </script>
 
 <style lang="scss" scoped>
