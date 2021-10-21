@@ -83,7 +83,7 @@ export default {
           let { count, data } = res
           data.forEach((item, index) => {
             item.sort = index + 1
-            item.time = proxy.$transformDate(item.date)
+            item.time = proxy.$transformDate(item.date, 'simple')
           })
           state.article = []
           state.article = data

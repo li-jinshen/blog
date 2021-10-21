@@ -117,7 +117,7 @@ export default {
           console.log('根据分类获取文章', res)
           if (res.status == 1) {
             res.data.forEach((item) => {
-              item.time = proxy.$transformDate(item.date)
+              item.time = proxy.$transformDate(item.date, 'simple')
             })
             if (state.page == 1) {
               state.articleList = []

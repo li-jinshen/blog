@@ -40,7 +40,7 @@ VueMarkdownEditor.use(createLineNumbertPlugin());
 VueMarkdownEditor.use(createEmojiPlugin());
 
 // 格式化日期
-function transformDate (originVal) {
+function transformDate (originVal, type) {
     const dt = new Date(originVal)
     const y = dt.getFullYear()
     const m = (dt.getMonth() + 1 + '').padStart(2, '0')
@@ -50,7 +50,12 @@ function transformDate (originVal) {
     const mm = (dt.getMinutes() + '').padStart(2, '0')
     const ss = (dt.getSeconds() + '').padStart(2, '0')
 
-    return `${y}-${m}-${d}`
+    if (type == 'simple') {
+        return `${y}-${m}-${d}`
+    } else {
+        return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+    }
+
 }
 
 // 判断非空

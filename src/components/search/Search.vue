@@ -30,7 +30,7 @@
               <p class="flex items-center mt-1">
                 <span class="text-gray-400 flex items-center w-1/2">
                   <i class="iconfont icon-riqi1 pr-1" style="fontSize:14px"></i>
-                  {{transformDate(item.date)}}
+                  {{transformDate(item.date,'simple')}}
                 </span>
                 <span class="text-gray-400 flex items-center w-1/2">
                   <i class="iconfont icon-liulanliang1 pr-1"></i>

@@ -115,7 +115,7 @@ export default {
           state.category = articleObject.category
           state.title = articleObject.title
           state.views = articleObject.views
-          state.time = proxy.$transformDate(articleObject.date)
+          state.time = proxy.$transformDate(articleObject.date, 'simple')
           state.like = articleObject.like
           nextTick(() => {
             createDirectory()
