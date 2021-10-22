@@ -1,32 +1,34 @@
 <template>
-  <div class="article pb-3 w-full" ref="article">
-    <div class="content duration-500 relative rounded">
-      <!-- <Loading></Loading> -->
-      <div class="ar_header" style="margin:0 2.5rem;padding-top:2rem;">
-        <h1 style="font-size: 2em;" class="font-bold ar_title">{{state.title}}</h1>
-        <div style="margin-top:2.5rem;">
-          <div class="category flex items-center mb-6">
+  <div class="article pb-3 w-full" id="articleBox" ref="article">
+    <transition name="article">
+      <div class="content duration-500 relative rounded" v-if="state.showArticle">
+        <!-- <Loading></Loading> -->
+        <div class="ar_header" style="margin:0 2.5rem;padding-top:2rem;">
+          <h1 style="font-size: 2em;" class="font-bold ar_title">{{ state.title }}</h1>
+          <div style="margin-top:2.5rem;">
+            <div class="category flex items-center mb-6">
+              <div
+                class="category_item rounded text-white"
+                v-for="(item,index) in state.category"
+                :key="index"
+              >{{ item }}</div>
+            </div>
             <div
-              class="category_item rounded text-white"
-              v-for="(item,index) in state.category"
-              :key="index"
-            >{{item}}</div>
-          </div>
-          <div
-            style="user-select: none;"
-            class="info bg-gray-100 rounded w-full py-4 flex px-4 justify-between items-center text-gray-500 text-sm"
-          >
-            <div>浏览量：{{state.views}}</div>
-            <div>点赞数：{{state.like}}</div>
-            <div>发布日期：{{state.time}}</div>
+              style="user-select: none;"
+              class="info bg-gray-100 rounded w-full py-4 flex px-4 justify-between items-center text-gray-500 text-sm"
+            >
+              <div class="w-1/2 text-left">浏览量：{{ state.views }}</div>
+              <!-- <div>点赞数：{{state.like}}</div> -->
+              <div class="w-1/2 text-left">发布日期：{{ state.time }}</div>
+            </div>
           </div>
         </div>
+        <v-md-editor v-model="markdown" ref="editor" mode="preview"></v-md-editor>
       </div>
-      <v-md-editor v-model="markdown" ref="editor" mode="preview"></v-md-editor>
-    </div>
+    </transition>
     <div
       class="fixed directory rounded duration-500"
-      :style="{right:offsetRight +'px',top:'69px',width:boxWidth +'px',opacity:opacity}"
+      :style="{ right: offsetRight + 'px', top: '69px', width: boxWidth + 'px', opacity: opacity }"
       ref="directory"
     >
       <div class="directory_title font-bold text-xl py-2 px-4">目录</div>
@@ -75,7 +77,8 @@ export default {
       views: 0,
       time: '',
       id: '',
-      like: 0
+      like: 0,
+      showArticle: false
     })
 
     let directory = ref(null)
@@ -95,6 +98,9 @@ export default {
       setTimeout(() => {
         opacity.value = 1
       }, 200)
+
+
+
     })
     onBeforeUnmount(() => {
       window.removeEventListener('resize', changeSize)
@@ -117,6 +123,7 @@ export default {
           state.views = articleObject.views
           state.time = proxy.$transformDate(articleObject.date, 'simple')
           state.like = articleObject.like
+          state.showArticle = true
           nextTick(() => {
             createDirectory()
           })
@@ -260,6 +267,21 @@ a {
   .category_item:not(:last-child) {
     margin-right: 0.625rem;
   }
+}
+
+.article-enter-active,
+.article-leave-active {
+  transition: all 0.8s ease;
+}
+.article-enter-to,
+.article-leave-from {
+  transform: translateY(0px);
+  opacity: 1;
+}
+.article-enter-from,
+.article-leave-to {
+  transform: translateY(100px);
+  opacity: 0;
 }
 </style>
 <style lang="scss">

@@ -8,28 +8,29 @@
       >
         <div
           class="left_box fixed rounded"
-          :style="{left:offsetLeft +'px',top:'69px',width:boxWidth +'px'}"
+          :style="{ left: offsetLeft + 'px', top: '69px', width: boxWidth + 'px' }"
         >
           <div class="recommend text-left">
             <div class="item_title font-bold flex items-center">
               <div
                 class="w-1/2 flex justify-center items-center py-3 duration-500 cursor-pointer"
-                :class="tab == 'hot'?'bg-primary text-white':''"
+                :class="tab == 'hot' ? 'bg-primary text-white' : ''"
                 @click="changeTab('hot')"
               >热门推荐</div>
               <div
                 class="w-1/2 flex justify-center items-center py-3 duration-500 cursor-pointer"
-                :class="tab == 'recent'?'bg-primary text-white':''"
+                :class="tab == 'recent' ? 'bg-primary text-white' : ''"
                 @click="changeTab('recent')"
               >最新动态</div>
             </div>
             <ul class="px-4">
               <li
                 class="li_item cursor-pointer hover:text-primary duration-300"
-                v-for="(item,index) in (tab == 'hot'?getHotRecommended :getRecentNews)"
+                v-for="(item,index) in (tab == 'hot' ? getHotRecommended : getRecentNews)"
                 :key="item._id"
                 style="padding:7px 0px;"
-              >{{index+1}}、{{item.title}}</li>
+                @click="goArtitle(item)"
+              >{{ index + 1 }}、{{ item.title }}</li>
             </ul>
           </div>
         </div>
@@ -45,6 +46,7 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { mapGetters, useStore } from 'vuex'
 import mitt from '../../../common/EventBus'
+import { useRouter } from "vue-router"
 export default {
   name: 'App',
   computed: {
@@ -52,6 +54,7 @@ export default {
   },
   setup() {
     const store = useStore()
+    const router = useRouter()
 
     let leftBox = ref(null)
     let offsetLeft = ref(0)
@@ -101,12 +104,18 @@ export default {
       tab.value = type
     }
 
+    // 跳转到文章详情页面
+    const goArtitle = (item) => {
+      router.push({ path: '/blog/index/article', query: { id: item._id } })
+    }
+
     return {
       leftBox,
       offsetLeft,
       boxWidth,
       changeTab,
-      tab
+      tab,
+      goArtitle
     }
   }
 }
@@ -129,7 +138,7 @@ export default {
   width: 27%;
 }
 .li_item {
-  border-bottom: 0.0625rem solid var(--borderLightColor);
+  // border-bottom: 0.0625rem solid var(--borderLightColor);
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;

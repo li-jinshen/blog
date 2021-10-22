@@ -10,6 +10,19 @@
       </div>
     </div>
 
+    <transition name="index_menu">
+      <div class="menu fixed right-4 bottom-8" v-if="showMenu">
+        <div class="menu_item goback flex justify-center items-center mb-2 duration-500">
+          <span class="iconfont icon-fanhui" style="font-size:24px" @click="goBack"></span>
+        </div>
+        <transition name="gotop">
+          <div class="menu_item gotop flex justify-center items-center" v-if="showGoTop">
+            <span class="iconfont icon-fanhuidingbu" style="font-size:30px" @click="goTop"></span>
+          </div>
+        </transition>
+      </div>
+    </transition>
+
     <!-- 搜索组件 -->
     <Popup :isShow="searchFlag" @close="closeSearch"></Popup>
   </div>
@@ -19,7 +32,8 @@
 import NavBar from './index/components/Navbar.vue'
 import Popup from '../components/popup/Popup.vue'
 import mitt from '../common/EventBus'
-import { ref } from 'vue'
+import { ref, onMounted, getCurrentInstance, reactive, toRefs } from 'vue'
+import { useRouter } from "vue-router"
 
 export default {
   name: 'Index',
@@ -28,7 +42,27 @@ export default {
     Popup
   },
   setup() {
+    const { proxy } = getCurrentInstance()
+    const router = useRouter()
+
     let searchFlag = ref(false)
+    let state = reactive({
+      showGoTop: false,
+      showMenu: false,
+      bottom: null
+    })
+
+    onMounted(() => {
+      state.bottom = document.getElementById('bottom')
+      state.bottom.addEventListener("scroll", proxy.$debounce(scrollFunc, 300))
+      state.showMenu = true
+    })
+
+    let scrollFunc = () => {
+      var scrollTop = state.bottom.scrollTop || state.bottom.scrollTop; //滚动条距离顶部高度
+      console.log("滚动了", scrollTop)
+      scrollTop > 500 ? state.showGoTop = true : state.showGoTop = false
+    }
 
     let changeSearchFlag = function () {
       searchFlag.value = !searchFlag.value
@@ -39,6 +73,15 @@ export default {
       searchFlag.value = false
     }
 
+    // 返回顶部
+    const goTop = () => {
+      state.bottom.scrollTop = 0
+    }
+    // 返回上一页
+    const goBack = () => {
+      router.go(-1)
+    }
+
     mitt.on('openSearch', () => {
       changeSearchFlag()
     })
@@ -46,7 +89,10 @@ export default {
     return {
       searchFlag,
       changeSearchFlag,
-      closeSearch
+      closeSearch,
+      ...toRefs(state),
+      goTop,
+      goBack
     }
   }
 }
@@ -76,6 +122,52 @@ export default {
     }
   }
 }
+.menu_item {
+  height: 36px;
+  width: 36px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(13.5px);
+  -webkit-backdrop-filter: blur(16.5px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: 0.5s;
+}
+.menu_item:hover {
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+.gotop-enter-active,
+.gotop-leave-active {
+  transition: all 1s ease;
+}
+.gotop-enter-to,
+.gotop-leave-from {
+  transform: translateX(0px);
+  opacity: 1;
+}
+.gotop-enter-from,
+.gotop-leave-to {
+  transform: translateX(60px);
+  opacity: 0;
+}
+
+.index_menu-enter-active,
+.index_menu-leave-active {
+  transition: all 1s ease;
+}
+.index_menu-enter-to,
+.index_menu-leave-from {
+  transform: translateY(0px);
+  opacity: 1;
+}
+.index_menu-enter-from,
+.index_menu-leave-to {
+  transform: translateY(100px);
+  opacity: 0;
+}
+
 // @media screen and(max-width:800px) {
 //   .left {
 //     width: 0;

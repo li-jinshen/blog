@@ -23,13 +23,13 @@
           ></span>
           <span class="sort_num text-gray-600 justify-center" v-else>
             {{
-            index
+              index
             }}
           </span>
-          <span class="content text-gray-600 text-left">{{item.title}}</span>
+          <span class="content text-gray-600 text-left">{{ item.title }}</span>
           <span class="click text-gray-500 pl-2 items-center">
             <i class="iconfont icon-liulanliang1 pr-1"></i>
-            <span style="font-size: 14px">{{item.views}}</span>
+            <span style="font-size: 14px">{{ item.views }}</span>
           </span>
         </div>
       </div>
@@ -41,16 +41,16 @@
           :key="item"
           @click="goPage(item)"
         >
-          <span class="sort_num iconfont icon-zuixin2 justify-center" v-if="index <=2"></span>
+          <span class="sort_num iconfont icon-zuixin2 justify-center" v-if="index <= 2"></span>
           <span class="sort_num text-gray-600 justify-center" v-else>
             {{
-            index
+              index
             }}
           </span>
-          <span class="content text-gray-600 text-left">{{item.title}}</span>
+          <span class="content text-gray-600 text-left">{{ item.title }}</span>
           <span class="click text-gray-500 pl-2 flex items-center">
-            <i class="iconfont icon-riqi1 pr-1" style="fontsize: 14px"></i>
-            <span style="font-size: 14px">{{transformDate(item.date)}}</span>
+            <i class="iconfont icon-riqi1 pr-1" style="font-size: 14px"></i>
+            <span style="font-size: 14px">{{ transformDate(item.date, 'simple') }}</span>
           </span>
         </div>
       </div>

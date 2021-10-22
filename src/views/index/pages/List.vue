@@ -31,15 +31,15 @@
             >微信小程序对接蓝牙打印机微信小程序对接蓝牙打印机微信微信小程序对接蓝牙打印机微信小程序对接蓝牙打印机微信小程序对接蓝牙打印机微信小程序对接蓝牙打印机微信小程序对接蓝牙打印机小程序对接蓝牙打印机微信小程序对接蓝牙打印机微信小程序对接蓝牙打印机</div>
           </div>
           <div class="flex items-center text-gray-500 px-4 text-sm py-2">
-            <div style="width:33.33%;" class="text-left">
+            <div class="text-left w-1/2">
               <span class="iconfont icon-liulanliang1 pr-1"></span>
               <span>100</span>
             </div>
-            <div style="width:33.33%;" class="text-center">
+            <!-- <div style="width:33.33%;" class="text-center">
               <span class="iconfont icon-dianzan pr-1"></span>
               <span>100</span>
-            </div>
-            <div style="width:33.33%;" class="text-right">
+            </div>-->
+            <div class="text-right w-1/2">
               <span class="iconfont icon-riqi1 pr-1"></span>
               <span>2021-12-12</span>
             </div>
@@ -100,8 +100,12 @@ export default {
       return elemTop < window.innerHeight && elemBottom >= 0
     }
 
-    const goArtitle = () => {
-      router.push({ path: '/blog/index/article' })
+
+
+
+    // 跳转到文章详情页面
+    const goArtitle = (item) => {
+      router.push({ path: '/blog/index/article', query: { id: item._id } })
     }
 
     return { goArtitle }

@@ -7,10 +7,10 @@
       <div
         v-for="(item,index) in menu"
         :key="item._id"
-        class="py-2 w-full duration-500 cursor-pointer text-left px-3 hover:bg-primary hover:text-white"
-        :class="tabIndex == index ? 'bg-primary text-white':''"
-        @click="changeTab(item,index)"
-      >{{item.name}}</div>
+        class="py-3 w-full duration-500 cursor-pointer text-left px-3 hover:bg-primary hover:text-white"
+        :class="tabIndex == index ? 'bg-primary text-white' : ''"
+        @click="changeTab(item, index)"
+      >{{ item.name }}</div>
     </div>
     <div style="display:inline-block" class="right_box h-full rounded pt-4">
       <div
@@ -19,21 +19,20 @@
         :key="item._id"
       >
         <div class="item w-full rounded py-4">
-          <div class="title text-xl font-bold text-left px-6">{{item.title}}</div>
+          <div class="title text-xl font-bold text-left px-6">{{ item.title }}</div>
           <div class="category flex items-center px-6 my-2 text-sm">
             <div
               class="category_item rounded text-white"
               v-for="(categoryItem,categoryIndex) in item.category"
               :key="categoryIndex"
-            >{{categoryItem}}</div>
+            >{{ categoryItem }}</div>
           </div>
           <div
             style="user-select: none;"
             class="info bg-gray-200 rounded py-2 mb-2 flex mx-4 px-2 justify-between items-center text-gray-500 text-sm"
           >
-            <div>浏览量：{{item.views}}</div>
-            <div>点赞数：{{item.like}}</div>
-            <div>发布日期：{{item.time}}</div>
+            <div class="w-1/2 text-left">浏览量：{{ item.views }}</div>
+            <div class="w-1/2 text-left">发布日期：{{ item.time }}</div>
           </div>
           <div
             class="detail text-right text-sm text-gray-500 px-6 cursor-pointer hover:text-primary duration-500"
@@ -43,7 +42,7 @@
           </div>
         </div>
       </div>
-      <div class="my-2 px-8" v-if="state.maxPage > 1 && state.page!=state.maxPage">
+      <div class="my-2 px-8" v-if="state.maxPage > 1 && state.page != state.maxPage">
         <div class="loadmore py-2 rounded text-gray-500 cursor-pointer" @click="loadMore">点击查看更多</div>
       </div>
     </div>
@@ -95,7 +94,7 @@ export default {
               categoryArticle(menu[0].name)
             }
           }
-          console.log('获取分类', res)
+          // console.log('获取分类', res)
         })
         .catch((error) => {
           console.log('获取分类', error)
@@ -114,7 +113,7 @@ export default {
           }
         })
         .then((res) => {
-          console.log('根据分类获取文章', res)
+          // console.log('根据分类获取文章', res)
           if (res.status == 1) {
             res.data.forEach((item) => {
               item.time = proxy.$transformDate(item.date, 'simple')
