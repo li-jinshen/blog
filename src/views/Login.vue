@@ -1,31 +1,40 @@
 <template>
-  <div class="login">
+  <div class="flex items-center justify-center w-full h-full login">
     <TabsList></TabsList>
-    <div class="box flex items-center rounded">
-      <div style="width:400px;height:500px" class="flex items-center justify-center">
-        <img src="../assets/images/backend.jpg" style="width:100%;height:auto" alt />
+    <transition name="box">
+      <div class="flex items-center rounded box" v-if="showBox">
+        <div style="width:400px;height:500px" class="flex items-center justify-center">
+          <img src="../assets/images/backend.jpg" style="width:100%;height:auto" alt />
+        </div>
+        <div style="width:400px" class="login">
+          <h2 class="text-xl font-bold">Login</h2>
+          <form>
+            <div class="inputBox">
+              <input type="text" name required v-model="account" />
+              <label>Username</label>
+            </div>
+            <div class="inputBox">
+              <input type="password" name required v-model="password" />
+              <label>password</label>
+            </div>
+            <!-- <input type="submit" name value="Submit" /> -->
+            <div class="py-2 text-white rounded cursor-pointer btn bg-primary" @click="login">Submit</div>
+          </form>
+        </div>
       </div>
-      <div style="width:400px" class="login">
-        <h2 class="text-xl font-bold">Login</h2>
-        <form>
-          <div class="inputBox">
-            <input type="text" name required v-model="account" />
-            <label>Username</label>
-          </div>
-          <div class="inputBox">
-            <input type="password" name required v-model="password" />
-            <label>password</label>
-          </div>
-          <!-- <input type="submit" name value="Submit" /> -->
-          <div class="btn text-white py-2 bg-primary rounded cursor-pointer" @click="login">Submit</div>
-        </form>
+    </transition>
+    <transition name="index_menu">
+      <div class="fixed menu right-4 bottom-8" v-if="showMenu">
+        <div class="flex items-center justify-center mb-2 duration-500 menu_item goback">
+          <span class="iconfont icon-fanhui" style="font-size:24px" @click="goBack"></span>
+        </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
 <script>
-import { reactive, getCurrentInstance, toRefs } from 'vue'
+import { reactive, getCurrentInstance, toRefs, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import TabsList from './home/components/TabList.vue'
 import { useRouter } from 'vue-router'
@@ -41,7 +50,9 @@ export default {
     const store = useStore()
     let state = reactive({
       account: '',
-      password: ''
+      password: '',
+      showMenu: false,
+      showBox: false
     })
     const login = () => {
       if (proxy.$isNull(state.account)) {
@@ -83,13 +94,26 @@ export default {
           console.log('登录错误', error)
         })
     }
+
+    onMounted(() => {
+      state.showMenu = true
+      state.showBox = true
+    })
+
     const reset = () => {
       state.account = ''
       state.password = ''
     }
+
+    // 返回上一页
+    const goBack = () => {
+      router.go(-1)
+    }
+
     return {
       ...toRefs(state),
-      login
+      login,
+      goBack
     }
   }
 }
@@ -97,10 +121,6 @@ export default {
 
 <style lang="scss" scoped>
 .box {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   background: rgba(255, 255, 255, 0.3);
   //   background: transparent;
   box-sizing: border-box;
@@ -160,4 +180,16 @@ export default {
 //   cursor: pointer;
 //   border-radius: 5px;
 // }
+
+.menu_item {
+  height: 36px;
+  width: 36px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(13.5px);
+  -webkit-backdrop-filter: blur(16.5px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: 0.5s;
+}
 </style>

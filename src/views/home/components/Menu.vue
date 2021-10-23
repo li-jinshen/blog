@@ -1,22 +1,22 @@
 <template>
   <div class="container h-full">
     <div
-      class="flex item items-center w-full justify-center hover:text-white duration-500"
+      class="flex items-center justify-center w-full duration-500 item hover:text-white"
       v-for="item in menu"
       :key="item.title"
       @click="goPage(item.href)"
       :class="activePath == item.href ? 'activePath' : ''"
     >
-      <div class="item_left flex justify-start items-center duration-500">
+      <div class="flex items-center justify-start duration-500 item_left">
         <span
-          class="duration-500 text-gray-500 mr-1"
+          class="mr-1 text-gray-500 duration-500"
           :class="item.icon"
           :style="{ fontSize: item.size + 'px' }"
         ></span>
         <span class="text-gray-500 duration-500">{{ item.title }}</span>
       </div>
-      <div class="item_right flex justify-center items-center duration-500 opacity-0">
-        <span class="jiantou iconfont icon-youjiantou text-gray-500"></span>
+      <div class="flex items-center justify-center duration-500 opacity-0 item_right">
+        <span class="text-gray-500 jiantou iconfont icon-youjiantou"></span>
       </div>
     </div>
   </div>

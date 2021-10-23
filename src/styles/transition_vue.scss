@@ -3,10 +3,12 @@
 .base-leave-active {
   transition: all 0.3s ease;
 }
+
 .base-enter-to,
 .base-leave-from {
   opacity: 1;
 }
+
 .base-enter-from,
 .base-leave-to {
   opacity: 0;
@@ -17,10 +19,12 @@
 .dialog-leave-active {
   transition: all 0.3s ease;
 }
+
 .dialog-enter-to,
 .dialog-leave-from {
   opacity: 1;
 }
+
 .dialog-enter-from,
 .dialog-leave-to {
   transform: translateY(-20px);
@@ -32,12 +36,101 @@
 .message-leave-active {
   transition: all 0.3s ease;
 }
+
 .message-enter-to,
 .message-leave-from {
   opacity: 1;
 }
+
 .message-enter-from,
 .message-leave-to {
   transform: translate(-50%, -100%);
+  opacity: 0;
+}
+
+
+.index_menu-enter-active,
+.index_menu-leave-active {
+  transition: all 1s ease;
+}
+
+.index_menu-enter-to,
+.index_menu-leave-from {
+  transform: translateY(0px);
+  opacity: 1;
+}
+
+.index_menu-enter-from,
+.index_menu-leave-to {
+  transform: translateY(100px);
+  opacity: 0;
+}
+
+
+.left-enter-active,
+.left-leave-active {
+  transition: all 0.6s ease;
+}
+
+.left-enter-to,
+.left-leave-from {
+  opacity: 1;
+}
+
+.left-enter-from,
+.left-leave-to {
+  transform: translateX(-40px);
+  opacity: 0;
+}
+
+.tablist-enter-active,
+.tablist-leave-active {
+  transition: all 1s ease;
+}
+
+.tablist-enter-to,
+.tablist-leave-from {
+  transform: translateX(0px);
+  opacity: 1;
+}
+
+.tablist-enter-from,
+.tablist-leave-to {
+  transform: translateX(3.125rem);
+  opacity: 0;
+}
+
+.box-enter-active,
+.box-leave-active {
+  transition: all 1s ease;
+}
+
+.box-enter-to,
+.box-leave-from {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.box-enter-from,
+.box-leave-to {
+  transform: scale(0.4);
+  opacity: 0;
+}
+
+
+.top-enter-active,
+.top-leave-active {
+  transition: all 1s ease;
+}
+
+.top-enter-to,
+.top-leave-from {
+  transform: translateY(0px);
+  opacity: 1;
+}
+
+.top-enter-from,
+.top-leave-to {
+  transform: translateY(-3.75rem);
   opacity: 0;
 }

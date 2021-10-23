@@ -1,52 +1,57 @@
 <template>
-  <div class="navbar_box fixed top-0 z-20 flex justify-center items-center">
-    <div class="h-full navbar_inner w-full flex">
-      <div
-        class="navbar_left text-center h-full cursor-pointer"
-        style="overflow:hidden;box-sizing: border-box;margin-left:5px"
-      >
-        <span class="iconfont icon-boke" style="font-size:50px;" @click="goPage('/')"></span>
-      </div>
-      <div class="navbar_center flex items-center mx-16">
+  <transition name="top">
+    <div class="fixed top-0 z-20 flex items-center justify-center navbar_box" v-if="showNavbar">
+      <div class="flex w-full h-full navbar_inner">
         <div
-          v-for="(item,index) in menu"
-          :key="index"
-          style="width:100px"
-          class="flex items-center justify-center cursor-pointer h-full"
-          @click="changeTab(index)"
+          class="h-full text-center cursor-pointer navbar_left"
+          style="overflow:hidden;box-sizing: border-box;margin-left:5px"
         >
-          <div :class="tabIndex == index?'text-primary':''" class="duration-500 hover:text-primary">
-            <span :class="item.icon" :style="{'font-size':item.size +'px'}"></span>
-            <span class="pl-1">{{item.name}}</span>
+          <span class="iconfont icon-boke" style="font-size:50px;" @click="goPage('/')"></span>
+        </div>
+        <div class="flex items-center mx-16 navbar_center">
+          <div
+            v-for="(item,index) in menu"
+            :key="index"
+            style="width:100px"
+            class="flex items-center justify-center h-full cursor-pointer"
+            @click="changeTab(index)"
+          >
+            <div
+              :class="tabIndex == index ? 'text-primary' : ''"
+              class="duration-500 hover:text-primary"
+            >
+              <span :class="item.icon" :style="{ 'font-size': item.size + 'px' }"></span>
+              <span class="pl-1">{{ item.name }}</span>
+            </div>
           </div>
+          <div class="rounded bottom_border" :style="{ left: left + 'px' }" v-if="tabIndex != -1"></div>
         </div>
-        <div class="bottom_border rounded" :style="{left:left+'px'}" v-if="tabIndex!=-1"></div>
-      </div>
-      <div class="navbar_right flex items-center">
-        <div style="width:42px" class="flex justify-center items-center h-full">
-          <span
-            class="iconfont icon-index-active cursor-pointer"
-            style="font-size:21px"
-            @click="goPage('/')"
-          ></span>
-        </div>
-        <div style="width:40px" class="flex justify-center items-center h-full mx-4">
-          <span
-            class="iconfont icon-xingtaiduICON_sousuo-- cursor-pointer"
-            style="font-size:21px"
-            @click="openSearch"
-          ></span>
-        </div>
-        <div style="width:40px" class="flex justify-center items-center h-full">
-          <span class="iconfont icon-yonghu cursor-pointer" style="font-size:24px"></span>
+        <div class="flex items-center navbar_right">
+          <div style="width:42px" class="flex items-center justify-center h-full">
+            <span
+              class="cursor-pointer iconfont icon-index-active"
+              style="font-size:21px"
+              @click="goPage('/')"
+            ></span>
+          </div>
+          <div style="width:40px" class="flex items-center justify-center h-full mx-4">
+            <span
+              class="cursor-pointer iconfont icon-xingtaiduICON_sousuo--"
+              style="font-size:21px"
+              @click="openSearch"
+            ></span>
+          </div>
+          <div style="width:40px" class="flex items-center justify-center h-full">
+            <span class="cursor-pointer iconfont icon-yonghu" style="font-size:24px"></span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, toRefs } from 'vue'
 import { useRouter, useRoute, onBeforeRouteUpdate } from 'vue-router'
 import mitt from '../../../common/EventBus'
 export default {
@@ -56,6 +61,9 @@ export default {
     const route = useRoute()
     let left = ref(10)
     let tabIndex = ref(0)
+    let state = reactive({
+      showNavbar: false
+    })
     let menu = reactive([
       {
         name: '博客',
@@ -80,6 +88,7 @@ export default {
     // 页面刷新时判断路径
     onMounted(() => {
       refresh()
+      state.showNavbar = true
     })
     onBeforeRouteUpdate((to) => {
       refresh(to)
@@ -114,7 +123,8 @@ export default {
       tabIndex,
       goPage,
       openSearch,
-      changeTab
+      changeTab,
+      ...toRefs(state)
     }
   }
 }

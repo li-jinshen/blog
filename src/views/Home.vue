@@ -1,24 +1,28 @@
 <template>
-  <div class="home w-full h-full flex justify-center items-center">
+  <div class="flex items-center justify-center w-full h-full home">
     <TabsList></TabsList>
-    <div class="box flex items-center">
-      <div class="left h-full">
-        <div class="info rounded">
-          <info></info>
+    <div class="flex items-center box">
+      <transition name="left">
+        <div class="h-full left" v-if="show">
+          <div class="rounded info">
+            <info></info>
+          </div>
+          <div class="rounded menu">
+            <Menu></Menu>
+          </div>
         </div>
-        <div class="menu rounded">
-          <Menu></Menu>
+      </transition>
+      <transition name="tablist">
+        <div class="rounded right" v-if="show">
+          <Content></Content>
         </div>
-      </div>
-      <div class="right rounded">
-        <Content></Content>
-      </div>
+      </transition>
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, reactive, toRefs, onMounted } from 'vue'
 import Info from './home/components/Info.vue'
 import Content from './home/components/Content.vue'
 import Menu from './home/components/Menu.vue'
@@ -26,7 +30,15 @@ import TabsList from './home/components/TabList.vue'
 export default defineComponent({
   name: 'home',
   setup() {
-    return
+    let state = reactive({
+      show: false
+    })
+    onMounted(() => {
+      state.show = true
+    })
+    return {
+      ...toRefs(state)
+    }
   },
   components: {
     Info,

@@ -1,8 +1,8 @@
 <template>
-  <div class="container h-full flex justify-center items-center">
+  <div class="container flex items-center justify-center h-full">
     <div>
-      <div class="top p-2 flex justify-between items-center">
-        <div class="avatars rounded">
+      <div class="flex items-center justify-between p-2 top">
+        <div class="rounded avatars">
           <!-- <img src="@/assets/images/avatars.png" alt /> -->
           <img
             :src="getBloggerProfile.photo"
@@ -11,12 +11,12 @@
           />
         </div>
         <div class="dsc">
-          <p class="font-bold text-2xl text-left">深</p>
-          <p class="text-left my-2 text-sm">前端工程师</p>
-          <p class="text-left text-sm">90后</p>
+          <p class="text-2xl font-bold text-left">深</p>
+          <p class="my-2 text-sm text-left">前端工程师</p>
+          <p class="text-sm text-left">90后</p>
         </div>
       </div>
-      <div class="other flex justify-center items-center relative z-50">
+      <div class="relative z-50 flex items-center justify-center other">
         <div class="text-gray-500 msg_box">
           罗曼罗兰说过的 这个世界上只有一种真正的英雄主义，那就是
           认清生活的真相，并且仍然热爱它

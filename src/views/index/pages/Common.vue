@@ -1,31 +1,31 @@
 <template>
-  <div class="common h-full">
-    <div class="flex justify-between items-center w-full h-full">
+  <div class="h-full common">
+    <div class="flex items-center justify-between w-full h-full">
       <div
-        class="left h-full flex justify-end duration-500 px-2 relative"
+        class="relative flex justify-end h-full px-2 duration-500 left"
         ref="leftBox"
         style="overflow:hidden"
       >
         <div
-          class="left_box fixed rounded"
-          :style="{ left: offsetLeft + 'px', top: '69px', width: boxWidth + 'px' }"
+          class="fixed duration-1000 rounded left_box"
+          :style="{ left: offsetLeft + 'px', top: '69px', width: boxWidth + 'px', opacity: opacity }"
         >
-          <div class="recommend text-left">
-            <div class="item_title font-bold flex items-center">
+          <div class="text-left recommend">
+            <div class="flex items-center font-bold item_title">
               <div
-                class="w-1/2 flex justify-center items-center py-3 duration-500 cursor-pointer"
+                class="flex items-center justify-center w-1/2 py-3 duration-500 cursor-pointer"
                 :class="tab == 'hot' ? 'bg-primary text-white' : ''"
                 @click="changeTab('hot')"
               >热门推荐</div>
               <div
-                class="w-1/2 flex justify-center items-center py-3 duration-500 cursor-pointer"
+                class="flex items-center justify-center w-1/2 py-3 duration-500 cursor-pointer"
                 :class="tab == 'recent' ? 'bg-primary text-white' : ''"
                 @click="changeTab('recent')"
               >最新动态</div>
             </div>
             <ul class="px-4">
               <li
-                class="li_item cursor-pointer hover:text-primary duration-300"
+                class="duration-300 cursor-pointer li_item hover:text-primary"
                 v-for="(item,index) in (tab == 'hot' ? getHotRecommended : getRecentNews)"
                 :key="item._id"
                 style="padding:7px 0px;"
@@ -35,7 +35,7 @@
           </div>
         </div>
       </div>
-      <div class="right h-full duration-500 pl-2">
+      <div class="h-full pl-2 duration-500 right">
         <router-view></router-view>
       </div>
     </div>
@@ -60,6 +60,7 @@ export default {
     let offsetLeft = ref(0)
     let boxWidth = ref(0)
     let tab = ref('hot')
+    let opacity = ref(0)
 
     onMounted(() => {
       console.dir(leftBox.value.offsetLeft)
@@ -74,6 +75,10 @@ export default {
 
       store.dispatch('getRank')
       store.dispatch('getSingleArticle')
+
+      setTimeout(() => {
+        opacity.value = 1
+      }, 200)
     })
 
     onBeforeUnmount(() => {
@@ -115,7 +120,8 @@ export default {
       boxWidth,
       changeTab,
       tab,
-      goArtitle
+      goArtitle,
+      opacity
     }
   }
 }

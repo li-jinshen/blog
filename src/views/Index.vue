@@ -1,22 +1,22 @@
 <template>
-  <div class="index w-full h-full" id="indexbox">
+  <div class="w-full h-full index" id="indexbox">
     <!-- <Loading></Loading> -->
     <NavBar></NavBar>
     <!-- 占位元素 -->
     <div class="top"></div>
-    <div class="bottom flex justify-center pt-2" id="bottom">
+    <div class="flex justify-center pt-2 bottom" id="bottom">
       <div>
         <router-view></router-view>
       </div>
     </div>
 
     <transition name="index_menu">
-      <div class="menu fixed right-4 bottom-8" v-if="showMenu">
-        <div class="menu_item goback flex justify-center items-center mb-2 duration-500">
+      <div class="fixed menu right-4 bottom-8" v-if="showMenu">
+        <div class="flex items-center justify-center mb-2 duration-500 menu_item goback">
           <span class="iconfont icon-fanhui" style="font-size:24px" @click="goBack"></span>
         </div>
         <transition name="gotop">
-          <div class="menu_item gotop flex justify-center items-center" v-if="showGoTop">
+          <div class="flex items-center justify-center menu_item gotop" v-if="showGoTop">
             <span class="iconfont icon-fanhuidingbu" style="font-size:30px" @click="goTop"></span>
           </div>
         </transition>
@@ -150,21 +150,6 @@ export default {
 .gotop-enter-from,
 .gotop-leave-to {
   transform: translateX(60px);
-  opacity: 0;
-}
-
-.index_menu-enter-active,
-.index_menu-leave-active {
-  transition: all 1s ease;
-}
-.index_menu-enter-to,
-.index_menu-leave-from {
-  transform: translateY(0px);
-  opacity: 1;
-}
-.index_menu-enter-from,
-.index_menu-leave-to {
-  transform: translateY(100px);
   opacity: 0;
 }
 

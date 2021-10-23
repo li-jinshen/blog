@@ -1,26 +1,28 @@
 <template>
-  <div class="container fixed top-4 right-4 z-50" style="width: 40px">
-    <div
-      class="item flex justify-center items-center mb-3 duration-500 relative"
-      v-for="(item, index) in tagsList"
-      :key="index"
-      @mouseenter="showFlag(index)"
-      @mouseleave="hiddenFlag(index)"
-      @click="goPage(item)"
-    >
-      <span :class="item.icon" :style="{ fontSize: item.size + 'px' }"></span>
-      <transition name="left">
-        <div
-          class="hover_box absolute top-0 flex items-center justify-center"
-          v-if="item.isHover"
-        >{{ item.title }}</div>
-      </transition>
+  <transition name="tablist">
+    <div class="container fixed z-50 top-4 right-4" style="width: 40px" v-if="showTab">
+      <div
+        class="relative flex items-center justify-center mb-3 duration-500 item"
+        v-for="(item, index) in tagsList"
+        :key="index"
+        @mouseenter="showFlag(index)"
+        @mouseleave="hiddenFlag(index)"
+        @click="goPage(item)"
+      >
+        <span :class="item.icon" :style="{ fontSize: item.size + 'px' }"></span>
+        <transition name="left">
+          <div
+            class="absolute top-0 flex items-center justify-center hover_box"
+            v-if="item.isHover"
+          >{{ item.title }}</div>
+        </transition>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, onMounted, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
 import createMessage from '../../../components/message/message'
 import { useStore } from 'vuex'
@@ -29,6 +31,15 @@ export default defineComponent({
   setup() {
     const router = useRouter()
     const store = useStore()
+    let state = reactive({
+      showTab: false
+    })
+
+    onMounted(() => {
+      console.log("执行了")
+      state.showTab = true
+    })
+
     let tagsList = reactive([
       {
         icon: 'iconfont icon-mayun1',
@@ -153,7 +164,8 @@ export default defineComponent({
       tagsList,
       showFlag,
       hiddenFlag,
-      goPage
+      goPage,
+      ...toRefs(state)
     }
   }
 })
@@ -197,7 +209,7 @@ export default defineComponent({
 }
 
 .hover_box:after {
-  content: '';
+  content: "";
   position: absolute;
   right: -13px;
   top: 10px;
@@ -209,19 +221,5 @@ export default defineComponent({
   border-bottom: 6px solid transparent;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-}
-
-.left-enter-active,
-.left-leave-active {
-  transition: all 0.6s ease;
-}
-.left-enter-to,
-.left-leave-from {
-  opacity: 1;
-}
-.left-enter-from,
-.left-leave-to {
-  transform: translateX(-40px);
-  opacity: 0;
 }
 </style>
