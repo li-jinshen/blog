@@ -42,7 +42,11 @@
             ></span>
           </div>
           <div style="width:40px" class="flex items-center justify-center h-full">
-            <span class="cursor-pointer iconfont icon-yonghu" style="font-size:24px"></span>
+            <span
+              class="cursor-pointer iconfont icon-yonghu"
+              style="font-size:24px"
+              @click="loginIn"
+            ></span>
           </div>
         </div>
       </div>
@@ -53,12 +57,15 @@
 <script>
 import { ref, reactive, onMounted, toRefs } from 'vue'
 import { useRouter, useRoute, onBeforeRouteUpdate } from 'vue-router'
+import { useStore } from 'vuex'
 import mitt from '../../../common/EventBus'
 export default {
   name: 'App',
   setup() {
     const router = useRouter()
     const route = useRoute()
+    const store = useStore()
+
     let left = ref(10)
     let tabIndex = ref(0)
     let state = reactive({
@@ -117,6 +124,12 @@ export default {
       goPage(menu[index].path)
     }
 
+    const loginIn = () => {
+      store.state.loginStatus
+        ? router.push({ path: '/blog/admin' })
+        : router.push({ path: '/blog/login' })
+    }
+
     return {
       left,
       menu,
@@ -124,7 +137,8 @@ export default {
       goPage,
       openSearch,
       changeTab,
-      ...toRefs(state)
+      ...toRefs(state),
+      loginIn
     }
   }
 }

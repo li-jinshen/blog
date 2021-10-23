@@ -14,7 +14,7 @@ export default createStore({
     updateLoginStatus (state, status) {
       state.loginStatus = status
       if (!state.loginStatus) {
-        localStorage.removeItem("userInfo")
+        localStorage.removeItem("userToken")
       }
     },
     // 更新博主的个人信息

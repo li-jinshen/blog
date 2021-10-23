@@ -23,7 +23,7 @@
           ></span>
           <span class="sort_num text-gray-600 justify-center" v-else>
             {{
-              index
+            index
             }}
           </span>
           <span class="content text-gray-600 text-left">{{ item.title }}</span>
@@ -34,7 +34,7 @@
         </div>
       </div>
       <div class="date item_box px-2">
-        <div class="font-bold text-left">最近更新</div>
+        <div class="font-bold text-left">最新动态</div>
         <div
           class="item duration-500 flex items-center py-2"
           v-for="(item,index) in getRecentNews"
@@ -44,7 +44,7 @@
           <span class="sort_num iconfont icon-zuixin2 justify-center" v-if="index <= 2"></span>
           <span class="sort_num text-gray-600 justify-center" v-else>
             {{
-              index
+            index
             }}
           </span>
           <span class="content text-gray-600 text-left">{{ item.title }}</span>

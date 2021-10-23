@@ -46,7 +46,7 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { mapGetters, useStore } from 'vuex'
 import mitt from '../../../common/EventBus'
-import { useRouter } from "vue-router"
+import { useRouter } from 'vue-router'
 export default {
   name: 'App',
   computed: {
@@ -78,7 +78,7 @@ export default {
 
       setTimeout(() => {
         opacity.value = 1
-      }, 200)
+      }, 300)
     })
 
     onBeforeUnmount(() => {

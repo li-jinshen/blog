@@ -17,6 +17,15 @@
           >{{ item.title }}</div>
         </transition>
       </div>
+      <transition name="tablist">
+        <div
+          class="relative flex items-center justify-center mb-3 duration-500 item"
+          @click="loginOut"
+          v-if="store.state.loginStatus"
+        >
+          <span class="iconfont icon-Exit-" style="font-size:25px"></span>
+        </div>
+      </transition>
     </div>
   </transition>
 </template>
@@ -36,7 +45,7 @@ export default defineComponent({
     })
 
     onMounted(() => {
-      console.log("执行了")
+      console.log('执行了')
       state.showTab = true
     })
 
@@ -160,12 +169,20 @@ export default defineComponent({
       }
       textArea.remove()
     }
+
+    // 退出登录
+    const loginOut = () => {
+      store.commit('updateLoginStatus', false)
+    }
+
     return {
       tagsList,
       showFlag,
       hiddenFlag,
       goPage,
-      ...toRefs(state)
+      ...toRefs(state),
+      store,
+      loginOut
     }
   }
 })
@@ -209,7 +226,7 @@ export default defineComponent({
 }
 
 .hover_box:after {
-  content: "";
+  content: '';
   position: absolute;
   right: -13px;
   top: 10px;

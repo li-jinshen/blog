@@ -32,7 +32,6 @@ export default defineComponent({
           store.commit('updateLoginStatus', false) // 更新登录状态
         } else {
           store.commit('updateLoginStatus', true) // 更新登录状态
-
         }
       } else {
         visitorsToRecord()
@@ -121,7 +120,7 @@ export default defineComponent({
     
 
 <style lang="scss">
-@import url("https://at.alicdn.com/t/font_2715113_fl5jxesd7em.css");
+@import url('https://at.alicdn.com/t/font_2715113_sltovcwbtba.css');
 input {
   background: none;
   outline: none;
@@ -136,7 +135,7 @@ body {
 body {
   /* min-width: 800px; */
   min-height: 600px;
-  background-image: url("https://pic.rmb.bdstatic.com/bjh/f30968641a6433f315533c027f345baa.jpeg");
+  background-image: url('https://pic.rmb.bdstatic.com/bjh/f30968641a6433f315533c027f345baa.jpeg');
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;

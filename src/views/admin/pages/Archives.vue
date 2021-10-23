@@ -35,11 +35,7 @@
     <div class="flex justify-start pt-4">
       <el-button type="primary" @click="modifyProfile">修改用户信息</el-button>
     </div>
-    <el-dialog
-      v-model="dialogFormVisible"
-      :title="type == 'add' ? '添加模块' : type == 'modify' ? '修改模块' : '删除模块'"
-      width="500px"
-    >
+    <el-dialog v-model="dialogFormVisible" title="修改用户信息" width="500px">
       <el-form>
         <el-form-item label="用户名" :label-width="formLabelWidth">
           <el-input v-model="userName" autocomplete="off" placeholder="请输入用户名"></el-input>
@@ -68,9 +64,9 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import { onMounted, getCurrentInstance, reactive, toRefs } from "vue"
-import { useStore } from "vuex"
+import { mapGetters } from 'vuex'
+import { onMounted, getCurrentInstance, reactive, toRefs } from 'vue'
+import { useStore } from 'vuex'
 export default {
   name: 'App',
   computed: {
@@ -82,34 +78,28 @@ export default {
 
     const transfromDate = proxy.$transformDate
 
-
     let state = reactive({
-      userName: "",
-      photo: "",
-      password: "",
-      judgePassword: "",
-      signature: "",
+      userName: '',
+      photo: '',
+      password: '',
+      judgePassword: '',
+      signature: '',
       dialogFormVisible: false,
       formLabelWidth: 100
     })
 
-    onMounted(() => {
-
-    })
+    onMounted(() => {})
 
     const modifyProfile = () => {
       state.userName = store.getters.getBloggerProfile.userName
       state.photo = store.getters.getBloggerProfile.photo
-      state.password = ""
+      state.password = ''
       state.signature = store.getters.getBloggerProfile.signature
-      state.judgePassword = ""
+      state.judgePassword = ''
       state.dialogFormVisible = true
     }
 
-    const modifyRequest = () => {
-
-    }
-
+    const modifyRequest = () => {}
 
     return {
       transfromDate,

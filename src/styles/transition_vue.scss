@@ -48,7 +48,6 @@
   opacity: 0;
 }
 
-
 .index_menu-enter-active,
 .index_menu-leave-active {
   transition: all 1s ease;
@@ -65,7 +64,6 @@
   transform: translateY(100px);
   opacity: 0;
 }
-
 
 .left-enter-active,
 .left-leave-active {
@@ -117,10 +115,9 @@
   opacity: 0;
 }
 
-
 .top-enter-active,
 .top-leave-active {
-  transition: all 1s ease;
+  transition: all 0.8s ease;
 }
 
 .top-enter-to,
