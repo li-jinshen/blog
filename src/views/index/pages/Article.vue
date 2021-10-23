@@ -1,21 +1,21 @@
 <template>
-  <div class="article pb-3 w-full" id="articleBox" ref="article">
+  <div class="w-full pb-3 article" id="articleBox" ref="article">
     <transition name="article">
-      <div class="content duration-500 relative rounded" v-if="state.showArticle">
+      <div class="relative duration-500 rounded content" v-if="state.showArticle">
         <!-- <Loading></Loading> -->
         <div class="ar_header" style="margin:0 2.5rem;padding-top:2rem;">
           <h1 style="font-size: 2em;" class="font-bold ar_title">{{ state.title }}</h1>
           <div style="margin-top:2.5rem;">
-            <div class="category flex items-center mb-6">
+            <div class="flex items-center mb-6 category">
               <div
-                class="category_item rounded text-white"
+                class="text-white rounded category_item"
                 v-for="(item,index) in state.category"
                 :key="index"
               >{{ item }}</div>
             </div>
             <div
               style="user-select: none;"
-              class="info bg-gray-100 rounded w-full py-4 flex px-4 justify-between items-center text-gray-500 text-sm"
+              class="flex items-center justify-between w-full px-4 py-4 text-sm text-gray-500 bg-gray-100 rounded info"
             >
               <div class="w-1/2 text-left">浏览量：{{ state.views }}</div>
               <!-- <div>点赞数：{{state.like}}</div> -->
@@ -27,12 +27,12 @@
       </div>
     </transition>
     <div
-      class="fixed directory rounded duration-500"
+      class="fixed duration-500 rounded directory"
       :style="{ right: offsetRight + 'px', top: '69px', width: boxWidth + 'px', opacity: opacity }"
       ref="directory"
     >
-      <div class="directory_title font-bold text-xl py-2 px-4">目录</div>
-      <div class="py-2 px-4 li_box">
+      <div class="px-4 py-2 text-xl font-bold directory_title">目录</div>
+      <div class="px-4 py-2 li_box">
         <div
           v-for="anchor in articleTitles"
           :style="{ padding: `3px 0 3px ${anchor.indent * 20}px` }"
@@ -41,7 +41,7 @@
         >
           <a
             style="cursor: pointer"
-            class="hover:text-primary duration-300 text-sm directory_item"
+            class="text-sm duration-300 hover:text-primary directory_item"
           >{{ anchor.title }}</a>
         </div>
       </div>
@@ -90,11 +90,12 @@ export default {
     // markdown.value = JSON.parse(localStorage.getItem('markdownContent'))
 
     onMounted(() => {
+
       getArticleDetail()
 
       changeSize()
       window.addEventListener('resize', changeSize)
-
+      state.showArticle = true
       setTimeout(() => {
         opacity.value = 1
       }, 200)
@@ -114,6 +115,7 @@ export default {
           url: proxy.$requestPath.getArticleDetail + `?id=${route.query.id}`
         })
         .then((res) => {
+
           console.log(res)
           let { data } = res
           let articleObject = data[0]
@@ -123,7 +125,7 @@ export default {
           state.views = articleObject.views
           state.time = proxy.$transformDate(articleObject.date, 'simple')
           state.like = articleObject.like
-          state.showArticle = true
+
           nextTick(() => {
             createDirectory()
           })

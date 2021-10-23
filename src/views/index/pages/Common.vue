@@ -25,7 +25,7 @@
             </div>
             <ul class="px-4">
               <li
-                class="duration-300 cursor-pointer li_item hover:text-primary"
+                class="text-base duration-300 cursor-pointer li_item hover:text-primary"
                 v-for="(item,index) in (tab == 'hot' ? getHotRecommended : getRecentNews)"
                 :key="item._id"
                 style="padding:7px 0px;"

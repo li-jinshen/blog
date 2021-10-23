@@ -24,7 +24,7 @@
       </div>
     </transition>
     <transition name="index_menu">
-      <div class="fixed menu right-4 bottom-8" v-if="showMenu">
+      <div class="fixed cursor-pointer menu right-4 bottom-8" v-if="showMenu">
         <div class="flex items-center justify-center mb-2 duration-500 menu_item goback">
           <span class="iconfont icon-fanhui" style="font-size:24px" @click="goBack"></span>
         </div>
