@@ -120,7 +120,7 @@ export default defineComponent({
     
 
 <style lang="scss">
-@import url('https://at.alicdn.com/t/font_2715113_sltovcwbtba.css');
+@import url('https://at.alicdn.com/t/font_2715113_go4yhgil3o.css');
 input {
   background: none;
   outline: none;

@@ -68,7 +68,6 @@ export default {
     }
 
     let closeSearch = function () {
-      console.log('关闭弹窗')
       searchFlag.value = false
     }
 

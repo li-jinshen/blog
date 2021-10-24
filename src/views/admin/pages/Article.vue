@@ -51,12 +51,10 @@ export default {
     let total = ref(0)
     let limit = ref(10)
     function handleSizeChange(pageSize) {
-      console.log('数量改变', pageSize)
       limit.value = pageSize
       getSingleArticle()
     }
     function handleCurrentChange(page) {
-      console.log('页码改变', page)
       currentPage.value = page
       getSingleArticle()
     }
@@ -70,7 +68,7 @@ export default {
     // 获取的文章数据
     let state = reactive({
       article: [],
-      type: "all"
+      type: 'all'
     })
 
     // 获取最近更新
@@ -83,7 +81,6 @@ export default {
             `?limit=${limit.value}&page=${currentPage.value}&sort=0`
         })
         .then((res) => {
-          console.log('获取的文章', res)
           let { count, data } = res
           data.forEach((item, index) => {
             item.sort = index + 1
@@ -105,14 +102,13 @@ export default {
 
     // 搜索文章
     const searchArticle = () => {
-      state.type = "search"
+      state.type = 'search'
       proxy
         .$request({
           method: 'get',
           url: proxy.$requestPath.search + `?keyword=${keyword.value}`
         })
         .then((res) => {
-          console.log("搜索的文章列表", res)
           let { data } = res
           data.forEach((item, index) => {
             item.sort = index + 1
@@ -126,8 +122,8 @@ export default {
         })
     }
     const searchAll = () => {
-      state.type = "all"
-      keyword.value = ""
+      state.type = 'all'
+      keyword.value = ''
       getSingleArticle()
     }
 

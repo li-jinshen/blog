@@ -64,7 +64,6 @@ export default {
           url: proxy.$requestPath.getVisitorsRecordDetail
         })
         .then((res) => {
-          console.log('获取访客详情', res)
           let { address, count, views, records } = res
           state.addressList = []
           state.dateRecords = []
@@ -102,12 +101,8 @@ export default {
 
     // 分页相关
     let currentPage = ref(1)
-    function handleSizeChange(pageSize) {
-      console.log('数量改变', pageSize)
-    }
-    function handleCurrentChange(page) {
-      console.log('页码改变', page)
-    }
+    function handleSizeChange(pageSize) {}
+    function handleCurrentChange(page) {}
 
     return {
       tableData,

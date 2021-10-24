@@ -75,7 +75,6 @@ export default {
           url: proxy.$requestPath.getVisitorsRecord
         })
         .then((res) => {
-          console.log('获取访客记录', res)
           state.count = res.count
           // if (res.status == 1) {
           //   ElMessage.success(res.msg)

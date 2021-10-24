@@ -145,7 +145,6 @@ export default {
           url: proxy.$requestPath.getArticleDetail + `?id=${route.query.id}`
         })
         .then((res) => {
-          console.log(res)
           let { data } = res
           let article = data[0]
           articleObj = article
@@ -154,7 +153,6 @@ export default {
           dynamicTags.push(...article.category)
           background.value = article.background
           desc.value = article.Intro
-          console.log('articleObj', articleObj)
         })
         .catch((error) => {
           console.log('获取文章排行错误', error)

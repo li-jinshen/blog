@@ -120,7 +120,6 @@ export default {
           url: proxy.$requestPath.getModel
         })
         .then((res) => {
-          console.log('获取模块', res)
           if (res.status == 1) {
             state.list = []
             res.data.forEach((item) => {

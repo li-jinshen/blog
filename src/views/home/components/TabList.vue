@@ -45,7 +45,6 @@ export default defineComponent({
     })
 
     onMounted(() => {
-      console.log('执行了')
       state.showTab = true
     })
 

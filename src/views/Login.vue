@@ -35,7 +35,7 @@
 
 <script>
 import { reactive, getCurrentInstance, toRefs, onMounted } from 'vue'
-import { ElMessage } from 'element-plus'
+import createMessage from '@/components/message/message.js'
 import TabsList from './home/components/TabList.vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
@@ -56,11 +56,17 @@ export default {
     })
     const login = () => {
       if (proxy.$isNull(state.account)) {
-        ElMessage.error('用户名不能为空')
+        createMessage({
+          type: 'error',
+          message: '用户名不能为空'
+        })
         return
       }
       if (proxy.$isNull(state.password)) {
-        ElMessage.error('登录密码不能为为空')
+        createMessage({
+          type: 'error',
+          message: '登录密码不能为为空'
+        })
         return
       }
       proxy
@@ -73,9 +79,11 @@ export default {
           }
         })
         .then((res) => {
-          console.log('登录', res)
           if (res.status == 1) {
-            ElMessage.success(res.msg)
+            createMessage({
+              type: 'success',
+              message: '登录成功'
+            })
             let userToken = {
               token: res.token,
               ...res.user
@@ -87,7 +95,10 @@ export default {
               router.push({ path: '/blog/admin' })
             }, 1000)
           } else {
-            ElMessage.error(res.msg)
+            createMessage({
+              type: 'error',
+              message: res.msg
+            })
           }
         })
         .catch((error) => {

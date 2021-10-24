@@ -31,6 +31,10 @@ export default {
     refreshToken: "/user/time/refresh",
     // 获取博主个人信息
     getBloggerProfile: "/find/file",
+    // 修改用户信息
+    modifyProfile: "/modify/file",
+    // 修改账号密码
+    modifyPassword: "/modify/password",
     // 记录访客记录
     visitorsToRecord: "/access/record",
     // 获取访客记录（详情）

@@ -51,13 +51,10 @@ export default {
     const route = useRoute()
     const { proxy } = getCurrentInstance()
     onBeforeRouteUpdate((to) => {
-      console.log('to', to.query)
       getData(to.query.id)
     })
 
     onMounted(() => {
-      console.log('创建了e')
-      console.log(route.query)
       getData(route.query.id)
     })
 
@@ -77,7 +74,6 @@ export default {
           }
         })
         .then((res) => {
-          console.log('列表', res)
           if (res.status == 1) {
             state.list = []
             res.data.modelList.sort(proxy.$sortRule)

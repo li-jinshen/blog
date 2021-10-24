@@ -145,7 +145,6 @@ export default {
           }
         })
         .then((res) => {
-          console.log('更新模块', res)
           if (res.status == 1) {
             ElMessage.success(res.msg)
             setTimeout(() => {

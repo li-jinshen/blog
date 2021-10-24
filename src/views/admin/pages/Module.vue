@@ -181,7 +181,6 @@ export default {
           }
         })
         .then((res) => {
-          console.log('添加模块', res)
           if (res.status == 1) {
             ElMessage.success('模块添加成功')
             reset()
@@ -200,7 +199,6 @@ export default {
           url: proxy.$requestPath.getModel
         })
         .then((res) => {
-          console.log('获取模块', res)
           if (res.status == 1) {
             state.tab = []
             res.data.forEach((item) => {
@@ -272,7 +270,6 @@ export default {
           data
         })
         .then((res) => {
-          console.log('更新模块', res)
           if (res.status == 1) {
             ElMessage.success(res.msg)
             reset()

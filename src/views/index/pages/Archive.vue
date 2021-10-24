@@ -60,7 +60,6 @@ export default {
     const { proxy } = getCurrentInstance()
     const router = useRouter()
 
-
     let tabIndex = ref(0)
     let menu = reactive([])
     let state = reactive({
@@ -129,7 +128,6 @@ export default {
 
             state.count = res.count
             state.maxPage = Math.ceil(state.count / state.limit)
-            console.log(state.count, state.limit, state.maxPage)
 
             state.articleList.push(...res.data)
           }

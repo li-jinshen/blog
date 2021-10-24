@@ -20,6 +20,7 @@
             class="item p-2 w-full flex justify-start"
             v-for="(item,index) in state.result"
             :key="item._id"
+            @click="goArtitle(item)"
           >
             <div class="sort duration-500 text-left" style="fontSize:17px">{{index+1}}</div>
             <div class="item_content">
@@ -53,11 +54,13 @@
   
   <script>
 import { getCurrentInstance, reactive, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 export default {
   name: 'Search',
   setup() {
     const { proxy } = getCurrentInstance()
     const transformDate = proxy.$transformDate
+    const router = useRouter()
 
     let show = ref(false)
     let keyword = ref('')
@@ -81,7 +84,6 @@ export default {
           url: proxy.$requestPath.search + `?keyword=${keyword.value}`
         })
         .then((res) => {
-          console.log(res)
           let { data } = res
           state.result = data
         })
@@ -90,11 +92,16 @@ export default {
         })
     }
 
+    const goArtitle = (item) => {
+      router.push({ path: '/blog/index/article', query: { id: item._id } })
+    }
+
     return {
       keyword,
       show,
       transformDate,
-      state
+      state,
+      goArtitle
     }
   }
 }
