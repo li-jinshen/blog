@@ -2,18 +2,18 @@
   <div class="container h-full">
     <div
       class="flex items-center justify-center w-full duration-500 item hover:text-white"
-      v-for="item in menu"
-      :key="item.title"
-      @click="goPage(item.href)"
-      :class="activePath == item.href ? 'activePath' : ''"
+      v-for="item in list"
+      :key="item.name"
+      @click="goPage(item)"
     >
+      <!-- :class="activePath == item.href ? 'activePath' : ''" -->
       <div class="flex items-center justify-start duration-500 item_left">
         <span
-          class="mr-1 text-gray-500 duration-500"
+          class="mr-1 text-gray-500 duration-500 iconfont"
           :class="item.icon"
-          :style="{ fontSize: item.size + 'px' }"
+          style="font-size:18px"
         ></span>
-        <span class="text-gray-500 duration-500">{{ item.title }}</span>
+        <span class="text-gray-500 duration-500">{{ item.name }}</span>
       </div>
       <div class="flex items-center justify-center duration-500 opacity-0 item_right">
         <span class="text-gray-500 jiantou iconfont icon-youjiantou"></span>
@@ -24,61 +24,69 @@
 
 <script>
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
-import { reactive, ref } from 'vue'
+import { reactive, ref, getCurrentInstance, onMounted, toRefs } from 'vue'
 
 export default {
   name: 'App',
   setup() {
+    const { proxy } = getCurrentInstance()
+
+    let state = reactive({
+      list: []
+    })
+
     let menu = reactive([
       {
-        title: '博客动态',
-        icon: 'iconfont icon-blog',
+        name: '博客动态',
+        icon: 'icon-blog',
         size: 18,
-        href: '/blog/home/article'
+        href: '/blog/home/article',
+        type: 'page'
       },
       {
-        title: '实用工具',
-        icon: 'iconfont icon-gongjuxiang',
-        size: 18,
-        href: '/blog/home/tool'
-      },
-      {
-        title: '影音娱乐',
-        icon: 'iconfont icon-icon-test',
-        size: 18,
-        href: '/blog/home/music'
-      },
-      {
-        title: '学习网站',
-        icon: 'iconfont icon-_fuzhi',
-        size: 18,
-        href: '/blog/home/front'
-      },
-      {
-        title: '浏览器插件',
-        icon: 'iconfont icon-chajian2',
+        name: '浏览器插件',
+        icon: 'icon-chajian2',
         size: 16,
-        href: '/blog/home/browser'
-      },
-
-      {
-        title: '图片素材',
-        icon: 'iconfont icon-sucai3',
-        size: 17,
-        href: '/blog/home/resources'
-      },
-      {
-        title: '导航网站',
-        icon: 'iconfont icon-daohang21',
-        size: 18,
-        href: '/blog/home/navigation'
-      },
-      {
-        title: '聚合搜索',
-        icon: 'iconfont icon-sousuo',
-        size: 16,
-        href: '/blog/home/search'
+        href: '/blog/home/browser',
+        type: 'page'
       }
+      // {
+      //   title: '实用工具',
+      //   icon: 'iconfont icon-gongjuxiang',
+      //   size: 18,
+      //   href: '/blog/home/tool'
+      // },
+      // {
+      //   title: '影音娱乐',
+      //   icon: 'iconfont icon-icon-test',
+      //   size: 18,
+      //   href: '/blog/home/music'
+      // },
+      // {
+      //   title: '学习网站',
+      //   icon: 'iconfont icon-_fuzhi',
+      //   size: 18,
+      //   href: '/blog/home/front'
+      // },
+
+      // {
+      //   title: '图片素材',
+      //   icon: 'iconfont icon-sucai3',
+      //   size: 17,
+      //   href: '/blog/home/resources'
+      // },
+      // {
+      //   title: '导航网站',
+      //   icon: 'iconfont icon-daohang21',
+      //   size: 18,
+      //   href: '/blog/home/navigation'
+      // },
+      // {
+      //   title: '聚合搜索',
+      //   icon: 'iconfont icon-sousuo',
+      //   size: 16,
+      //   href: '/blog/home/search'
+      // }
       // {
       //   title: '友情链接',
       //   icon: 'iconfont icon-youqinglianjie',
@@ -93,10 +101,42 @@ export default {
     onBeforeRouteUpdate((to) => {
       activePath.value = to.fullPath
     })
-    function goPage(herf) {
-      router.push(herf)
+    function goPage(item) {
+      if (item.type) {
+        router.push({ path: item.href })
+      } else {
+        router.push({ path: '/blog/home/common', query: { id: item._id } })
+      }
     }
-    return { menu, goPage, activePath }
+    onMounted(() => {
+      getModel()
+    })
+
+    // 获取模块
+    const getModel = () => {
+      proxy
+        .$request({
+          method: 'get',
+          url: proxy.$requestPath.getModel
+        })
+        .then((res) => {
+          console.log('获取模块', res)
+          if (res.status == 1) {
+            state.list = []
+            res.data.forEach((item) => {
+              item.value = item._id
+              item.label = item.name
+            })
+            res.data.sort(proxy.$sortRule)
+            state.list.push(...menu, ...res.data)
+          }
+        })
+        .catch((error) => {
+          console.log('获取模块错误', error)
+        })
+    }
+
+    return { menu, goPage, activePath, ...toRefs(state) }
   }
 }
 </script>

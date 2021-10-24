@@ -10,6 +10,7 @@ const routes = [
       requiresAuth: false
     },
   },
+
   {
     path: "/blog/home",
     name: "Home",
@@ -19,6 +20,14 @@ const routes = [
       requiresAuth: false
     },
     children: [
+      {
+        path: "common",
+        name: "homeCommon",
+        component: () => import("../views/home/pages/Common.vue"),
+        meta: {
+          requiresAuth: false
+        },
+      },
       {
         path: "article",
         name: "Article",
@@ -237,8 +246,14 @@ const routes = [
     meta: {
       requiresAuth: false
     },
-  }
+  },
+  {
+    path: "/blog/error/system",
+    component: () => import("../views/error/error.vue"),
+  },
 ];
+
+let isSystem = true
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

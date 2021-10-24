@@ -168,7 +168,7 @@ export default {
         ElMessage.error('模块序号不能为空')
         return
       }
-
+      // 添加模块
       proxy
         .$request({
           method: 'post',

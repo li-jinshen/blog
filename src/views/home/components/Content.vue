@@ -11,11 +11,7 @@
               <component :is="Component" />
             </transition>
           </router-view>-->
-          <router-view v-slot="{ Component }">
-            <keep-alive>
-              <component :is="Component" />
-            </keep-alive>
-          </router-view>
+          <router-view></router-view>
         </div>
       </div>
     </div>
@@ -38,7 +34,14 @@
 </template>
 
 <script>
-import { ref, watch, getCurrentInstance, onMounted, reactive, toRefs } from 'vue'
+import {
+  ref,
+  watch,
+  getCurrentInstance,
+  onMounted,
+  reactive,
+  toRefs
+} from 'vue'
 import Search from '@/components/search/Search.vue'
 import { useStore } from 'vuex'
 export default {
@@ -69,7 +72,7 @@ export default {
       proxy
         .$request({
           method: 'get',
-          url: proxy.$requestPath.getVisitorsRecord,
+          url: proxy.$requestPath.getVisitorsRecord
         })
         .then((res) => {
           console.log('获取访客记录', res)

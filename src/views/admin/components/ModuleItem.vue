@@ -110,6 +110,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 1) {
+            res.data.modelList.sort(proxy.$sortRule)
             form.list = []
             form.list.push(...res.data.modelList)
           }
