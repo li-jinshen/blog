@@ -3,12 +3,12 @@
     <div>
       <div class="flex items-center justify-between p-2 top">
         <div class="rounded avatars">
-          <!-- <img src="@/assets/images/avatars.png" alt /> -->
-          <img
+          <img src="@/assets/images/avatars.png" alt />
+          <!-- <img
             :src="getBloggerProfile.photo"
             alt
             style="width: 100%;height: 100%;object-fit: cover;"
-          />
+          />-->
         </div>
         <div class="dsc">
           <p class="text-2xl font-bold text-left">深</p>
@@ -27,9 +27,8 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
 import { mapGetters } from 'vuex'
-export default defineComponent({
+export default {
   name: 'App',
   computed: {
     ...mapGetters(['getBloggerProfile'])
@@ -37,7 +36,7 @@ export default defineComponent({
   setup() {
     return
   }
-})
+}
 </script>
 
 <style lang="scss" scoped>

@@ -33,7 +33,7 @@ import NavBar from './index/components/Navbar.vue'
 import Popup from '../components/popup/Popup.vue'
 import mitt from '../common/EventBus'
 import { ref, onMounted, getCurrentInstance, reactive, toRefs } from 'vue'
-import { useRouter } from "vue-router"
+import { useRouter } from 'vue-router'
 
 export default {
   name: 'Index',
@@ -54,14 +54,13 @@ export default {
 
     onMounted(() => {
       state.bottom = document.getElementById('bottom')
-      state.bottom.addEventListener("scroll", proxy.$debounce(scrollFunc, 300))
+      state.bottom.addEventListener('scroll', proxy.$debounce(scrollFunc, 300))
       state.showMenu = true
     })
 
     let scrollFunc = () => {
-      var scrollTop = state.bottom.scrollTop || state.bottom.scrollTop; //滚动条距离顶部高度
-      console.log("滚动了", scrollTop)
-      scrollTop > 500 ? state.showGoTop = true : state.showGoTop = false
+      var scrollTop = state.bottom.scrollTop || state.bottom.scrollTop //滚动条距离顶部高度
+      scrollTop > 500 ? (state.showGoTop = true) : (state.showGoTop = false)
     }
 
     let changeSearchFlag = function () {

@@ -11,9 +11,10 @@ import request from "@/api/request.js";
 import requestPath from "@/api/path";
 
 // elemnt-plus样式
-import ElementPlus from "element-plus";
-import "element-plus/dist/index.css";
-import locale from "element-plus/lib/locale/lang/zh-cn";
+// import ElementPlus from "element-plus";
+// import "element-plus/dist/index.css";
+// import locale from "element-plus/lib/locale/lang/zh-cn";
+import lang from 'element-plus/lib/locale/lang/zh-cn'
 
 // v-md-editor 相关
 import VueMarkdownEditor from "@kangc/v-md-editor";
@@ -37,7 +38,7 @@ VueMarkdownEditor.use(createLineNumbertPlugin());
 VueMarkdownEditor.use(createEmojiPlugin());
 
 // 格式化日期
-function transformDate(originVal, type) {
+function transformDate (originVal, type) {
   const dt = new Date(originVal);
   const y = dt.getFullYear();
   const m = (dt.getMonth() + 1 + "").padStart(2, "0");
@@ -55,7 +56,7 @@ function transformDate(originVal, type) {
 }
 
 // 判断非空
-function isNull(str) {
+function isNull (str) {
   if (str == "") return true;
   var reg = "^[ ]+$";
   var re = new RegExp(reg);
@@ -63,12 +64,12 @@ function isNull(str) {
 }
 
 // 数组排序
-function sortRule(a, b) {
+function sortRule (a, b) {
   return a.sort - b.sort;
 }
 
 // 防抖
-function debounce(fn, wait) {
+function debounce (fn, wait) {
   var timer = null;
   return function() {
     if (timer !== null) {
@@ -87,12 +88,14 @@ app.config.globalProperties.$transformDate = transformDate;
 app.config.globalProperties.$isNull = isNull;
 app.config.globalProperties.$sortRule = sortRule;
 app.config.globalProperties.$debounce = debounce;
-
+// .use(ElementPlus, { locale })
 app
   .component("ImageItem", ImageItem)
   .component("Loading", Loading)
   .use(store)
   .use(router)
   .use(VueMarkdownEditor)
-  .use(ElementPlus, { locale })
+  .use(ElementPlus, {
+    locale: lang
+  })
   .mount("#app");

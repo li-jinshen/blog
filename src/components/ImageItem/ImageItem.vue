@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
-export default defineComponent({
+import { ref } from 'vue'
+export default {
   name: 'App',
   props: {
     width: {
@@ -59,7 +59,7 @@ export default defineComponent({
       animateScale
     }
   }
-})
+}
 </script>
 
 <style lang="scss" scoped>

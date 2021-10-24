@@ -1,7 +1,12 @@
 <template>
   <div class="container h-full w-full px-2" id="cotainer">
     <div class="w-full flex flex-wrap">
-      <div class="w-1/2" style="height:480px;oveflow:hidden" v-for="item in 10" :key="item">
+      <div
+        class="w-1/2 article_box"
+        style="height:480px;oveflow:hidden"
+        v-for="item in 10"
+        :key="item"
+      >
         <div class="list_item rounded relative" style="width:95%; height:95%">
           <div
             class="mask absolute rounded z-10 text-white flex justify-center items-center text-xl text-bold duration-500"
@@ -17,7 +22,13 @@
             style="height:55%;overflow:hidden"
           >
             <!-- <img src="../../../assets/svg/load_error.svg" alt style="width:250px;height:auto" /> -->
-            <img src="../../../assets/images/photo.jpg" style="object-fit:cover;max-width:none" alt />
+            <!--              onerror="../../../assets/svg/load_error.svg"  -->
+            <img
+              src
+              style="object-fit:cover;max-width:none"
+              alt
+              data-origin="https://z3.ax1x.com/2021/09/07/h5LrrQ.png"
+            />
           </div>
           <div class="info_box text-left px-4">
             <div class="title py-2 font-bold text-xl">微信小程序对接蓝牙打印机微信小程序对接蓝牙打印机</div>
@@ -71,6 +82,29 @@ export default {
       //   .getElementById('cotainer')
       //   .addEventListener('scroll', handleScroll)
       handleScroll()
+      let list = document.querySelectorAll('.article_box')
+      let observer = new IntersectionObserver((entries) => {
+        // console.log(entries)
+        entries.forEach((element) => {
+          if (element.isIntersecting) {
+            element.target.classList.add('show') // 增加show类名
+            observer.unobserve(element.target) // 移除监听
+          }
+        })
+      })
+      list.forEach((item) => observer.observe(item))
+
+      let imgList = document.querySelectorAll('img')
+      let observerImg = new IntersectionObserver((entries) => {
+        // console.log(entries)
+        entries.forEach((element) => {
+          if (element.isIntersecting) {
+            element.target.src = element.target.dataset.origin // 开始加载图片
+            observerImg.unobserve(element.target) // 移除监听
+          }
+        })
+      })
+      imgList.forEach((item) => observerImg.observe(item))
     })
     mitt.on('onScroll', () => {
       handleScroll()
@@ -99,9 +133,6 @@ export default {
       var elemBottom = rect.bottom
       return elemTop < window.innerHeight && elemBottom >= 0
     }
-
-
-
 
     // 跳转到文章详情页面
     const goArtitle = (item) => {
@@ -185,6 +216,21 @@ export default {
   }
   .category_item:not(:last-child) {
     margin-right: 0.625rem;
+  }
+}
+.show {
+  // 默认从左边进来
+  animation: scale_animate 1s ease;
+}
+@keyframes scale_animate {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
   }
 }
 </style>
