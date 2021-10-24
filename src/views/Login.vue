@@ -4,7 +4,8 @@
     <transition name="box">
       <div class="flex items-center rounded box" v-if="showBox">
         <div style="width:400px;height:500px" class="flex items-center justify-center">
-          <img src="../assets/images/backend.jpg" style="width:100%;height:auto" alt />
+          <!-- <img src="../assets/images/backend.jpg" style="width:100%;height:auto" alt /> -->
+          <img src="https://z3.ax1x.com/2021/10/24/5faNh8.jpg" style="width:100%;height:auto" alt />
         </div>
         <div style="width:400px" class="login">
           <h2 class="text-xl font-bold">Login</h2>

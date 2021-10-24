@@ -66,22 +66,25 @@
 </template>
     
 <script>
-import { onMounted, onBeforeUnmount } from 'vue'
+import { onMounted, reactive, getCurrentInstance } from 'vue'
 import { useRouter } from 'vue-router'
-import mitt from '../../../common/EventBus'
 export default {
   name: 'Article',
   setup() {
     const router = useRouter()
+    const { proxy } = getCurrentInstance()
 
-    var fadeInElements = []
+    let state = reactive({
+      page: 1,
+      maxPage: 1,
+      sort: 1,
+      limit: 10,
+      total: 0,
+      article: []
+    })
 
     onMounted(() => {
-      fadeInElements = Array.from(document.getElementsByClassName('fade-in'))
-      // document
-      //   .getElementById('cotainer')
-      //   .addEventListener('scroll', handleScroll)
-      handleScroll()
+      getSingleArticle()
       let list = document.querySelectorAll('.article_box')
       let observer = new IntersectionObserver((entries) => {
         // console.log(entries)
@@ -106,37 +109,35 @@ export default {
       })
       imgList.forEach((item) => observerImg.observe(item))
     })
-    mitt.on('onScroll', () => {
-      handleScroll()
-    })
-
-    onBeforeUnmount(() => {
-      document
-        .getElementById('cotainer')
-        .removeEventListener('scroll', handleScroll)
-    })
-
-    const handleScroll = (evt) => {
-      // console.log('我执行了')
-      for (var i = 0; i < fadeInElements.length; i++) {
-        var elem = fadeInElements[i]
-        if (isElemVisible(elem)) {
-          elem.style.opacity = '1'
-          elem.style.transform = 'scale(1)'
-          fadeInElements.splice(i, 1) // 只让它运行一次
-        }
-      }
-    }
-    const isElemVisible = (el) => {
-      var rect = el.getBoundingClientRect()
-      var elemTop = rect.top // 200 = buffer
-      var elemBottom = rect.bottom
-      return elemTop < window.innerHeight && elemBottom >= 0
-    }
 
     // 跳转到文章详情页面
     const goArtitle = (item) => {
       router.push({ path: '/blog/index/article', query: { id: item._id } })
+    }
+
+    // 分页获取文章
+    const getSingleArticle = () => {
+      proxy
+        .$request({
+          method: 'get',
+          url:
+            proxy.$requestPath.getSingleArticle +
+            `?limit=${state.limit}&page=${state.page}&sort=${state.sort}`
+        })
+        .then((res) => {
+          let { count, data } = res
+          console.log(res)
+          data.forEach((item, index) => {
+            item.sort = index + 1
+            item.time = proxy.$transformDate(item.date, 'simple')
+          })
+          state.article = []
+          state.article = data
+          state.total = count
+        })
+        .catch((error) => {
+          console.log('获取文章排行错误', error)
+        })
     }
 
     return { goArtitle }

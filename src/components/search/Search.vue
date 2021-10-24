@@ -43,7 +43,9 @@
         </div>
         <div class="flex justify-center items-center h-full" v-else>
           <div>
-            <img src="../../assets/images/svg/null-food.svg" style="width:150px" alt />
+            <!-- <img src="../../assets/images/svg/null-food.svg" style="width:150px" alt /> -->
+            <img src="https://z3.ax1x.com/2021/10/24/5faa9S.png" style="width:150px" alt />
+
             <p class="text-gray-500 text-sm mt-2">暂无数据</p>
           </div>
         </div>

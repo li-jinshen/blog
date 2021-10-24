@@ -71,7 +71,7 @@ export default {
       type: 'all'
     })
 
-    // 获取最近更新
+    // 分页获取文章
     const getSingleArticle = () => {
       proxy
         .$request({
