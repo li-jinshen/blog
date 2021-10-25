@@ -4,7 +4,7 @@
       <div
         class="relative flex justify-end h-full px-2 duration-500 left"
         ref="leftBox"
-        style="overflow:hidden"
+        style="overflow:hidden;"
       >
         <div
           class="fixed duration-1000 rounded left_box"
@@ -98,7 +98,6 @@ export default {
         offsetLeft.value = leftBox.value.offsetLeft
         boxWidth.value = leftBox.value.clientWidth
       }
-
     }
     let debounce = (fn, wait) => {
       var timer = null

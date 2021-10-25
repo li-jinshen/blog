@@ -23,7 +23,7 @@
           ></span>
           <span class="justify-center text-gray-600 sort_num" v-else>
             {{
-              index
+            index
             }}
           </span>
           <span class="text-left text-gray-600 content">{{ item.title }}</span>
@@ -44,7 +44,7 @@
           <span class="justify-center sort_num iconfont icon-zuixin2" v-if="index <= 2"></span>
           <span class="justify-center text-gray-600 sort_num" v-else>
             {{
-              index
+            index
             }}
           </span>
           <span class="text-left text-gray-600 content">{{ item.title }}</span>
@@ -56,10 +56,8 @@
       </div>
     </div>
     <div class="flex items-center justify-center py-3">
-      <div class="flex items-center justify-center text-gray-600 rounded btn">
-        <router-link to="/blog/index">
-          <span>进入博客模块</span>
-        </router-link>
+      <div class="flex items-center justify-center text-gray-600 rounded btn" @click="goBlog">
+        <span>进入博客模块</span>
       </div>
     </div>
   </div>
@@ -89,13 +87,18 @@ export default {
 
     // 跳转到文章详情页面
     const goPage = (item) => {
-      localStorage.removeItem("listInfo")
+      localStorage.removeItem('listInfo')
       router.push({ path: '/blog/index/article', query: { id: item._id } })
+    }
+    const goBlog = () => {
+      localStorage.removeItem('listInfo')
+      router.push({ path: '/blog/index' })
     }
 
     return {
       transformDate,
-      goPage
+      goPage,
+      goBlog
     }
   }
 }

@@ -72,14 +72,14 @@ export default defineComponent({
         type: 'copy',
         isHover: false
       },
-      {
-        icon: 'iconfont icon-github',
-        size: 26,
-        title: 'github',
-        url: 'https://github.com/lijinshen-ym',
-        type: 'web',
-        isHover: false
-      },
+      // {
+      //   icon: 'iconfont icon-github',
+      //   size: 26,
+      //   title: 'github',
+      //   url: 'https://github.com/lijinshen-ym',
+      //   type: 'web',
+      //   isHover: false
+      // },
       {
         icon: 'iconfont icon-youxiang1',
         size: 24,

@@ -1,26 +1,28 @@
 <template>
   <div class="container w-full h-full px-2" id="cotainer">
     <div class="flex items-center justify-center pb-4">
-      <div class="relative rounded-full tab_box" style="width:150px;height:35px">
-        <div
-          class="absolute duration-500 rounded-full bg bg-primary"
-          style="height:35px;width:75px"
-          :style="{ left: left + 'px' }"
-        ></div>
-        <div
-          class="relative z-50 flex items-center justify-between h-full cursor-pointer"
-          style="user-select:none"
-        >
+      <transition name="top">
+        <div class="relative rounded-full tab_box" style="width:150px;height:35px" v-if="showTab">
           <div
-            class="flex items-center justify-center w-1/2 h-full text-sm font-bold text-gray-500"
-            @click="tabChange(1)"
-          >时间</div>
+            class="absolute duration-500 rounded-full bg bg-primary"
+            style="height:35px;width:75px"
+            :style="{ left: left + 'px' }"
+          ></div>
           <div
-            class="flex items-center justify-center w-1/2 h-full text-sm font-bold text-gray-500"
-            @click="tabChange(2)"
-          >浏览</div>
+            class="relative z-50 flex items-center justify-between h-full cursor-pointer"
+            style="user-select:none"
+          >
+            <div
+              class="flex items-center justify-center w-1/2 h-full text-sm font-bold text-gray-500"
+              @click="tabChange(1)"
+            >时间</div>
+            <div
+              class="flex items-center justify-center w-1/2 h-full text-sm font-bold text-gray-500"
+              @click="tabChange(2)"
+            >浏览</div>
+          </div>
         </div>
-      </div>
+      </transition>
     </div>
     <div class="flex flex-wrap w-full" v-if="article.length > 0" :style="{ opacity: opacity }">
       <div
@@ -101,23 +103,32 @@
         </div>
       </div>
     </div>-->
-    <div class="flex items-center justify-center pt-2 pb-4">
-      <Pagination
-        @change-page="changePage"
-        :pagesize="limit"
-        :total="total"
-        :page="page"
-        ref="pagination"
-      ></Pagination>
-    </div>
+    <transition name="index_menu">
+      <div class="flex items-center justify-center pt-2 pb-4" v-if="showPage">
+        <Pagination
+          @change-page="changePage"
+          :pagesize="limit"
+          :total="total"
+          :page="page"
+          ref="pagination"
+        ></Pagination>
+      </div>
+    </transition>
   </div>
 </template>
     
 <script>
-import { onMounted, reactive, getCurrentInstance, toRefs, nextTick, ref } from 'vue'
+import {
+  onMounted,
+  reactive,
+  getCurrentInstance,
+  toRefs,
+  nextTick,
+  ref
+} from 'vue'
 import { useRouter } from 'vue-router'
-import ArticleImageItem from "@/components/ImageItem/ArticleImageItem.vue"
-import Pagination from "@/components/pagination/Pagination.vue"
+import ArticleImageItem from '@/components/ImageItem/ArticleImageItem.vue'
+import Pagination from '@/components/pagination/Pagination.vue'
 import mitt from '../../../common/EventBus'
 export default {
   name: 'Article',
@@ -142,36 +153,43 @@ export default {
       opacity: 0,
       left: 0,
       top: 0,
-      listInfo: null
+      listInfo: null,
+      showTab: false,
+      showPage: false
     })
 
     // 控制页码的变化
     const changePage = (page) => {
       // 修改分页参数，重新调用接口即可
       state.page = page
-      localStorage.removeItem("listInfo")
+      localStorage.removeItem('listInfo')
       state.listInfo = null
       state.top = 0
       getSingleArticle()
     }
 
-
     onMounted(() => {
-      state.listInfo = localStorage.getItem("listInfo") ? JSON.parse(localStorage.getItem("listInfo")) : ""
-      if (state.listInfo != "") {
+      state.listInfo = localStorage.getItem('listInfo')
+        ? JSON.parse(localStorage.getItem('listInfo'))
+        : ''
+      if (state.listInfo != '') {
         state.page = parseInt(state.listInfo.page)
         state.top = state.listInfo.top
       }
       getSingleArticle()
+      state.showTab = true
     })
 
     // 跳转到文章详情页面
     const goArtitle = (item) => {
       let top = document.getElementById('bottom').scrollTop
-      localStorage.setItem("listInfo", JSON.stringify({
-        page: state.page,
-        top
-      }))
+      localStorage.setItem(
+        'listInfo',
+        JSON.stringify({
+          page: state.page,
+          top
+        })
+      )
       router.push({ path: '/blog/index/article', query: { id: item._id } })
     }
 
@@ -197,9 +215,12 @@ export default {
 
           nextTick(() => {
             observer()
+            state.showPage = true
             mitt.emit('scrollTo', state.top)
             // state.listInfo ? state.page = parseInt(state.listInfo.page) : ""
-            state.listInfo ? pagination.value.inputPage(parseInt(state.listInfo.page)) : ""
+            state.listInfo
+              ? pagination.value.inputPage(parseInt(state.listInfo.page))
+              : ''
           })
         })
         .catch((error) => {
@@ -224,6 +245,9 @@ export default {
     const tabChange = (index) => {
       state.sort = index
       state.left = (index - 1) * 75
+      localStorage.removeItem('listInfo')
+      state.listInfo = null
+      state.top = 0
       getSingleArticle()
     }
 
@@ -307,8 +331,12 @@ export default {
     margin-right: 0.625rem;
   }
 }
+.article_box {
+  opacity: 0;
+}
 .show {
   animation: scale_animate 1s ease;
+  opacity: 1;
 }
 @keyframes scale_animate {
   from {

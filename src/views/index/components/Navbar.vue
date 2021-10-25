@@ -34,17 +34,17 @@
               @click="goPage('/')"
             ></span>
           </div>
-          <div style="width:40px" class="flex items-center justify-center h-full mx-4">
+          <!-- <div style="width:40px" class="flex items-center justify-center h-full mx-4">
             <span
               class="cursor-pointer iconfont icon-xingtaiduICON_sousuo--"
               style="font-size:21px"
               @click="openSearch"
             ></span>
-          </div>
+          </div>-->
           <div style="width:40px" class="flex items-center justify-center h-full">
             <span
               class="cursor-pointer iconfont icon-yonghu"
-              style="font-size:24px"
+              style="font-size:22px"
               @click="loginIn"
             ></span>
           </div>

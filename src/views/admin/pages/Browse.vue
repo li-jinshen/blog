@@ -75,11 +75,12 @@ export default {
             list.push({ address: attr, count: address[attr] })
           })
           state.addressList = list.sort(sortRule)
-          records.forEach((item, index) => {
+          let recordList = records.reverse()
+          recordList.forEach((item, index) => {
             item.sort = index + 1
             item.time = proxy.$transformDate(item.date, 'full')
           })
-          state.recordList = records
+          state.recordList = recordList
         })
         .catch((error) => {
           console.log('登录错误', error)
