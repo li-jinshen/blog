@@ -102,13 +102,19 @@
       </div>
     </div>-->
     <div class="flex items-center justify-center pt-2 pb-4">
-      <Pagination @change-page="changePage" :pagesize="limit" :total="total" :page="page"></Pagination>
+      <Pagination
+        @change-page="changePage"
+        :pagesize="limit"
+        :total="total"
+        :page="page"
+        ref="pagination"
+      ></Pagination>
     </div>
   </div>
 </template>
     
 <script>
-import { onMounted, reactive, getCurrentInstance, toRefs, nextTick } from 'vue'
+import { onMounted, reactive, getCurrentInstance, toRefs, nextTick, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import ArticleImageItem from "@/components/ImageItem/ArticleImageItem.vue"
 import Pagination from "@/components/pagination/Pagination.vue"
@@ -123,6 +129,8 @@ export default {
     const router = useRouter()
     const { proxy } = getCurrentInstance()
 
+    let pagination = ref()
+
     let state = reactive({
       page: 1,
       maxPage: 1,
@@ -132,25 +140,38 @@ export default {
       article: [],
       transformDate: proxy.$transformDate,
       opacity: 0,
-      left: 0
+      left: 0,
+      top: 0,
+      listInfo: null
     })
 
     // 控制页码的变化
     const changePage = (page) => {
       // 修改分页参数，重新调用接口即可
       state.page = page
+      localStorage.removeItem("listInfo")
+      state.listInfo = null
+      state.top = 0
       getSingleArticle()
-      mitt.emit('gotop')
     }
 
 
     onMounted(() => {
+      state.listInfo = localStorage.getItem("listInfo") ? JSON.parse(localStorage.getItem("listInfo")) : ""
+      if (state.listInfo != "") {
+        state.page = parseInt(state.listInfo.page)
+        state.top = state.listInfo.top
+      }
       getSingleArticle()
-
     })
 
     // 跳转到文章详情页面
     const goArtitle = (item) => {
+      let top = document.getElementById('bottom').scrollTop
+      localStorage.setItem("listInfo", JSON.stringify({
+        page: state.page,
+        top
+      }))
       router.push({ path: '/blog/index/article', query: { id: item._id } })
     }
 
@@ -173,8 +194,12 @@ export default {
           state.article = []
           state.article = data
           state.total = count
+
           nextTick(() => {
             observer()
+            mitt.emit('scrollTo', state.top)
+            // state.listInfo ? state.page = parseInt(state.listInfo.page) : ""
+            state.listInfo ? pagination.value.inputPage(parseInt(state.listInfo.page)) : ""
           })
         })
         .catch((error) => {
@@ -202,7 +227,7 @@ export default {
       getSingleArticle()
     }
 
-    return { goArtitle, ...toRefs(state), changePage, tabChange }
+    return { goArtitle, ...toRefs(state), changePage, tabChange, pagination }
   }
 }
 </script>

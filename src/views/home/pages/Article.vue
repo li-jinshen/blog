@@ -1,62 +1,62 @@
 <template>
-  <div class="container px-4 h-full">
-    <div class="flex items-center pt-4 justify-around w-full">
-      <div class="sort item_box px-2">
+  <div class="container h-full px-4">
+    <div class="flex items-center justify-around w-full pt-4">
+      <div class="px-2 sort item_box">
         <div class="font-bold text-left">点击排行</div>
         <div
-          class="item duration-500 flex items-center py-2"
+          class="flex items-center py-2 duration-500 item"
           v-for="(item,index) in getHotRecommended"
           :key="index"
           @click="goPage(item)"
         >
           <span
-            class="sort_num iconfont icon-toptenbands_icon_king jin justify-center"
+            class="justify-center sort_num iconfont icon-toptenbands_icon_king jin"
             v-if="index == 0"
           ></span>
           <span
-            class="sort_num iconfont icon-toptenbands_icon_king yin justify-center"
+            class="justify-center sort_num iconfont icon-toptenbands_icon_king yin"
             v-else-if="index == 1"
           ></span>
           <span
-            class="sort_num iconfont icon-toptenbands_icon_king tong justify-center"
+            class="justify-center sort_num iconfont icon-toptenbands_icon_king tong"
             v-else-if="index == 2"
           ></span>
-          <span class="sort_num text-gray-600 justify-center" v-else>
+          <span class="justify-center text-gray-600 sort_num" v-else>
             {{
-            index
+              index
             }}
           </span>
-          <span class="content text-gray-600 text-left">{{ item.title }}</span>
-          <span class="click text-gray-500 pl-2 items-center">
-            <i class="iconfont icon-liulanliang1 pr-1"></i>
+          <span class="text-left text-gray-600 content">{{ item.title }}</span>
+          <span class="items-center pl-2 text-gray-500 click">
+            <i class="pr-1 iconfont icon-liulanliang1"></i>
             <span style="font-size: 14px">{{ item.views }}</span>
           </span>
         </div>
       </div>
-      <div class="date item_box px-2">
+      <div class="px-2 date item_box">
         <div class="font-bold text-left">最新动态</div>
         <div
-          class="item duration-500 flex items-center py-2"
+          class="flex items-center py-2 duration-500 item"
           v-for="(item,index) in getRecentNews"
           :key="item"
           @click="goPage(item)"
         >
-          <span class="sort_num iconfont icon-zuixin2 justify-center" v-if="index <= 2"></span>
-          <span class="sort_num text-gray-600 justify-center" v-else>
+          <span class="justify-center sort_num iconfont icon-zuixin2" v-if="index <= 2"></span>
+          <span class="justify-center text-gray-600 sort_num" v-else>
             {{
-            index
+              index
             }}
           </span>
-          <span class="content text-gray-600 text-left">{{ item.title }}</span>
-          <span class="click text-gray-500 pl-2 flex items-center">
-            <i class="iconfont icon-riqi1 pr-1" style="font-size: 14px"></i>
+          <span class="text-left text-gray-600 content">{{ item.title }}</span>
+          <span class="flex items-center pl-2 text-gray-500 click">
+            <i class="pr-1 iconfont icon-riqi1" style="font-size: 14px"></i>
             <span style="font-size: 14px">{{ transformDate(item.date, 'simple') }}</span>
           </span>
         </div>
       </div>
     </div>
     <div class="flex items-center justify-center py-3">
-      <div class="btn text-gray-600 rounded flex items-center justify-center">
+      <div class="flex items-center justify-center text-gray-600 rounded btn">
         <router-link to="/blog/index">
           <span>进入博客模块</span>
         </router-link>
@@ -89,6 +89,7 @@ export default {
 
     // 跳转到文章详情页面
     const goPage = (item) => {
+      localStorage.removeItem("listInfo")
       router.push({ path: '/blog/index/article', query: { id: item._id } })
     }
 

@@ -34,12 +34,12 @@ export default {
         pagesize: {
             type: Number,
             default: 10
-        }
+        },
         // 默认初始页码
-        // page: {
-        //   type: Number,
-        //   default: 1
-        // }
+        page: {
+            type: Number,
+            default: 1
+        }
     },
     setup(props, { emit, attrs }) {
         // attrs表示父组件传递的属性，但是props没有接收的属性，这种属性不是响应式的
@@ -105,7 +105,12 @@ export default {
             }
             emit('change-page', currentPage.value)
         }
-        return { list, currentPage, pages, changePage }
+
+        const inputPage = (page) => {
+            currentPage.value = page
+        }
+
+        return { list, currentPage, pages, changePage, inputPage }
     }
 }
 </script>
