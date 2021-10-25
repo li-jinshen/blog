@@ -1,13 +1,13 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from "vue-router";
 import store from "../store/index";
 import Home from "../views/Home.vue";
-import createMessage from '@/components/message/message.js'
+import createMessage from "@/components/message/message.js";
 const routes = [
   {
     path: "/",
     redirect: "/blog/home",
     meta: {
-      requiresAuth: false
+      requiresAuth: false,
     },
   },
 
@@ -17,7 +17,7 @@ const routes = [
     component: Home,
     redirect: "/blog/home/article",
     meta: {
-      requiresAuth: false
+      requiresAuth: false,
     },
     children: [
       {
@@ -25,7 +25,7 @@ const routes = [
         name: "homeCommon",
         component: () => import("../views/home/pages/Common.vue"),
         meta: {
-          requiresAuth: false
+          requiresAuth: false,
         },
       },
       {
@@ -33,7 +33,7 @@ const routes = [
         name: "Article",
         component: () => import("../views/home/pages/Article.vue"),
         meta: {
-          requiresAuth: false
+          requiresAuth: false,
         },
       },
       {
@@ -41,7 +41,7 @@ const routes = [
         name: "Music",
         component: () => import("../views/home/pages/Music.vue"),
         meta: {
-          requiresAuth: false
+          requiresAuth: false,
         },
       },
       {
@@ -49,7 +49,7 @@ const routes = [
         name: "Front",
         component: () => import("../views/home/pages/Front.vue"),
         meta: {
-          requiresAuth: false
+          requiresAuth: false,
         },
       },
       {
@@ -57,7 +57,7 @@ const routes = [
         name: "Browser",
         component: () => import("../views/home/pages/Browser.vue"),
         meta: {
-          requiresAuth: false
+          requiresAuth: false,
         },
       },
       {
@@ -65,7 +65,7 @@ const routes = [
         name: "Tool",
         component: () => import("../views/home/pages/Tool.vue"),
         meta: {
-          requiresAuth: false
+          requiresAuth: false,
         },
       },
       {
@@ -73,7 +73,7 @@ const routes = [
         name: "Resources",
         component: () => import("../views/home/pages/Resources.vue"),
         meta: {
-          requiresAuth: false
+          requiresAuth: false,
         },
       },
       {
@@ -81,7 +81,7 @@ const routes = [
         name: "Navigation",
         component: () => import("../views/home/pages/Navigation.vue"),
         meta: {
-          requiresAuth: false
+          requiresAuth: false,
         },
       },
       {
@@ -89,7 +89,7 @@ const routes = [
         name: "Search",
         component: () => import("../views/home/pages/Search.vue"),
         meta: {
-          requiresAuth: false
+          requiresAuth: false,
         },
       },
       {
@@ -97,7 +97,7 @@ const routes = [
         name: "Link",
         component: () => import("../views/home/pages/Link.vue"),
         meta: {
-          requiresAuth: false
+          requiresAuth: false,
         },
       },
     ],
@@ -108,7 +108,7 @@ const routes = [
     component: () => import("../views/Index.vue"),
     redirect: "/blog/index/common",
     meta: {
-      requiresAuth: false
+      requiresAuth: false,
     },
     children: [
       {
@@ -117,7 +117,7 @@ const routes = [
         component: () => import("../views/index/pages/Common.vue"),
         redirect: "/blog/index/common/list",
         meta: {
-          requiresAuth: false
+          requiresAuth: false,
         },
         children: [
           {
@@ -125,7 +125,7 @@ const routes = [
             name: "List",
             component: () => import("../views/index/pages/List.vue"),
             meta: {
-              requiresAuth: false
+              requiresAuth: false,
             },
           },
           {
@@ -133,30 +133,27 @@ const routes = [
             name: "Comment",
             component: () => import("../views/index/pages/Comment.vue"),
             meta: {
-              requiresAuth: false
+              requiresAuth: false,
             },
-
           },
           {
             path: "archive",
             name: "Archive",
             component: () => import("../views/index/pages/Archive.vue"),
             meta: {
-              requiresAuth: false
+              requiresAuth: false,
             },
-
           },
-        ]
+        ],
       },
       {
         path: "article",
         name: "IndexArticle",
         component: () => import("../views/index/pages/Article.vue"),
         meta: {
-          requiresAuth: false
+          requiresAuth: false,
         },
       },
-
     ],
   },
   {
@@ -164,7 +161,7 @@ const routes = [
     redirect: "/blog/admin/management",
     component: () => import("../views/Admin.vue"),
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
     },
     children: [
       {
@@ -173,7 +170,7 @@ const routes = [
         component: () => import("../views/admin/Management.vue"),
         redirect: "/blog/admin/management/archives",
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
         },
         children: [
           {
@@ -181,7 +178,7 @@ const routes = [
             name: "Archives",
             component: () => import("../views/admin/pages/Archives.vue"),
             meta: {
-              requiresAuth: true
+              requiresAuth: true,
             },
           },
           {
@@ -189,7 +186,7 @@ const routes = [
             name: "Module",
             component: () => import("../views/admin/pages/Module.vue"),
             meta: {
-              requiresAuth: true
+              requiresAuth: true,
             },
           },
           {
@@ -197,7 +194,7 @@ const routes = [
             name: "ManaArticle",
             component: () => import("../views/admin/pages/Article.vue"),
             meta: {
-              requiresAuth: true
+              requiresAuth: true,
             },
           },
           {
@@ -205,76 +202,85 @@ const routes = [
             name: "Announcement",
             component: () => import("../views/admin/pages/Announcement.vue"),
             meta: {
-              requiresAuth: true
+              requiresAuth: true,
             },
-          }, {
+          },
+          {
             path: "message",
             name: "Message",
             component: () => import("../views/admin/pages/Message.vue"),
             meta: {
-              requiresAuth: true
+              requiresAuth: true,
             },
-          }, {
+          },
+          {
             path: "comment",
             name: "AdminComment",
             component: () => import("../views/admin/pages/Comment.vue"),
             meta: {
-              requiresAuth: true
+              requiresAuth: true,
             },
-          }, {
+          },
+          {
             path: "browse",
             name: "Browse",
             component: () => import("../views/admin/pages/Browse.vue"),
             meta: {
-              requiresAuth: true
+              requiresAuth: true,
             },
-          }
-        ]
-      }
-    ]
+          },
+        ],
+      },
+    ],
   },
   {
     path: "/blog/markdown",
     component: () => import("../views/admin/Markdown.vue"),
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
     },
   },
   {
     path: "/blog/login",
     component: () => import("../views/Login.vue"),
     meta: {
-      requiresAuth: false
+      requiresAuth: false,
     },
   },
   {
     path: "/blog/error/system",
     component: () => import("../views/error/error.vue"),
   },
+  {
+    path: "/blog/error/notfound",
+    component: () => import("../views/error/notfound.vue"),
+  },
 ];
-
-let isSystem = true
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
 router.beforeEach((to, from, next) => {
+  if (to.matched.length == 0) {
+    // 处理路由不存在的情况
+    router.push({ path: "/blog/error/notfound" });
+  }
   if (to.meta.requiresAuth) {
     if (store.state.loginStatus) {
-      next()
+      next();
     } else {
       createMessage({
-        type: 'error',
-        message: '登录后才有权限访问，请先登录'
-      })
+        type: "error",
+        message: "登录后才有权限访问，请先登录",
+      });
       setTimeout(() => {
-        router.push({ path: "/blog/login" })
-      }, 1000)
+        router.push({ path: "/blog/login" });
+      }, 1000);
     }
   } else {
-    next()
+    next();
   }
 });
 
-export default router
+export default router;
