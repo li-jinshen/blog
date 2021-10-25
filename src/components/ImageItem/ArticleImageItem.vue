@@ -1,13 +1,19 @@
 <template>
   <div
     class="container relative flex items-center justify-center"
-    :style="{ width: imgWidth + 'px', height: imgHeight + 'px' }"
+    style="width:100%;height:100%;object-fit:cover"
     :class="{ active: animateScale, 'bg-gray-700': !flag }"
   >
     <!-- {{props.width}{{height}}} -->
 
     <transition name="img">
-      <img v-show="flag" :src="url" alt @load="onLoading" />
+      <img
+        v-show="flag"
+        :src="url"
+        alt
+        @load="onLoading"
+        style="width:100%;height:100%;object-fit:cover"
+      />
     </transition>
     <!-- <div v-show="!flag" class="spinner"></div> -->
     <div class="absolute spinner" v-show="!flag">
@@ -25,14 +31,6 @@ import { ref } from 'vue'
 export default {
   name: 'App',
   props: {
-    width: {
-      type: Number,
-      default: 90
-    },
-    height: {
-      type: Number,
-      default: 90
-    },
     url: {
       type: String,
       require: true
@@ -65,7 +63,6 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  border-radius: 10px;
   overflow: hidden;
 }
 

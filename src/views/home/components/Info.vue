@@ -4,25 +4,26 @@
       <div class="flex items-center justify-between p-2 top">
         <div class="rounded avatars">
           <!-- <img src="@/assets/images/avatars.png" alt /> -->
-          <img
+          <!-- <img
             :src="getBloggerProfile.photo"
             alt
             style="width: 100%;height: 100%;object-fit: cover;"
-          />
+          />-->
+          <ImageItem :url="getBloggerProfile.photo" :width="90" :height="90" :scale="true"></ImageItem>
         </div>
         <div class="dsc">
-          <p class="text-2xl font-bold text-left">{{getBloggerProfile.userName}}</p>
+          <p class="text-2xl font-bold text-left">{{ getBloggerProfile.userName }}</p>
           <p class="my-2 text-sm text-left">前端工程师</p>
           <p class="text-sm text-left">90后</p>
         </div>
       </div>
       <div class="relative z-50 other">
-        <div class="text-gray-500 flex items-center justify-start text-left">
+        <div class="flex items-center justify-start text-left text-gray-500">
           <span class="iconfont icon-24gf-tags3"></span>
           <span class="pl-2">我在观察人间</span>
         </div>
         <div
-          class="text-gray-500 text-right mt-1 flex items-center cursor-pointer"
+          class="flex items-center mt-1 text-right text-gray-500 cursor-pointer"
           @click="goDetail"
         >
           <span class="iconfont icon-picixiangqing"></span>

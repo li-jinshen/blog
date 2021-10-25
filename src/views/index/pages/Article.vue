@@ -66,8 +66,6 @@ export default {
     const { proxy } = getCurrentInstance()
     const route = useRoute()
 
-    console.log(route.query.id)
-
     let markdown = ref('')
     let editor = ref('null')
     let articleTitles = reactive([])
@@ -115,8 +113,6 @@ export default {
           url: proxy.$requestPath.getArticleDetail + `?id=${route.query.id}`
         })
         .then((res) => {
-
-          console.log(res)
           let { data } = res
           let articleObject = data[0]
           markdown.value = articleObject.value

@@ -12,11 +12,12 @@
       <div class="text-gray-500 left">用户头像:</div>
       <div class="right">
         <div style="width:100px;height: 100px;">
-          <img
+          <!-- <img
             :src="getBloggerProfile.photo"
             alt
             style="width: 100%;height: 100%;object-fit: cover;"
-          />
+          />-->
+          <ImageItem :url="getBloggerProfile.photo" :width="100" :height="100" :scale="true"></ImageItem>
         </div>
       </div>
     </div>
@@ -36,7 +37,7 @@
       <el-button type="primary" @click="modifyProfile('file')">修改用户信息</el-button>
       <el-button type="primary" @click="modifyProfile('pwd')">修改账号密码</el-button>
     </div>
-    <el-dialog v-model="dialogFormVisible" :title="type == 'file'?'修改用户信息':'修改密码'" width="500px">
+    <el-dialog v-model="dialogFormVisible" :title="type == 'file' ? '修改用户信息' : '修改密码'" width="500px">
       <el-form v-if="type == 'file'">
         <el-form-item label="用户名" :label-width="formLabelWidth">
           <el-input v-model="userName" autocomplete="off" placeholder="请输入用户名"></el-input>
@@ -96,7 +97,7 @@ export default {
       type: 'file'
     })
 
-    onMounted(() => {})
+    onMounted(() => { })
 
     const modifyProfile = (type) => {
       state.type = type

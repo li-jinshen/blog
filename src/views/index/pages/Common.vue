@@ -8,6 +8,7 @@
       >
         <div
           class="fixed duration-1000 rounded left_box"
+          style="overflow: hidden;"
           :style="{ left: offsetLeft + 'px', top: '69px', width: boxWidth + 'px', opacity: opacity }"
         >
           <div class="text-left recommend">
@@ -36,6 +37,11 @@
         </div>
       </div>
       <div class="h-full pl-2 duration-500 right">
+        <!-- <router-view v-slot="{ Component }">
+          <keep-alive>
+            <component :is="Component" />
+          </keep-alive>
+        </router-view>-->
         <router-view></router-view>
       </div>
     </div>
@@ -45,7 +51,7 @@
 <script>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { mapGetters, useStore } from 'vuex'
-import mitt from '../../../common/EventBus'
+// import mitt from '../../../common/EventBus'
 import { useRouter } from 'vue-router'
 export default {
   name: 'App',
@@ -63,13 +69,12 @@ export default {
     let opacity = ref(0)
 
     onMounted(() => {
-      console.dir(leftBox.value.offsetLeft)
       changeSize()
 
-      // 底部滚动条滚动时，通知articleList页面
-      document
-        .getElementById('bottom')
-        .addEventListener('scroll', debounce(emitFunc, 15))
+      // // 底部滚动条滚动时，通知articleList页面
+      // document
+      //   .getElementById('bottom')
+      //   .addEventListener('scroll', debounce(emitFunc, 15))
 
       window.addEventListener('resize', changeSize)
 
@@ -86,8 +91,14 @@ export default {
     })
 
     let changeSize = () => {
-      offsetLeft.value = leftBox.value.offsetLeft
-      boxWidth.value = leftBox.value.clientWidth
+      if (document.body.clientWidth < 1100) {
+        offsetLeft.value = 0
+        boxWidth.value = 0
+      } else {
+        offsetLeft.value = leftBox.value.offsetLeft
+        boxWidth.value = leftBox.value.clientWidth
+      }
+
     }
     let debounce = (fn, wait) => {
       var timer = null
@@ -99,10 +110,10 @@ export default {
       }
     }
 
-    let emitFunc = () => {
-      // console.log('执行')
-      mitt.emit('onScroll')
-    }
+    // let emitFunc = () => {
+    //   // console.log('执行')
+    //   mitt.emit('onScroll')
+    // }
 
     // 切换tab
     const changeTab = (type) => {
@@ -152,5 +163,17 @@ export default {
 .right {
   width: 73%;
   height: 100%;
+}
+@media screen and (max-width: 1100px) {
+  .common {
+    display: flex;
+    justify-content: center;
+  }
+  .left {
+    width: 0 !important;
+  }
+  .right {
+    width: 95% !important;
+  }
 }
 </style>

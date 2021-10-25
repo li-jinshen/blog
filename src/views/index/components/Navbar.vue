@@ -106,7 +106,6 @@ export default {
         return fullPath === item.path
       })
       tabIndex.value = index
-      console.log('index', tabIndex.value)
       left.value = index * 100 + 10
     }
 

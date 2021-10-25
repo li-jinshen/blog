@@ -5,8 +5,8 @@ import createMessage from "@/components/message/message.js";
 // 创建 axios 实例
 const request = axios.create({
   // API 请求的默认前缀
-  baseURL: "http://localhost:81",
-  // baseURL: "http://www.yemengshen.cn",
+  // baseURL: "http://localhost:81",
+  baseURL: "http://www.yemengshen.cn",
   timeout: 6000, // 请求超时时间
 });
 

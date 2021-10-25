@@ -131,3 +131,18 @@
   transform: translateY(-3.75rem);
   opacity: 0;
 }
+
+.img-enter-active,
+.img-leave-active {
+  transition: all 2s ease;
+}
+
+.img-enter-to,
+.img-leave-from {
+  opacity: 1;
+}
+
+.img-enter-from,
+.img-leave-to {
+  opacity: 0;
+}

@@ -84,6 +84,10 @@ export default {
       changeSearchFlag()
     })
 
+    mitt.on("gotop", () => {
+      state.bottom.scrollTop = 0
+    })
+
     return {
       searchFlag,
       changeSearchFlag,
